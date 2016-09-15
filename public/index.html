@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf8">
+<title>TEST</title>
+<style>
+#editor {
+    margin: 20px;
+    width: 605px;
+    height: 400px;
+    float: left;
+}
+
+#terms {
+    clear: both;
+}
+
+.terminal {
+    margin: 20px;
+    /*margin: 5px 5px 0 0;*/
+}
+</style>
+<body>
+    <div id="editor">#include &lt;stdio.h&gt;
+
+int main() {
+    puts("Hello!");
+    return 0;
+}
+</div>
+    <div>
+        <input id="command">
+        <button id="exec">EXEC</button><br>
+        <button id="run">RUN</button>
+        <button id="reload">RELOAD</button>
+    </div>
+
+    <div id="terms"></div>
+    <script src="bundle.js"></script>
+</body>
