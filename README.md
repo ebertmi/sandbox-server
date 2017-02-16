@@ -9,4 +9,4 @@
 Start the server with: `sudo pm2 start process.json --env production`
 
 ### Debugging
-Start the server with `sudo DEBUG=*.sourcebox pm2 start process.json --env production` to get all the debug outputs on the console.
+Start the server with `sudo DEBUG=sourcebox:* pm2 start process.json --env production` to get all the debug outputs on the console.

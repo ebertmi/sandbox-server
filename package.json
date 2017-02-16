@@ -1,22 +1,24 @@
 {
   "name": "sandbox-server",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "trycoding sandbox server",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bundle": "browserify -r ./client.js -o ./public/bundle.js"
   },
   "author": "Michael Ebert",
   "license": "MIT",
   "dependencies": {
-    "@sourcebox/project": "git+ssh://git@github.com/waywaaard/sourcebox-project.git",
-    "@sourcebox/web": "git+ssh://git@github.com/waywaaard/sourcebox-web.git",
-    "brace": "^0.8.0",
-    "browserify": "^13.1.0",
-    "config": "^1.21.0",
+    "@sourcebox/web": "waywaaard/sourcebox-web",
+    "brace": "^0.9.1",
+    "browserify": "^14.1.0",
+    "config": "^1.25.1",
     "cors": "^2.8.1",
-    "express": "^4.14.0",
-    "jsonwebtoken": "^7.1.9",
-    "term.js": "0.0.7"
+    "express": "^4.14.1",
+    "jsonwebtoken": "^7.3.0",
+    "term.js": "0.0.7",
+    "split2": "^2.1.1",
+    "duplexify": "3.5.0"
   }
 }

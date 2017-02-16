@@ -8,7 +8,7 @@ var ace = require('brace');
 require('brace/mode/c_cpp');
 require('brace/theme/solarized_light');
 
-var Project = require('@sourcebox/project');
+var Project = require('./lib/project');
 var Sourcebox = require('@sourcebox/web');
 
 var sourcebox = new Sourcebox('http://' + document.domain, {
