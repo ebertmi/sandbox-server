@@ -1,9 +1,11 @@
 # sandbox-server for trycoding.io
 
 ## Install
-1. You need to setup a sourcebox template container. Use the sourcebox utils for that.
-2. `npm install`  the *sandbox-server*
+1. Install [sourcebox-sandbox](https://github.com/waywaaard/sourcebox-sandbox) (see `INSTALL.md`) for detailed instructions.
+2. `npm install https://github.com/waywaaard/sandbox-server`
 3. `npm install -g pm2`
+4. By default the server starts on port `80`. If you are using `nginx` you need to change that. It is possible to use a `production.json` configuration that is loaded when the `production` env is set. It gets automatically merged with the default configuration options.
+5. Change the authentication secret and generate yourself a password for the local storage to access (*"use"*) the test page (see below for further instructions)
 
 ## Start Server
 Start the server with: `sudo pm2 start process.json --env production`
