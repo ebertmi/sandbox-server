@@ -1,5 +1,9 @@
 # sandbox-server for trycoding.io
 
+The sandbox server allows clients to connect and establish a web socket connection to a sandboxed environment. The following image gives an overview of the system:
+
+![Sandbox-Server-Overview](/img/sourcebox_server_system_overview.png?raw=true "Sandbox-Server-Overview")
+
 ## Install
 1. Install [sourcebox-sandbox](https://github.com/waywaaard/sourcebox-sandbox) (see `INSTALL.md`) for detailed instructions.
 2. `npm install https://github.com/waywaaard/sandbox-server`
