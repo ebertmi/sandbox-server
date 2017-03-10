@@ -13,7 +13,7 @@ require('brace/theme/solarized_light');
 var Project = require('./lib/project');
 var Sourcebox = require('@sourcebox/web');
 
-var sourcebox = new Sourcebox('http://' + document.domain, {
+var sourcebox = new Sourcebox(location.protocol + '//' + document.domain, {
   auth: localStorage.password
 });
 
