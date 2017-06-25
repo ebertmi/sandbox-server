@@ -2,7 +2,7 @@
 
 'use strict';
 
-var Terminal = require('term.js');
+var Terminal = require('xterm');
 
 var ace = require('brace');
 require('brace/mode/c_cpp');
