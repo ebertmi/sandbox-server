@@ -4,7 +4,7 @@
 
 'use strict';
 
-var Terminal = require('term.js');
+var Terminal = require('xterm');
 
 var ace = require('brace');
 require('brace/mode/c_cpp');
@@ -149,7 +149,7 @@ function createTerm() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./lib/project":4,"@sourcebox/web":6,"brace":18,"brace/mode/c_cpp":19,"brace/theme/solarized_light":20,"term.js":238}],2:[function(require,module,exports){
+},{"./lib/project":4,"@sourcebox/web":6,"brace":18,"brace/mode/c_cpp":19,"brace/theme/solarized_light":20,"xterm":260}],2:[function(require,module,exports){
 'use strict';
 
 var RegexParser = require('./parser');
@@ -320,7 +320,7 @@ RegexParser.prototype._flush = function (callback) {
 };
 
 module.exports = exports = RegexParser;
-},{"lodash":186,"stream":235,"util":248}],4:[function(require,module,exports){
+},{"lodash":185,"stream":227,"util":235}],4:[function(require,module,exports){
 'use strict';
 
 var util = require('util');
@@ -501,7 +501,7 @@ Project.prototype.run = function () {
 
 module.exports = exports = Project;
 exports.language = language;
-},{"./language":2,"./util":5,"bluebird":17,"duplexify":31,"events":47,"lodash":186,"path":203,"split2":234,"util":248}],5:[function(require,module,exports){
+},{"./language":2,"./util":5,"bluebird":17,"duplexify":32,"events":47,"lodash":185,"path":203,"split2":226,"util":235}],5:[function(require,module,exports){
 'use strict';
 
 var stream = require('stream');
@@ -544,7 +544,7 @@ TerminalTransform.prototype._transform = function (chunk, encoding, callback) {
 };
 
 exports.TerminalTransform = TerminalTransform;
-},{"bluebird":17,"stream":235,"util":248}],6:[function(require,module,exports){
+},{"bluebird":17,"stream":227,"util":235}],6:[function(require,module,exports){
 (function (Buffer){
 'use strict';
 
@@ -666,7 +666,7 @@ Client.prototype.exec = function (command, args, options) {
 module.exports = Client;
 
 }).call(this,require("buffer").Buffer)
-},{"../common/util":10,"./process":8,"bluebird":17,"buffer":24,"debug":29,"events":47,"lodash":7,"socket.io-client":222,"util":248}],7:[function(require,module,exports){
+},{"../common/util":10,"./process":8,"bluebird":17,"buffer":25,"debug":30,"events":47,"lodash":7,"socket.io-client":218,"util":235}],7:[function(require,module,exports){
 'use strict';
 
 // don't require all of lodash when building the client lib
@@ -681,7 +681,7 @@ module.exports = {
   some: require('lodash/some')
 };
 
-},{"lodash/isArray":173,"lodash/isFunction":176,"lodash/isInteger":177,"lodash/isPlainObject":181,"lodash/isString":182,"lodash/some":189,"lodash/toArray":192,"lodash/upperFirst":197}],8:[function(require,module,exports){
+},{"lodash/isArray":172,"lodash/isFunction":175,"lodash/isInteger":176,"lodash/isPlainObject":180,"lodash/isString":181,"lodash/some":188,"lodash/toArray":191,"lodash/upperFirst":196}],8:[function(require,module,exports){
 'use strict';
 
 var util = require('util');
@@ -832,7 +832,7 @@ Process.prototype.resize = function (cols, rows) {
 
 module.exports = Process;
 
-},{"../common/remotestream":9,"../common/util":10,"debug":29,"events":47,"lodash":7,"util":248}],9:[function(require,module,exports){
+},{"../common/remotestream":9,"../common/util":10,"debug":30,"events":47,"lodash":7,"util":235}],9:[function(require,module,exports){
 (function (process,Buffer){
 'use strict';
 
@@ -1061,7 +1061,7 @@ RemoteStream.prototype._onWrite = function (chunk) {
 module.exports = exports = RemoteStream;
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":205,"buffer":24,"debug":29,"stream":235,"util":248}],10:[function(require,module,exports){
+},{"_process":205,"buffer":25,"debug":30,"stream":227,"util":235}],10:[function(require,module,exports){
 'use strict';
 
 var _ = require('lodash');
@@ -1340,22 +1340,22 @@ function placeHoldersCount (b64) {
 
 function byteLength (b64) {
   // base64 is 4/3 + up to two characters of the original data
-  return b64.length * 3 / 4 - placeHoldersCount(b64)
+  return (b64.length * 3 / 4) - placeHoldersCount(b64)
 }
 
 function toByteArray (b64) {
-  var i, j, l, tmp, placeHolders, arr
+  var i, l, tmp, placeHolders, arr
   var len = b64.length
   placeHolders = placeHoldersCount(b64)
 
-  arr = new Arr(len * 3 / 4 - placeHolders)
+  arr = new Arr((len * 3 / 4) - placeHolders)
 
   // if there are placeholders, only get up to the last complete 4 chars
   l = placeHolders > 0 ? len - 4 : len
 
   var L = 0
 
-  for (i = 0, j = 0; i < l; i += 4, j += 3) {
+  for (i = 0; i < l; i += 4) {
     tmp = (revLookup[b64.charCodeAt(i)] << 18) | (revLookup[b64.charCodeAt(i + 1)] << 12) | (revLookup[b64.charCodeAt(i + 2)] << 6) | revLookup[b64.charCodeAt(i + 3)]
     arr[L++] = (tmp >> 16) & 0xFF
     arr[L++] = (tmp >> 8) & 0xFF
@@ -1525,7 +1525,7 @@ module.exports = (function() {
 /* @preserve
  * The MIT License (MIT)
  * 
- * Copyright (c) 2013-2015 Petka Antonov
+ * Copyright (c) 2013-2017 Petka Antonov
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -1547,7 +1547,7 @@ module.exports = (function() {
  * 
  */
 /**
- * bluebird build version 3.4.7
+ * bluebird build version 3.5.0
  * Features enabled: core, race, call_get, generators, map, nodeify, promisify, props, reduce, settle, some, using, timers, filter, any, each
 */
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.Promise=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof _dereq_=="function"&&_dereq_;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof _dereq_=="function"&&_dereq_;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(_dereq_,module,exports){
@@ -3403,10 +3403,11 @@ Promise.filter = function (promises, fn, options) {
 
 },{}],15:[function(_dereq_,module,exports){
 "use strict";
-module.exports = function(Promise, tryConvertToPromise) {
+module.exports = function(Promise, tryConvertToPromise, NEXT_FILTER) {
 var util = _dereq_("./util");
 var CancellationError = Promise.CancellationError;
 var errorObj = util.errorObj;
+var catchFilter = _dereq_("./catch_filter")(NEXT_FILTER);
 
 function PassThroughHandlerContext(promise, type, handler) {
     this.promise = promise;
@@ -3458,7 +3459,9 @@ function finallyHandler(reasonOrValue) {
         var ret = this.isFinallyHandler()
             ? handler.call(promise._boundValue())
             : handler.call(promise._boundValue(), reasonOrValue);
-        if (ret !== undefined) {
+        if (ret === NEXT_FILTER) {
+            return ret;
+        } else if (ret !== undefined) {
             promise._setReturnedNonUndefined();
             var maybePromise = tryConvertToPromise(ret, promise);
             if (maybePromise instanceof Promise) {
@@ -3507,14 +3510,46 @@ Promise.prototype["finally"] = function (handler) {
                              finallyHandler);
 };
 
+
 Promise.prototype.tap = function (handler) {
     return this._passThrough(handler, 1, finallyHandler);
+};
+
+Promise.prototype.tapCatch = function (handlerOrPredicate) {
+    var len = arguments.length;
+    if(len === 1) {
+        return this._passThrough(handlerOrPredicate,
+                                 1,
+                                 undefined,
+                                 finallyHandler);
+    } else {
+         var catchInstances = new Array(len - 1),
+            j = 0, i;
+        for (i = 0; i < len - 1; ++i) {
+            var item = arguments[i];
+            if (util.isObject(item)) {
+                catchInstances[j++] = item;
+            } else {
+                return Promise.reject(new TypeError(
+                    "tapCatch statement predicate: "
+                    + "expecting an object but got " + util.classString(item)
+                ));
+            }
+        }
+        catchInstances.length = j;
+        var handler = arguments[i];
+        return this._passThrough(catchFilter(catchInstances, handler, this),
+                                 1,
+                                 undefined,
+                                 finallyHandler);
+    }
+
 };
 
 return PassThroughHandlerContext;
 };
 
-},{"./util":36}],16:[function(_dereq_,module,exports){
+},{"./catch_filter":7,"./util":36}],16:[function(_dereq_,module,exports){
 "use strict";
 module.exports = function(Promise,
                           apiRejection,
@@ -3674,7 +3709,7 @@ PromiseSpawn.prototype._continue = function (result) {
             if (maybePromise === null) {
                 this._promiseRejected(
                     new TypeError(
-                        "A value %s was yielded that could not be treated as a promise\u000a\u000a    See http://goo.gl/MqrFmX\u000a\u000a".replace("%s", value) +
+                        "A value %s was yielded that could not be treated as a promise\u000a\u000a    See http://goo.gl/MqrFmX\u000a\u000a".replace("%s", String(value)) +
                         "From coroutine:\u000a" +
                         this._stack.split("\n").slice(1, -7).join("\n")
                     )
@@ -4304,30 +4339,31 @@ var createContext = Context.create;
 var debug = _dereq_("./debuggability")(Promise, Context);
 var CapturedTrace = debug.CapturedTrace;
 var PassThroughHandlerContext =
-    _dereq_("./finally")(Promise, tryConvertToPromise);
+    _dereq_("./finally")(Promise, tryConvertToPromise, NEXT_FILTER);
 var catchFilter = _dereq_("./catch_filter")(NEXT_FILTER);
 var nodebackForPromise = _dereq_("./nodeback");
 var errorObj = util.errorObj;
 var tryCatch = util.tryCatch;
 function check(self, executor) {
+    if (self == null || self.constructor !== Promise) {
+        throw new TypeError("the promise constructor cannot be invoked directly\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
+    }
     if (typeof executor !== "function") {
         throw new TypeError("expecting a function but got " + util.classString(executor));
     }
-    if (self.constructor !== Promise) {
-        throw new TypeError("the promise constructor cannot be invoked directly\u000a\u000a    See http://goo.gl/MqrFmX\u000a");
-    }
+
 }
 
 function Promise(executor) {
+    if (executor !== INTERNAL) {
+        check(this, executor);
+    }
     this._bitField = 0;
     this._fulfillmentHandler0 = undefined;
     this._rejectionHandler0 = undefined;
     this._promise0 = undefined;
     this._receiver0 = undefined;
-    if (executor !== INTERNAL) {
-        check(this, executor);
-        this._resolveFromExecutor(executor);
-    }
+    this._resolveFromExecutor(executor);
     this._promiseCreated();
     this._fireEvent("promiseCreated", this);
 }
@@ -4346,8 +4382,8 @@ Promise.prototype.caught = Promise.prototype["catch"] = function (fn) {
             if (util.isObject(item)) {
                 catchInstances[j++] = item;
             } else {
-                return apiRejection("expecting an object but got " +
-                    "A catch statement predicate " + util.classString(item));
+                return apiRejection("Catch statement predicate: " +
+                    "expecting an object but got " + util.classString(item));
             }
         }
         catchInstances.length = j;
@@ -4726,6 +4762,7 @@ function(reason, synchronous, ignoreNonErrorWarnings) {
 };
 
 Promise.prototype._resolveFromExecutor = function (executor) {
+    if (executor === INTERNAL) return;
     var promise = this;
     this._captureStackTrace();
     this._pushContext();
@@ -4983,7 +5020,7 @@ _dereq_("./synchronous_inspection")(Promise);
 _dereq_("./join")(
     Promise, PromiseArray, tryConvertToPromise, INTERNAL, async, getDomain);
 Promise.Promise = Promise;
-Promise.version = "3.4.7";
+Promise.version = "3.5.0";
 _dereq_('./map.js')(Promise, PromiseArray, apiRejection, tryConvertToPromise, INTERNAL, debug);
 _dereq_('./call_get.js')(Promise);
 _dereq_('./using.js')(Promise, apiRejection, tryConvertToPromise, createContext, INTERNAL, debug);
@@ -5035,6 +5072,7 @@ function toResolutionValue(val) {
     switch(val) {
     case -2: return [];
     case -3: return {};
+    case -6: return new Map();
     }
 }
 
@@ -5584,7 +5622,7 @@ function PropertiesPromiseArray(obj) {
     }
     this.constructor$(entries);
     this._isMap = isMap;
-    this._init$(undefined, -3);
+    this._init$(undefined, isMap ? -6 : -3);
 }
 util.inherits(PropertiesPromiseArray, PromiseArray);
 
@@ -5983,11 +6021,11 @@ if (util.isNode && typeof MutationObserver === "undefined") {
 
         var scheduleToggle = function() {
             if (toggleScheduled) return;
-                toggleScheduled = true;
-                div2.classList.toggle("foo");
-            };
+            toggleScheduled = true;
+            div2.classList.toggle("foo");
+        };
 
-            return function schedule(fn) {
+        return function schedule(fn) {
             var o = new MutationObserver(function() {
                 o.disconnect();
                 fn();
@@ -26181,7 +26219,7 @@ exports.version = "1.2.6";
             })();
         
 module.exports = window.ace.acequire("ace/ace");
-},{"w3c-blob":249}],19:[function(require,module,exports){
+},{"w3c-blob":236}],19:[function(require,module,exports){
 ace.define("ace/mode/doc_comment_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function(acequire, exports, module) {
 "use strict";
 
@@ -26767,8 +26805,343 @@ dom.importCssString(exports.cssText, exports.cssClass);
 },{}],21:[function(require,module,exports){
 
 },{}],22:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"dup":21}],23:[function(require,module,exports){
+/* eslint-disable node/no-deprecated-api */
+var buffer = require('buffer')
+var Buffer = buffer.Buffer
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+},{"buffer":25}],23:[function(require,module,exports){
+'use strict';
+
+var Buffer = require('safe-buffer').Buffer;
+
+var isEncoding = Buffer.isEncoding || function (encoding) {
+  encoding = '' + encoding;
+  switch (encoding && encoding.toLowerCase()) {
+    case 'hex':case 'utf8':case 'utf-8':case 'ascii':case 'binary':case 'base64':case 'ucs2':case 'ucs-2':case 'utf16le':case 'utf-16le':case 'raw':
+      return true;
+    default:
+      return false;
+  }
+};
+
+function _normalizeEncoding(enc) {
+  if (!enc) return 'utf8';
+  var retried;
+  while (true) {
+    switch (enc) {
+      case 'utf8':
+      case 'utf-8':
+        return 'utf8';
+      case 'ucs2':
+      case 'ucs-2':
+      case 'utf16le':
+      case 'utf-16le':
+        return 'utf16le';
+      case 'latin1':
+      case 'binary':
+        return 'latin1';
+      case 'base64':
+      case 'ascii':
+      case 'hex':
+        return enc;
+      default:
+        if (retried) return; // undefined
+        enc = ('' + enc).toLowerCase();
+        retried = true;
+    }
+  }
+};
+
+// Do not cache `Buffer.isEncoding` when checking encoding names as some
+// modules monkey-patch it to support additional encodings
+function normalizeEncoding(enc) {
+  var nenc = _normalizeEncoding(enc);
+  if (typeof nenc !== 'string' && (Buffer.isEncoding === isEncoding || !isEncoding(enc))) throw new Error('Unknown encoding: ' + enc);
+  return nenc || enc;
+}
+
+// StringDecoder provides an interface for efficiently splitting a series of
+// buffers into a series of JS strings without breaking apart multi-byte
+// characters.
+exports.StringDecoder = StringDecoder;
+function StringDecoder(encoding) {
+  this.encoding = normalizeEncoding(encoding);
+  var nb;
+  switch (this.encoding) {
+    case 'utf16le':
+      this.text = utf16Text;
+      this.end = utf16End;
+      nb = 4;
+      break;
+    case 'utf8':
+      this.fillLast = utf8FillLast;
+      nb = 4;
+      break;
+    case 'base64':
+      this.text = base64Text;
+      this.end = base64End;
+      nb = 3;
+      break;
+    default:
+      this.write = simpleWrite;
+      this.end = simpleEnd;
+      return;
+  }
+  this.lastNeed = 0;
+  this.lastTotal = 0;
+  this.lastChar = Buffer.allocUnsafe(nb);
+}
+
+StringDecoder.prototype.write = function (buf) {
+  if (buf.length === 0) return '';
+  var r;
+  var i;
+  if (this.lastNeed) {
+    r = this.fillLast(buf);
+    if (r === undefined) return '';
+    i = this.lastNeed;
+    this.lastNeed = 0;
+  } else {
+    i = 0;
+  }
+  if (i < buf.length) return r ? r + this.text(buf, i) : this.text(buf, i);
+  return r || '';
+};
+
+StringDecoder.prototype.end = utf8End;
+
+// Returns only complete characters in a Buffer
+StringDecoder.prototype.text = utf8Text;
+
+// Attempts to complete a partial non-UTF-8 character using bytes from a Buffer
+StringDecoder.prototype.fillLast = function (buf) {
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, this.lastTotal - this.lastNeed, 0, buf.length);
+  this.lastNeed -= buf.length;
+};
+
+// Checks the type of a UTF-8 byte, whether it's ASCII, a leading byte, or a
+// continuation byte.
+function utf8CheckByte(byte) {
+  if (byte <= 0x7F) return 0;else if (byte >> 5 === 0x06) return 2;else if (byte >> 4 === 0x0E) return 3;else if (byte >> 3 === 0x1E) return 4;
+  return -1;
+}
+
+// Checks at most 3 bytes at the end of a Buffer in order to detect an
+// incomplete multi-byte UTF-8 character. The total number of bytes (2, 3, or 4)
+// needed to complete the UTF-8 character (if applicable) are returned.
+function utf8CheckIncomplete(self, buf, i) {
+  var j = buf.length - 1;
+  if (j < i) return 0;
+  var nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 1;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) self.lastNeed = nb - 2;
+    return nb;
+  }
+  if (--j < i) return 0;
+  nb = utf8CheckByte(buf[j]);
+  if (nb >= 0) {
+    if (nb > 0) {
+      if (nb === 2) nb = 0;else self.lastNeed = nb - 3;
+    }
+    return nb;
+  }
+  return 0;
+}
+
+// Validates as many continuation bytes for a multi-byte UTF-8 character as
+// needed or are available. If we see a non-continuation byte where we expect
+// one, we "replace" the validated continuation bytes we've seen so far with
+// UTF-8 replacement characters ('\ufffd'), to match v8's UTF-8 decoding
+// behavior. The continuation byte check is included three times in the case
+// where all of the continuation bytes for a character exist in the same buffer.
+// It is also done this way as a slight performance increase instead of using a
+// loop.
+function utf8CheckExtraBytes(self, buf, p) {
+  if ((buf[0] & 0xC0) !== 0x80) {
+    self.lastNeed = 0;
+    return '\ufffd'.repeat(p);
+  }
+  if (self.lastNeed > 1 && buf.length > 1) {
+    if ((buf[1] & 0xC0) !== 0x80) {
+      self.lastNeed = 1;
+      return '\ufffd'.repeat(p + 1);
+    }
+    if (self.lastNeed > 2 && buf.length > 2) {
+      if ((buf[2] & 0xC0) !== 0x80) {
+        self.lastNeed = 2;
+        return '\ufffd'.repeat(p + 2);
+      }
+    }
+  }
+}
+
+// Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
+function utf8FillLast(buf) {
+  var p = this.lastTotal - this.lastNeed;
+  var r = utf8CheckExtraBytes(this, buf, p);
+  if (r !== undefined) return r;
+  if (this.lastNeed <= buf.length) {
+    buf.copy(this.lastChar, p, 0, this.lastNeed);
+    return this.lastChar.toString(this.encoding, 0, this.lastTotal);
+  }
+  buf.copy(this.lastChar, p, 0, buf.length);
+  this.lastNeed -= buf.length;
+}
+
+// Returns all complete UTF-8 characters in a Buffer. If the Buffer ended on a
+// partial character, the character's bytes are buffered until the required
+// number of bytes are available.
+function utf8Text(buf, i) {
+  var total = utf8CheckIncomplete(this, buf, i);
+  if (!this.lastNeed) return buf.toString('utf8', i);
+  this.lastTotal = total;
+  var end = buf.length - (total - this.lastNeed);
+  buf.copy(this.lastChar, 0, end);
+  return buf.toString('utf8', i, end);
+}
+
+// For UTF-8, a replacement character for each buffered byte of a (partial)
+// character needs to be added to the output.
+function utf8End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + '\ufffd'.repeat(this.lastTotal - this.lastNeed);
+  return r;
+}
+
+// UTF-16LE typically needs two bytes per character, but even if we have an even
+// number of bytes available, we need to check if we end on a leading/high
+// surrogate. In that case, we need to wait for the next two bytes in order to
+// decode the last character properly.
+function utf16Text(buf, i) {
+  if ((buf.length - i) % 2 === 0) {
+    var r = buf.toString('utf16le', i);
+    if (r) {
+      var c = r.charCodeAt(r.length - 1);
+      if (c >= 0xD800 && c <= 0xDBFF) {
+        this.lastNeed = 2;
+        this.lastTotal = 4;
+        this.lastChar[0] = buf[buf.length - 2];
+        this.lastChar[1] = buf[buf.length - 1];
+        return r.slice(0, -1);
+      }
+    }
+    return r;
+  }
+  this.lastNeed = 1;
+  this.lastTotal = 2;
+  this.lastChar[0] = buf[buf.length - 1];
+  return buf.toString('utf16le', i, buf.length - 1);
+}
+
+// For UTF-16LE we do not explicitly append special replacement characters if we
+// end on a partial character, we simply let v8 handle that.
+function utf16End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) {
+    var end = this.lastTotal - this.lastNeed;
+    return r + this.lastChar.toString('utf16le', 0, end);
+  }
+  return r;
+}
+
+function base64Text(buf, i) {
+  var n = (buf.length - i) % 3;
+  if (n === 0) return buf.toString('base64', i);
+  this.lastNeed = 3 - n;
+  this.lastTotal = 3;
+  if (n === 1) {
+    this.lastChar[0] = buf[buf.length - 1];
+  } else {
+    this.lastChar[0] = buf[buf.length - 2];
+    this.lastChar[1] = buf[buf.length - 1];
+  }
+  return buf.toString('base64', i, buf.length - n);
+}
+
+function base64End(buf) {
+  var r = buf && buf.length ? this.write(buf) : '';
+  if (this.lastNeed) return r + this.lastChar.toString('base64', 0, 3 - this.lastNeed);
+  return r;
+}
+
+// Pass bytes on through for single-byte encodings (e.g. ascii, latin1, hex)
+function simpleWrite(buf) {
+  return buf.toString(this.encoding);
+}
+
+function simpleEnd(buf) {
+  return buf && buf.length ? this.write(buf) : '';
+}
+},{"safe-buffer":22}],24:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -26880,7 +27253,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"buffer":24}],24:[function(require,module,exports){
+},{"buffer":25}],25:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -26987,7 +27360,7 @@ function from (value, encodingOrOffset, length) {
     throw new TypeError('"value" argument must not be a number')
   }
 
-  if (value instanceof ArrayBuffer) {
+  if (isArrayBuffer(value)) {
     return fromArrayBuffer(value, encodingOrOffset, length)
   }
 
@@ -27135,8 +27508,8 @@ function fromObject (obj) {
   }
 
   if (obj) {
-    if (ArrayBuffer.isView(obj) || 'length' in obj) {
-      if (typeof obj.length !== 'number' || isnan(obj.length)) {
+    if (isArrayBufferView(obj) || 'length' in obj) {
+      if (typeof obj.length !== 'number' || numberIsNaN(obj.length)) {
         return createBuffer(0)
       }
       return fromArrayLike(obj)
@@ -27247,7 +27620,7 @@ function byteLength (string, encoding) {
   if (Buffer.isBuffer(string)) {
     return string.length
   }
-  if (ArrayBuffer.isView(string) || string instanceof ArrayBuffer) {
+  if (isArrayBufferView(string) || isArrayBuffer(string)) {
     return string.byteLength
   }
   if (typeof string !== 'string') {
@@ -27513,7 +27886,7 @@ function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
     byteOffset = -0x80000000
   }
   byteOffset = +byteOffset  // Coerce to Number.
-  if (isNaN(byteOffset)) {
+  if (numberIsNaN(byteOffset)) {
     // byteOffset: it it's undefined, null, NaN, "foo", etc, search whole buffer
     byteOffset = dir ? 0 : (buffer.length - 1)
   }
@@ -27644,7 +28017,7 @@ function hexWrite (buf, string, offset, length) {
   }
   for (var i = 0; i < length; ++i) {
     var parsed = parseInt(string.substr(i * 2, 2), 16)
-    if (isNaN(parsed)) return i
+    if (numberIsNaN(parsed)) return i
     buf[offset + i] = parsed
   }
   return i
@@ -28447,7 +28820,7 @@ var INVALID_BASE64_RE = /[^+/0-9A-Za-z-_]/g
 
 function base64clean (str) {
   // Node strips out invalid characters like \n and \t from the string, base64-js does not
-  str = stringtrim(str).replace(INVALID_BASE64_RE, '')
+  str = str.trim().replace(INVALID_BASE64_RE, '')
   // Node converts strings with length < 2 to ''
   if (str.length < 2) return ''
   // Node allows for non-padded base64 strings (missing trailing ===), base64-js does not
@@ -28455,11 +28828,6 @@ function base64clean (str) {
     str = str + '='
   }
   return str
-}
-
-function stringtrim (str) {
-  if (str.trim) return str.trim()
-  return str.replace(/^\s+|\s+$/g, '')
 }
 
 function toHex (n) {
@@ -28584,11 +28952,24 @@ function blitBuffer (src, dst, offset, length) {
   return i
 }
 
-function isnan (val) {
-  return val !== val // eslint-disable-line no-self-compare
+// ArrayBuffers from another context (i.e. an iframe) do not pass the `instanceof` check
+// but they should be treated as valid. See: https://github.com/feross/buffer/issues/166
+function isArrayBuffer (obj) {
+  return obj instanceof ArrayBuffer ||
+    (obj != null && obj.constructor != null && obj.constructor.name === 'ArrayBuffer' &&
+      typeof obj.byteLength === 'number')
 }
 
-},{"base64-js":15,"ieee754":50}],25:[function(require,module,exports){
+// Node 0.10 supports `ArrayBuffer` but lacks `ArrayBuffer.isView`
+function isArrayBufferView (obj) {
+  return (typeof ArrayBuffer.isView === 'function') && ArrayBuffer.isView(obj)
+}
+
+function numberIsNaN (obj) {
+  return obj !== obj // eslint-disable-line no-self-compare
+}
+
+},{"base64-js":15,"ieee754":50}],26:[function(require,module,exports){
 /**
  * Slice reference.
  */
@@ -28613,13 +28994,15 @@ module.exports = function(obj, fn){
   }
 };
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 
 /**
  * Expose `Emitter`.
  */
 
-module.exports = Emitter;
+if (typeof module !== 'undefined') {
+  module.exports = Emitter;
+}
 
 /**
  * Initialize a new `Emitter`.
@@ -28658,7 +29041,7 @@ function mixin(obj) {
 Emitter.prototype.on =
 Emitter.prototype.addEventListener = function(event, fn){
   this._callbacks = this._callbacks || {};
-  (this._callbacks[event] = this._callbacks[event] || [])
+  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
     .push(fn);
   return this;
 };
@@ -28674,11 +29057,8 @@ Emitter.prototype.addEventListener = function(event, fn){
  */
 
 Emitter.prototype.once = function(event, fn){
-  var self = this;
-  this._callbacks = this._callbacks || {};
-
   function on() {
-    self.off(event, on);
+    this.off(event, on);
     fn.apply(this, arguments);
   }
 
@@ -28710,12 +29090,12 @@ Emitter.prototype.removeEventListener = function(event, fn){
   }
 
   // specific event
-  var callbacks = this._callbacks[event];
+  var callbacks = this._callbacks['$' + event];
   if (!callbacks) return this;
 
   // remove all handlers
   if (1 == arguments.length) {
-    delete this._callbacks[event];
+    delete this._callbacks['$' + event];
     return this;
   }
 
@@ -28742,7 +29122,7 @@ Emitter.prototype.removeEventListener = function(event, fn){
 Emitter.prototype.emit = function(event){
   this._callbacks = this._callbacks || {};
   var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks[event];
+    , callbacks = this._callbacks['$' + event];
 
   if (callbacks) {
     callbacks = callbacks.slice(0);
@@ -28764,7 +29144,7 @@ Emitter.prototype.emit = function(event){
 
 Emitter.prototype.listeners = function(event){
   this._callbacks = this._callbacks || {};
-  return this._callbacks[event] || [];
+  return this._callbacks['$' + event] || [];
 };
 
 /**
@@ -28779,7 +29159,7 @@ Emitter.prototype.hasListeners = function(event){
   return !! this.listeners(event).length;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 
 module.exports = function(a, b){
   var fn = function(){};
@@ -28787,7 +29167,7 @@ module.exports = function(a, b){
   a.prototype = new fn;
   a.prototype.constructor = a;
 };
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -28898,9 +29278,8 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":53}],29:[function(require,module,exports){
+},{"../../is-buffer/index.js":53}],30:[function(require,module,exports){
 (function (process){
-
 /**
  * This is the web browser implementation of `debug()`.
  *
@@ -28940,14 +29319,23 @@ exports.colors = [
  */
 
 function useColors() {
+  // NB: In an Electron preload script, document will be defined but not fully
+  // initialized. Since we know we're in Chrome, we'll just detect this case
+  // explicitly
+  if (typeof window !== 'undefined' && window.process && window.process.type === 'renderer') {
+    return true;
+  }
+
   // is webkit? http://stackoverflow.com/a/16459606/376773
   // document is undefined in react-native: https://github.com/facebook/react-native/pull/1632
-  return (typeof document !== 'undefined' && 'WebkitAppearance' in document.documentElement.style) ||
+  return (typeof document !== 'undefined' && document.documentElement && document.documentElement.style && document.documentElement.style.WebkitAppearance) ||
     // is firebug? http://stackoverflow.com/a/398120/376773
-    (window.console && (console.firebug || (console.exception && console.table))) ||
+    (typeof window !== 'undefined' && window.console && (window.console.firebug || (window.console.exception && window.console.table))) ||
     // is firefox >= v31?
     // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31) ||
+    // double check webkit in userAgent just in case we are in a worker
+    (typeof navigator !== 'undefined' && navigator.userAgent && navigator.userAgent.toLowerCase().match(/applewebkit\/(\d+)/));
 }
 
 /**
@@ -28969,8 +29357,7 @@ exports.formatters.j = function(v) {
  * @api public
  */
 
-function formatArgs() {
-  var args = arguments;
+function formatArgs(args) {
   var useColors = this.useColors;
 
   args[0] = (useColors ? '%c' : '')
@@ -28980,17 +29367,17 @@ function formatArgs() {
     + (useColors ? '%c ' : ' ')
     + '+' + exports.humanize(this.diff);
 
-  if (!useColors) return args;
+  if (!useColors) return;
 
   var c = 'color: ' + this.color;
-  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
+  args.splice(1, 0, c, 'color: inherit')
 
   // the final "%c" is somewhat tricky, because there could be other
   // arguments passed either before or after the %c, so we need to
   // figure out the correct index to insert the CSS into
   var index = 0;
   var lastC = 0;
-  args[0].replace(/%[a-z%]/g, function(match) {
+  args[0].replace(/%[a-zA-Z%]/g, function(match) {
     if ('%%' === match) return;
     index++;
     if ('%c' === match) {
@@ -29001,7 +29388,6 @@ function formatArgs() {
   });
 
   args.splice(lastC, 0, c);
-  return args;
 }
 
 /**
@@ -29046,13 +29432,15 @@ function save(namespaces) {
 function load() {
   var r;
   try {
-    return exports.storage.debug;
+    r = exports.storage.debug;
   } catch(e) {}
 
   // If debug isn't set in LS, and we're in Electron, try to load $DEBUG
-  if (typeof process !== 'undefined' && 'env' in process) {
-    return process.env.DEBUG;
+  if (!r && typeof process !== 'undefined' && 'env' in process) {
+    r = process.env.DEBUG;
   }
+
+  return r;
 }
 
 /**
@@ -29072,14 +29460,14 @@ exports.enable(load());
  * @api private
  */
 
-function localstorage(){
+function localstorage() {
   try {
     return window.localStorage;
   } catch (e) {}
 }
 
 }).call(this,require('_process'))
-},{"./debug":30,"_process":205}],30:[function(require,module,exports){
+},{"./debug":31,"_process":205}],31:[function(require,module,exports){
 
 /**
  * This is the common logic for both the Node.js and web browser
@@ -29088,7 +29476,7 @@ function localstorage(){
  * Expose `debug()` as the module.
  */
 
-exports = module.exports = debug.debug = debug;
+exports = module.exports = createDebug.debug = createDebug['default'] = createDebug;
 exports.coerce = coerce;
 exports.disable = disable;
 exports.enable = enable;
@@ -29105,16 +29493,10 @@ exports.skips = [];
 /**
  * Map of special "%n" handling functions, for the debug "format" argument.
  *
- * Valid key names are a single, lowercased letter, i.e. "n".
+ * Valid key names are a single, lower or upper-case letter, i.e. "n" and "N".
  */
 
 exports.formatters = {};
-
-/**
- * Previously assigned color.
- */
-
-var prevColor = 0;
 
 /**
  * Previous log timestamp.
@@ -29124,13 +29506,20 @@ var prevTime;
 
 /**
  * Select a color.
- *
+ * @param {String} namespace
  * @return {Number}
  * @api private
  */
 
-function selectColor() {
-  return exports.colors[prevColor++ % exports.colors.length];
+function selectColor(namespace) {
+  var hash = 0, i;
+
+  for (i in namespace) {
+    hash  = ((hash << 5) - hash) + namespace.charCodeAt(i);
+    hash |= 0; // Convert to 32bit integer
+  }
+
+  return exports.colors[Math.abs(hash) % exports.colors.length];
 }
 
 /**
@@ -29141,17 +29530,13 @@ function selectColor() {
  * @api public
  */
 
-function debug(namespace) {
+function createDebug(namespace) {
 
-  // define the `disabled` version
-  function disabled() {
-  }
-  disabled.enabled = false;
+  function debug() {
+    // disabled?
+    if (!debug.enabled) return;
 
-  // define the `enabled` version
-  function enabled() {
-
-    var self = enabled;
+    var self = debug;
 
     // set `diff` timestamp
     var curr = +new Date();
@@ -29161,10 +29546,7 @@ function debug(namespace) {
     self.curr = curr;
     prevTime = curr;
 
-    // add the `color` if not set
-    if (null == self.useColors) self.useColors = exports.useColors();
-    if (null == self.color && self.useColors) self.color = selectColor();
-
+    // turn the `arguments` into a proper Array
     var args = new Array(arguments.length);
     for (var i = 0; i < args.length; i++) {
       args[i] = arguments[i];
@@ -29173,13 +29555,13 @@ function debug(namespace) {
     args[0] = exports.coerce(args[0]);
 
     if ('string' !== typeof args[0]) {
-      // anything else let's inspect with %o
-      args = ['%o'].concat(args);
+      // anything else let's inspect with %O
+      args.unshift('%O');
     }
 
     // apply any `formatters` transformations
     var index = 0;
-    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
+    args[0] = args[0].replace(/%([a-zA-Z%])/g, function(match, format) {
       // if we encounter an escaped % then don't increase the array index
       if (match === '%%') return match;
       index++;
@@ -29195,19 +29577,24 @@ function debug(namespace) {
       return match;
     });
 
-    // apply env-specific formatting
-    args = exports.formatArgs.apply(self, args);
+    // apply env-specific formatting (colors, etc.)
+    exports.formatArgs.call(self, args);
 
-    var logFn = enabled.log || exports.log || console.log.bind(console);
+    var logFn = debug.log || exports.log || console.log.bind(console);
     logFn.apply(self, args);
   }
-  enabled.enabled = true;
 
-  var fn = exports.enabled(namespace) ? enabled : disabled;
+  debug.namespace = namespace;
+  debug.enabled = exports.enabled(namespace);
+  debug.useColors = exports.useColors();
+  debug.color = selectColor(namespace);
 
-  fn.namespace = namespace;
+  // env-specific initialization logic for debug instances
+  if ('function' === typeof exports.init) {
+    exports.init(debug);
+  }
 
-  return fn;
+  return debug;
 }
 
 /**
@@ -29221,12 +29608,15 @@ function debug(namespace) {
 function enable(namespaces) {
   exports.save(namespaces);
 
-  var split = (namespaces || '').split(/[\s,]+/);
+  exports.names = [];
+  exports.skips = [];
+
+  var split = (typeof namespaces === 'string' ? namespaces : '').split(/[\s,]+/);
   var len = split.length;
 
   for (var i = 0; i < len; i++) {
     if (!split[i]) continue; // ignore empty strings
-    namespaces = split[i].replace(/[\\^$+?.()|[\]{}]/g, '\\$&').replace(/\*/g, '.*?');
+    namespaces = split[i].replace(/\*/g, '.*?');
     if (namespaces[0] === '-') {
       exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
     } else {
@@ -29281,7 +29671,7 @@ function coerce(val) {
   return val;
 }
 
-},{"ms":199}],31:[function(require,module,exports){
+},{"ms":198}],32:[function(require,module,exports){
 (function (process,Buffer){
 var stream = require('readable-stream')
 var eos = require('end-of-stream')
@@ -29513,13 +29903,17 @@ Duplexify.prototype.end = function(data, enc, cb) {
 module.exports = Duplexify
 
 }).call(this,require('_process'),require("buffer").Buffer)
-},{"_process":205,"buffer":24,"end-of-stream":32,"inherits":52,"readable-stream":219,"stream-shift":236}],32:[function(require,module,exports){
+},{"_process":205,"buffer":25,"end-of-stream":33,"inherits":52,"readable-stream":215,"stream-shift":228}],33:[function(require,module,exports){
 var once = require('once');
 
 var noop = function() {};
 
 var isRequest = function(stream) {
 	return stream.setHeader && typeof stream.abort === 'function';
+};
+
+var isChildProcess = function(stream) {
+	return stream.stdio && Array.isArray(stream.stdio) && stream.stdio.length === 3
 };
 
 var eos = function(stream, opts, callback) {
@@ -29539,17 +29933,21 @@ var eos = function(stream, opts, callback) {
 
 	var onfinish = function() {
 		writable = false;
-		if (!readable) callback();
+		if (!readable) callback.call(stream);
 	};
 
 	var onend = function() {
 		readable = false;
-		if (!writable) callback();
+		if (!writable) callback.call(stream);
+	};
+
+	var onexit = function(exitCode) {
+		callback.call(stream, exitCode ? new Error('exited with error code: ' + exitCode) : null);
 	};
 
 	var onclose = function() {
-		if (readable && !(rs && rs.ended)) return callback(new Error('premature close'));
-		if (writable && !(ws && ws.ended)) return callback(new Error('premature close'));
+		if (readable && !(rs && rs.ended)) return callback.call(stream, new Error('premature close'));
+		if (writable && !(ws && ws.ended)) return callback.call(stream, new Error('premature close'));
 	};
 
 	var onrequest = function() {
@@ -29566,6 +29964,8 @@ var eos = function(stream, opts, callback) {
 		stream.on('close', onlegacyfinish);
 	}
 
+	if (isChildProcess(stream)) stream.on('exit', onexit);
+
 	stream.on('end', onend);
 	stream.on('finish', onfinish);
 	if (opts.error !== false) stream.on('error', callback);
@@ -29579,6 +29979,7 @@ var eos = function(stream, opts, callback) {
 		stream.removeListener('end', onlegacyfinish);
 		stream.removeListener('close', onlegacyfinish);
 		stream.removeListener('finish', onfinish);
+		stream.removeListener('exit', onexit);
 		stream.removeListener('end', onend);
 		stream.removeListener('error', callback);
 		stream.removeListener('close', onclose);
@@ -29586,30 +29987,8 @@ var eos = function(stream, opts, callback) {
 };
 
 module.exports = eos;
-},{"once":33}],33:[function(require,module,exports){
-var wrappy = require('wrappy')
-module.exports = wrappy(once)
 
-once.proto = once(function () {
-  Object.defineProperty(Function.prototype, 'once', {
-    value: function () {
-      return once(this)
-    },
-    configurable: true
-  })
-})
-
-function once (fn) {
-  var f = function () {
-    if (f.called) return f.value
-    f.called = true
-    return f.value = fn.apply(this, arguments)
-  }
-  f.called = false
-  return f
-}
-
-},{"wrappy":250}],34:[function(require,module,exports){
+},{"once":199}],34:[function(require,module,exports){
 
 module.exports = require('./lib/index');
 
@@ -29625,7 +30004,7 @@ module.exports = require('./socket');
  */
 module.exports.parser = require('engine.io-parser');
 
-},{"./socket":36,"engine.io-parser":45}],36:[function(require,module,exports){
+},{"./socket":36,"engine.io-parser":44}],36:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -29699,6 +30078,7 @@ function Socket (uri, opts) {
   this.timestampParam = opts.timestampParam || 't';
   this.timestampRequests = opts.timestampRequests;
   this.transports = opts.transports || ['polling', 'websocket'];
+  this.transportOptions = opts.transportOptions || {};
   this.readyState = '';
   this.writeBuffer = [];
   this.prevBufferLen = 0;
@@ -29720,7 +30100,7 @@ function Socket (uri, opts) {
   this.cert = opts.cert || null;
   this.ca = opts.ca || null;
   this.ciphers = opts.ciphers || null;
-  this.rejectUnauthorized = opts.rejectUnauthorized === undefined ? null : opts.rejectUnauthorized;
+  this.rejectUnauthorized = opts.rejectUnauthorized === undefined ? true : opts.rejectUnauthorized;
   this.forceNode = !!opts.forceNode;
 
   // other options for Node.js client
@@ -29792,35 +30172,40 @@ Socket.prototype.createTransport = function (name) {
   // transport name
   query.transport = name;
 
+  // per-transport options
+  var options = this.transportOptions[name] || {};
+
   // session id if we already have one
   if (this.id) query.sid = this.id;
 
   var transport = new transports[name]({
-    agent: this.agent,
-    hostname: this.hostname,
-    port: this.port,
-    secure: this.secure,
-    path: this.path,
     query: query,
-    forceJSONP: this.forceJSONP,
-    jsonp: this.jsonp,
-    forceBase64: this.forceBase64,
-    enablesXDR: this.enablesXDR,
-    timestampRequests: this.timestampRequests,
-    timestampParam: this.timestampParam,
-    policyPort: this.policyPort,
     socket: this,
-    pfx: this.pfx,
-    key: this.key,
-    passphrase: this.passphrase,
-    cert: this.cert,
-    ca: this.ca,
-    ciphers: this.ciphers,
-    rejectUnauthorized: this.rejectUnauthorized,
-    perMessageDeflate: this.perMessageDeflate,
-    extraHeaders: this.extraHeaders,
-    forceNode: this.forceNode,
-    localAddress: this.localAddress
+    agent: options.agent || this.agent,
+    hostname: options.hostname || this.hostname,
+    port: options.port || this.port,
+    secure: options.secure || this.secure,
+    path: options.path || this.path,
+    forceJSONP: options.forceJSONP || this.forceJSONP,
+    jsonp: options.jsonp || this.jsonp,
+    forceBase64: options.forceBase64 || this.forceBase64,
+    enablesXDR: options.enablesXDR || this.enablesXDR,
+    timestampRequests: options.timestampRequests || this.timestampRequests,
+    timestampParam: options.timestampParam || this.timestampParam,
+    policyPort: options.policyPort || this.policyPort,
+    pfx: options.pfx || this.pfx,
+    key: options.key || this.key,
+    passphrase: options.passphrase || this.passphrase,
+    cert: options.cert || this.cert,
+    ca: options.ca || this.ca,
+    ciphers: options.ciphers || this.ciphers,
+    rejectUnauthorized: options.rejectUnauthorized || this.rejectUnauthorized,
+    perMessageDeflate: options.perMessageDeflate || this.perMessageDeflate,
+    extraHeaders: options.extraHeaders || this.extraHeaders,
+    forceNode: options.forceNode || this.forceNode,
+    localAddress: options.localAddress || this.localAddress,
+    requestTimeout: options.requestTimeout || this.requestTimeout,
+    protocols: options.protocols || void (0)
   });
 
   return transport;
@@ -30367,7 +30752,7 @@ Socket.prototype.filterUpgrades = function (upgrades) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transport":37,"./transports/index":38,"component-emitter":44,"debug":29,"engine.io-parser":45,"indexof":51,"parsejson":200,"parseqs":201,"parseuri":202}],37:[function(require,module,exports){
+},{"./transport":37,"./transports/index":38,"component-emitter":27,"debug":30,"engine.io-parser":44,"indexof":51,"parsejson":200,"parseqs":201,"parseuri":202}],37:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -30526,7 +30911,7 @@ Transport.prototype.onClose = function () {
   this.emit('close');
 };
 
-},{"component-emitter":44,"engine.io-parser":45}],38:[function(require,module,exports){
+},{"component-emitter":27,"engine.io-parser":44}],38:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies
@@ -30818,7 +31203,7 @@ JSONPPolling.prototype.doWrite = function (data, fn) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./polling":41,"component-inherit":27}],40:[function(require,module,exports){
+},{"./polling":41,"component-inherit":28}],40:[function(require,module,exports){
 (function (global){
 /**
  * Module requirements.
@@ -30853,6 +31238,7 @@ function empty () {}
 function XHR (opts) {
   Polling.call(this, opts);
   this.requestTimeout = opts.requestTimeout;
+  this.extraHeaders = opts.extraHeaders;
 
   if (global.location) {
     var isSSL = 'https:' === location.protocol;
@@ -30866,8 +31252,6 @@ function XHR (opts) {
     this.xd = opts.hostname !== global.location.hostname ||
       port !== opts.port;
     this.xs = opts.secure !== isSSL;
-  } else {
-    this.extraHeaders = opts.extraHeaders;
   }
 }
 
@@ -31020,7 +31404,7 @@ Request.prototype.create = function () {
     xhr.open(this.method, this.uri, this.async);
     try {
       if (this.extraHeaders) {
-        xhr.setDisableHeaderCheck(true);
+        xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
         for (var i in this.extraHeaders) {
           if (this.extraHeaders.hasOwnProperty(i)) {
             xhr.setRequestHeader(i, this.extraHeaders[i]);
@@ -31028,11 +31412,6 @@ Request.prototype.create = function () {
         }
       }
     } catch (e) {}
-    if (this.supportsBinary) {
-      // This has to be done after open because Firefox is stupid
-      // http://stackoverflow.com/questions/13216903/get-binary-data-with-xmlhttprequest-in-a-firefox-extension
-      xhr.responseType = 'arraybuffer';
-    }
 
     if ('POST' === this.method) {
       try {
@@ -31066,6 +31445,15 @@ Request.prototype.create = function () {
       };
     } else {
       xhr.onreadystatechange = function () {
+        if (xhr.readyState === 2) {
+          var contentType;
+          try {
+            contentType = xhr.getResponseHeader('Content-Type');
+          } catch (e) {}
+          if (contentType === 'application/octet-stream') {
+            xhr.responseType = 'arraybuffer';
+          }
+        }
         if (4 !== xhr.readyState) return;
         if (200 === xhr.status || 1223 === xhr.status) {
           self.onLoad();
@@ -31171,26 +31559,12 @@ Request.prototype.onLoad = function () {
   try {
     var contentType;
     try {
-      contentType = this.xhr.getResponseHeader('Content-Type').split(';')[0];
+      contentType = this.xhr.getResponseHeader('Content-Type');
     } catch (e) {}
     if (contentType === 'application/octet-stream') {
       data = this.xhr.response || this.xhr.responseText;
     } else {
-      if (!this.supportsBinary) {
-        data = this.xhr.responseText;
-      } else {
-        try {
-          data = String.fromCharCode.apply(null, new Uint8Array(this.xhr.response));
-        } catch (e) {
-          var ui8Arr = new Uint8Array(this.xhr.response);
-          var dataArray = [];
-          for (var idx = 0, length = ui8Arr.length; idx < length; idx++) {
-            dataArray.push(ui8Arr[idx]);
-          }
-
-          data = String.fromCharCode.apply(null, dataArray);
-        }
-      }
+      data = this.xhr.responseText;
     }
   } catch (e) {
     this.onError(e);
@@ -31246,7 +31620,7 @@ function unloadHandler () {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./polling":41,"component-emitter":44,"component-inherit":27,"debug":29,"xmlhttprequest-ssl":43}],41:[function(require,module,exports){
+},{"./polling":41,"component-emitter":27,"component-inherit":28,"debug":30,"xmlhttprequest-ssl":43}],41:[function(require,module,exports){
 /**
  * Module dependencies.
  */
@@ -31493,7 +31867,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":37,"component-inherit":27,"debug":29,"engine.io-parser":45,"parseqs":201,"xmlhttprequest-ssl":43,"yeast":253}],42:[function(require,module,exports){
+},{"../transport":37,"component-inherit":28,"debug":30,"engine.io-parser":44,"parseqs":201,"xmlhttprequest-ssl":43,"yeast":261}],42:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -31544,6 +31918,7 @@ function WS (opts) {
   }
   this.perMessageDeflate = opts.perMessageDeflate;
   this.usingBrowserWebSocket = BrowserWebSocket && !opts.forceNode;
+  this.protocols = opts.protocols;
   if (!this.usingBrowserWebSocket) {
     WebSocket = NodeWebSocket;
   }
@@ -31583,7 +31958,7 @@ WS.prototype.doOpen = function () {
   }
 
   var uri = this.uri();
-  var protocols = void (0);
+  var protocols = this.protocols;
   var opts = {
     agent: this.agent,
     perMessageDeflate: this.perMessageDeflate
@@ -31605,7 +31980,7 @@ WS.prototype.doOpen = function () {
   }
 
   try {
-    this.ws = this.usingBrowserWebSocket ? new WebSocket(uri) : new WebSocket(uri, protocols, opts);
+    this.ws = this.usingBrowserWebSocket ? (protocols ? new WebSocket(uri, protocols) : new WebSocket(uri)) : new WebSocket(uri, protocols, opts);
   } catch (err) {
     return this.emit('error', err);
   }
@@ -31782,7 +32157,7 @@ WS.prototype.check = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":37,"component-inherit":27,"debug":29,"engine.io-parser":45,"parseqs":201,"ws":21,"yeast":253}],43:[function(require,module,exports){
+},{"../transport":37,"component-inherit":28,"debug":30,"engine.io-parser":44,"parseqs":201,"ws":21,"yeast":261}],43:[function(require,module,exports){
 (function (global){
 // browser shim for xmlhttprequest module
 
@@ -31824,181 +32199,16 @@ module.exports = function (opts) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"has-cors":49}],44:[function(require,module,exports){
-
-/**
- * Expose `Emitter`.
- */
-
-if (typeof module !== 'undefined') {
-  module.exports = Emitter;
-}
-
-/**
- * Initialize a new `Emitter`.
- *
- * @api public
- */
-
-function Emitter(obj) {
-  if (obj) return mixin(obj);
-};
-
-/**
- * Mixin the emitter properties.
- *
- * @param {Object} obj
- * @return {Object}
- * @api private
- */
-
-function mixin(obj) {
-  for (var key in Emitter.prototype) {
-    obj[key] = Emitter.prototype[key];
-  }
-  return obj;
-}
-
-/**
- * Listen on the given `event` with `fn`.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.on =
-Emitter.prototype.addEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-  (this._callbacks['$' + event] = this._callbacks['$' + event] || [])
-    .push(fn);
-  return this;
-};
-
-/**
- * Adds an `event` listener that will be invoked a single
- * time then automatically removed.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.once = function(event, fn){
-  function on() {
-    this.off(event, on);
-    fn.apply(this, arguments);
-  }
-
-  on.fn = fn;
-  this.on(event, on);
-  return this;
-};
-
-/**
- * Remove the given callback for `event` or all
- * registered callbacks.
- *
- * @param {String} event
- * @param {Function} fn
- * @return {Emitter}
- * @api public
- */
-
-Emitter.prototype.off =
-Emitter.prototype.removeListener =
-Emitter.prototype.removeAllListeners =
-Emitter.prototype.removeEventListener = function(event, fn){
-  this._callbacks = this._callbacks || {};
-
-  // all
-  if (0 == arguments.length) {
-    this._callbacks = {};
-    return this;
-  }
-
-  // specific event
-  var callbacks = this._callbacks['$' + event];
-  if (!callbacks) return this;
-
-  // remove all handlers
-  if (1 == arguments.length) {
-    delete this._callbacks['$' + event];
-    return this;
-  }
-
-  // remove specific handler
-  var cb;
-  for (var i = 0; i < callbacks.length; i++) {
-    cb = callbacks[i];
-    if (cb === fn || cb.fn === fn) {
-      callbacks.splice(i, 1);
-      break;
-    }
-  }
-  return this;
-};
-
-/**
- * Emit `event` with the given args.
- *
- * @param {String} event
- * @param {Mixed} ...
- * @return {Emitter}
- */
-
-Emitter.prototype.emit = function(event){
-  this._callbacks = this._callbacks || {};
-  var args = [].slice.call(arguments, 1)
-    , callbacks = this._callbacks['$' + event];
-
-  if (callbacks) {
-    callbacks = callbacks.slice(0);
-    for (var i = 0, len = callbacks.length; i < len; ++i) {
-      callbacks[i].apply(this, args);
-    }
-  }
-
-  return this;
-};
-
-/**
- * Return array of callbacks for `event`.
- *
- * @param {String} event
- * @return {Array}
- * @api public
- */
-
-Emitter.prototype.listeners = function(event){
-  this._callbacks = this._callbacks || {};
-  return this._callbacks['$' + event] || [];
-};
-
-/**
- * Check if this emitter has `event` handlers.
- *
- * @param {String} event
- * @return {Boolean}
- * @api public
- */
-
-Emitter.prototype.hasListeners = function(event){
-  return !! this.listeners(event).length;
-};
-
-},{}],45:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
  */
 
 var keys = require('./keys');
-var hasBinary = require('has-binary');
+var hasBinary = require('has-binary2');
 var sliceBuffer = require('arraybuffer.slice');
 var after = require('after');
-var utf8 = require('wtf-8');
+var utf8 = require('./utf8');
 
 var base64encoder;
 if (global && global.ArrayBuffer) {
@@ -32079,12 +32289,12 @@ var Blob = require('blob');
  */
 
 exports.encodePacket = function (packet, supportsBinary, utf8encode, callback) {
-  if ('function' == typeof supportsBinary) {
+  if (typeof supportsBinary === 'function') {
     callback = supportsBinary;
     supportsBinary = false;
   }
 
-  if ('function' == typeof utf8encode) {
+  if (typeof utf8encode === 'function') {
     callback = utf8encode;
     utf8encode = null;
   }
@@ -32109,7 +32319,7 @@ exports.encodePacket = function (packet, supportsBinary, utf8encode, callback) {
 
   // data fragment is optional
   if (undefined !== packet.data) {
-    encoded += utf8encode ? utf8.encode(String(packet.data)) : String(packet.data);
+    encoded += utf8encode ? utf8.encode(String(packet.data), { strict: false }) : String(packet.data);
   }
 
   return callback('' + encoded);
@@ -32218,8 +32428,8 @@ exports.decodePacket = function (data, binaryType, utf8decode) {
     return err;
   }
   // String data
-  if (typeof data == 'string') {
-    if (data.charAt(0) == 'b') {
+  if (typeof data === 'string') {
+    if (data.charAt(0) === 'b') {
       return exports.decodeBase64Packet(data.substr(1), binaryType);
     }
 
@@ -32253,7 +32463,7 @@ exports.decodePacket = function (data, binaryType, utf8decode) {
 
 function tryDecode(data) {
   try {
-    data = utf8.decode(data);
+    data = utf8.decode(data, { strict: false });
   } catch (e) {
     return false;
   }
@@ -32299,7 +32509,7 @@ exports.decodeBase64Packet = function(msg, binaryType) {
  */
 
 exports.encodePayload = function (packets, supportsBinary, callback) {
-  if (typeof supportsBinary == 'function') {
+  if (typeof supportsBinary === 'function') {
     callback = supportsBinary;
     supportsBinary = null;
   }
@@ -32323,7 +32533,7 @@ exports.encodePayload = function (packets, supportsBinary, callback) {
   }
 
   function encodeOne(packet, doneCallback) {
-    exports.encodePacket(packet, !isBinary ? false : supportsBinary, true, function(message) {
+    exports.encodePacket(packet, !isBinary ? false : supportsBinary, false, function(message) {
       doneCallback(null, setLengthHeader(message));
     });
   }
@@ -32362,7 +32572,7 @@ function map(ary, each, done) {
  */
 
 exports.decodePayload = function (data, binaryType, callback) {
-  if (typeof data != 'string') {
+  if (typeof data !== 'string') {
     return exports.decodePayloadAsBinary(data, binaryType, callback);
   }
 
@@ -32372,51 +32582,51 @@ exports.decodePayload = function (data, binaryType, callback) {
   }
 
   var packet;
-  if (data == '') {
+  if (data === '') {
     // parser error - ignoring payload
     return callback(err, 0, 1);
   }
 
-  var length = ''
-    , n, msg;
+  var length = '', n, msg;
 
   for (var i = 0, l = data.length; i < l; i++) {
     var chr = data.charAt(i);
 
-    if (':' != chr) {
+    if (chr !== ':') {
       length += chr;
-    } else {
-      if ('' == length || (length != (n = Number(length)))) {
-        // parser error - ignoring payload
-        return callback(err, 0, 1);
-      }
-
-      msg = data.substr(i + 1, n);
-
-      if (length != msg.length) {
-        // parser error - ignoring payload
-        return callback(err, 0, 1);
-      }
-
-      if (msg.length) {
-        packet = exports.decodePacket(msg, binaryType, true);
-
-        if (err.type == packet.type && err.data == packet.data) {
-          // parser error in individual packet - ignoring payload
-          return callback(err, 0, 1);
-        }
-
-        var ret = callback(packet, i + n, l);
-        if (false === ret) return;
-      }
-
-      // advance cursor
-      i += n;
-      length = '';
+      continue;
     }
+
+    if (length === '' || (length != (n = Number(length)))) {
+      // parser error - ignoring payload
+      return callback(err, 0, 1);
+    }
+
+    msg = data.substr(i + 1, n);
+
+    if (length != msg.length) {
+      // parser error - ignoring payload
+      return callback(err, 0, 1);
+    }
+
+    if (msg.length) {
+      packet = exports.decodePacket(msg, binaryType, false);
+
+      if (err.type === packet.type && err.data === packet.data) {
+        // parser error in individual packet - ignoring payload
+        return callback(err, 0, 1);
+      }
+
+      var ret = callback(packet, i + n, l);
+      if (false === ret) return;
+    }
+
+    // advance cursor
+    i += n;
+    length = '';
   }
 
-  if (length != '') {
+  if (length !== '') {
     // parser error - ignoring payload
     return callback(err, 0, 1);
   }
@@ -32554,24 +32764,21 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
   var bufferTail = data;
   var buffers = [];
 
-  var numberTooLong = false;
   while (bufferTail.byteLength > 0) {
     var tailArray = new Uint8Array(bufferTail);
     var isString = tailArray[0] === 0;
     var msgLength = '';
 
     for (var i = 1; ; i++) {
-      if (tailArray[i] == 255) break;
+      if (tailArray[i] === 255) break;
 
+      // 310 = char length of Number.MAX_VALUE
       if (msgLength.length > 310) {
-        numberTooLong = true;
-        break;
+        return callback(err, 0, 1);
       }
 
       msgLength += tailArray[i];
     }
-
-    if(numberTooLong) return callback(err, 0, 1);
 
     bufferTail = sliceBuffer(bufferTail, 2 + msgLength.length);
     msgLength = parseInt(msgLength);
@@ -32601,7 +32808,7 @@ exports.decodePayloadAsBinary = function (data, binaryType, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./keys":46,"after":11,"arraybuffer.slice":12,"base64-arraybuffer":14,"blob":16,"has-binary":48,"wtf-8":251}],46:[function(require,module,exports){
+},{"./keys":45,"./utf8":46,"after":11,"arraybuffer.slice":12,"base64-arraybuffer":14,"blob":16,"has-binary2":48}],45:[function(require,module,exports){
 
 /**
  * Gets the keys for an object.
@@ -32622,6 +32829,265 @@ module.exports = Object.keys || function keys (obj){
   return arr;
 };
 
+},{}],46:[function(require,module,exports){
+(function (global){
+/*! https://mths.be/utf8js v2.1.2 by @mathias */
+;(function(root) {
+
+	// Detect free variables `exports`
+	var freeExports = typeof exports == 'object' && exports;
+
+	// Detect free variable `module`
+	var freeModule = typeof module == 'object' && module &&
+		module.exports == freeExports && module;
+
+	// Detect free variable `global`, from Node.js or Browserified code,
+	// and use it as `root`
+	var freeGlobal = typeof global == 'object' && global;
+	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
+		root = freeGlobal;
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	var stringFromCharCode = String.fromCharCode;
+
+	// Taken from https://mths.be/punycode
+	function ucs2decode(string) {
+		var output = [];
+		var counter = 0;
+		var length = string.length;
+		var value;
+		var extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					// unmatched surrogate; only append this code unit, in case the next
+					// code unit is the high surrogate of a surrogate pair
+					output.push(value);
+					counter--;
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
+
+	// Taken from https://mths.be/punycode
+	function ucs2encode(array) {
+		var length = array.length;
+		var index = -1;
+		var value;
+		var output = '';
+		while (++index < length) {
+			value = array[index];
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+		}
+		return output;
+	}
+
+	function checkScalarValue(codePoint, strict) {
+		if (codePoint >= 0xD800 && codePoint <= 0xDFFF) {
+			if (strict) {
+				throw Error(
+					'Lone surrogate U+' + codePoint.toString(16).toUpperCase() +
+					' is not a scalar value'
+				);
+			}
+			return false;
+		}
+		return true;
+	}
+	/*--------------------------------------------------------------------------*/
+
+	function createByte(codePoint, shift) {
+		return stringFromCharCode(((codePoint >> shift) & 0x3F) | 0x80);
+	}
+
+	function encodeCodePoint(codePoint, strict) {
+		if ((codePoint & 0xFFFFFF80) == 0) { // 1-byte sequence
+			return stringFromCharCode(codePoint);
+		}
+		var symbol = '';
+		if ((codePoint & 0xFFFFF800) == 0) { // 2-byte sequence
+			symbol = stringFromCharCode(((codePoint >> 6) & 0x1F) | 0xC0);
+		}
+		else if ((codePoint & 0xFFFF0000) == 0) { // 3-byte sequence
+			if (!checkScalarValue(codePoint, strict)) {
+				codePoint = 0xFFFD;
+			}
+			symbol = stringFromCharCode(((codePoint >> 12) & 0x0F) | 0xE0);
+			symbol += createByte(codePoint, 6);
+		}
+		else if ((codePoint & 0xFFE00000) == 0) { // 4-byte sequence
+			symbol = stringFromCharCode(((codePoint >> 18) & 0x07) | 0xF0);
+			symbol += createByte(codePoint, 12);
+			symbol += createByte(codePoint, 6);
+		}
+		symbol += stringFromCharCode((codePoint & 0x3F) | 0x80);
+		return symbol;
+	}
+
+	function utf8encode(string, opts) {
+		opts = opts || {};
+		var strict = false !== opts.strict;
+
+		var codePoints = ucs2decode(string);
+		var length = codePoints.length;
+		var index = -1;
+		var codePoint;
+		var byteString = '';
+		while (++index < length) {
+			codePoint = codePoints[index];
+			byteString += encodeCodePoint(codePoint, strict);
+		}
+		return byteString;
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	function readContinuationByte() {
+		if (byteIndex >= byteCount) {
+			throw Error('Invalid byte index');
+		}
+
+		var continuationByte = byteArray[byteIndex] & 0xFF;
+		byteIndex++;
+
+		if ((continuationByte & 0xC0) == 0x80) {
+			return continuationByte & 0x3F;
+		}
+
+		// If we end up here, it’s not a continuation byte
+		throw Error('Invalid continuation byte');
+	}
+
+	function decodeSymbol(strict) {
+		var byte1;
+		var byte2;
+		var byte3;
+		var byte4;
+		var codePoint;
+
+		if (byteIndex > byteCount) {
+			throw Error('Invalid byte index');
+		}
+
+		if (byteIndex == byteCount) {
+			return false;
+		}
+
+		// Read first byte
+		byte1 = byteArray[byteIndex] & 0xFF;
+		byteIndex++;
+
+		// 1-byte sequence (no continuation bytes)
+		if ((byte1 & 0x80) == 0) {
+			return byte1;
+		}
+
+		// 2-byte sequence
+		if ((byte1 & 0xE0) == 0xC0) {
+			byte2 = readContinuationByte();
+			codePoint = ((byte1 & 0x1F) << 6) | byte2;
+			if (codePoint >= 0x80) {
+				return codePoint;
+			} else {
+				throw Error('Invalid continuation byte');
+			}
+		}
+
+		// 3-byte sequence (may include unpaired surrogates)
+		if ((byte1 & 0xF0) == 0xE0) {
+			byte2 = readContinuationByte();
+			byte3 = readContinuationByte();
+			codePoint = ((byte1 & 0x0F) << 12) | (byte2 << 6) | byte3;
+			if (codePoint >= 0x0800) {
+				return checkScalarValue(codePoint, strict) ? codePoint : 0xFFFD;
+			} else {
+				throw Error('Invalid continuation byte');
+			}
+		}
+
+		// 4-byte sequence
+		if ((byte1 & 0xF8) == 0xF0) {
+			byte2 = readContinuationByte();
+			byte3 = readContinuationByte();
+			byte4 = readContinuationByte();
+			codePoint = ((byte1 & 0x07) << 0x12) | (byte2 << 0x0C) |
+				(byte3 << 0x06) | byte4;
+			if (codePoint >= 0x010000 && codePoint <= 0x10FFFF) {
+				return codePoint;
+			}
+		}
+
+		throw Error('Invalid UTF-8 detected');
+	}
+
+	var byteArray;
+	var byteCount;
+	var byteIndex;
+	function utf8decode(byteString, opts) {
+		opts = opts || {};
+		var strict = false !== opts.strict;
+
+		byteArray = ucs2decode(byteString);
+		byteCount = byteArray.length;
+		byteIndex = 0;
+		var codePoints = [];
+		var tmp;
+		while ((tmp = decodeSymbol(strict)) !== false) {
+			codePoints.push(tmp);
+		}
+		return ucs2encode(codePoints);
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	var utf8 = {
+		'version': '2.1.2',
+		'encode': utf8encode,
+		'decode': utf8decode
+	};
+
+	// Some AMD build optimizers, like r.js, check for specific condition patterns
+	// like the following:
+	if (
+		typeof define == 'function' &&
+		typeof define.amd == 'object' &&
+		define.amd
+	) {
+		define(function() {
+			return utf8;
+		});
+	}	else if (freeExports && !freeExports.nodeType) {
+		if (freeModule) { // in Node.js or RingoJS v0.8.0+
+			freeModule.exports = utf8;
+		} else { // in Narwhal or RingoJS v0.7.0-
+			var object = {};
+			var hasOwnProperty = object.hasOwnProperty;
+			for (var key in utf8) {
+				hasOwnProperty.call(utf8, key) && (freeExports[key] = utf8[key]);
+			}
+		}
+	} else { // in Rhino or a web browser
+		root.utf8 = utf8;
+	}
+
+}(this));
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],47:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -32928,12 +33394,17 @@ function isUndefined(arg) {
 
 },{}],48:[function(require,module,exports){
 (function (global){
+/* global Blob File */
 
 /*
  * Module requirements.
  */
 
 var isArray = require('isarray');
+
+var toString = Object.prototype.toString;
+var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
+var withNativeFile = typeof global.File === 'function' || toString.call(global.File) === '[object FileConstructor]';
 
 /**
  * Module exports.
@@ -32944,48 +33415,46 @@ module.exports = hasBinary;
 /**
  * Checks for binary data.
  *
- * Right now only Buffer and ArrayBuffer are supported..
+ * Supports Buffer, ArrayBuffer, Blob and File.
  *
  * @param {Object} anything
  * @api public
  */
 
-function hasBinary(data) {
-
-  function _hasBinary(obj) {
-    if (!obj) return false;
-
-    if ( (global.Buffer && global.Buffer.isBuffer && global.Buffer.isBuffer(obj)) ||
-         (global.ArrayBuffer && obj instanceof ArrayBuffer) ||
-         (global.Blob && obj instanceof Blob) ||
-         (global.File && obj instanceof File)
-        ) {
-      return true;
-    }
-
-    if (isArray(obj)) {
-      for (var i = 0; i < obj.length; i++) {
-          if (_hasBinary(obj[i])) {
-              return true;
-          }
-      }
-    } else if (obj && 'object' == typeof obj) {
-      // see: https://github.com/Automattic/has-binary/pull/4
-      if (obj.toJSON && 'function' == typeof obj.toJSON) {
-        obj = obj.toJSON();
-      }
-
-      for (var key in obj) {
-        if (Object.prototype.hasOwnProperty.call(obj, key) && _hasBinary(obj[key])) {
-          return true;
-        }
-      }
-    }
-
+function hasBinary (obj) {
+  if (!obj || typeof obj !== 'object') {
     return false;
   }
 
-  return _hasBinary(data);
+  if (isArray(obj)) {
+    for (var i = 0, l = obj.length; i < l; i++) {
+      if (hasBinary(obj[i])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  if ((typeof global.Buffer === 'function' && global.Buffer.isBuffer && global.Buffer.isBuffer(obj)) ||
+     (typeof global.ArrayBuffer === 'function' && obj instanceof ArrayBuffer) ||
+     (withNativeBlob && obj instanceof Blob) ||
+     (withNativeFile && obj instanceof File)
+    ) {
+    return true;
+  }
+
+  // see: https://github.com/Automattic/has-binary/pull/4
+  if (obj.toJSON && typeof obj.toJSON === 'function' && arguments.length === 1) {
+    return hasBinary(obj.toJSON(), true);
+  }
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -33154,917 +33623,13 @@ function isSlowBuffer (obj) {
 }
 
 },{}],54:[function(require,module,exports){
+var toString = {}.toString;
+
 module.exports = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
+  return toString.call(arr) == '[object Array]';
 };
 
 },{}],55:[function(require,module,exports){
-(function (global){
-/*! JSON v3.3.2 | http://bestiejs.github.io/json3 | Copyright 2012-2014, Kit Cambridge | http://kit.mit-license.org */
-;(function () {
-  // Detect the `define` function exposed by asynchronous module loaders. The
-  // strict `define` check is necessary for compatibility with `r.js`.
-  var isLoader = typeof define === "function" && define.amd;
-
-  // A set of types used to distinguish objects from primitives.
-  var objectTypes = {
-    "function": true,
-    "object": true
-  };
-
-  // Detect the `exports` object exposed by CommonJS implementations.
-  var freeExports = objectTypes[typeof exports] && exports && !exports.nodeType && exports;
-
-  // Use the `global` object exposed by Node (including Browserify via
-  // `insert-module-globals`), Narwhal, and Ringo as the default context,
-  // and the `window` object in browsers. Rhino exports a `global` function
-  // instead.
-  var root = objectTypes[typeof window] && window || this,
-      freeGlobal = freeExports && objectTypes[typeof module] && module && !module.nodeType && typeof global == "object" && global;
-
-  if (freeGlobal && (freeGlobal["global"] === freeGlobal || freeGlobal["window"] === freeGlobal || freeGlobal["self"] === freeGlobal)) {
-    root = freeGlobal;
-  }
-
-  // Public: Initializes JSON 3 using the given `context` object, attaching the
-  // `stringify` and `parse` functions to the specified `exports` object.
-  function runInContext(context, exports) {
-    context || (context = root["Object"]());
-    exports || (exports = root["Object"]());
-
-    // Native constructor aliases.
-    var Number = context["Number"] || root["Number"],
-        String = context["String"] || root["String"],
-        Object = context["Object"] || root["Object"],
-        Date = context["Date"] || root["Date"],
-        SyntaxError = context["SyntaxError"] || root["SyntaxError"],
-        TypeError = context["TypeError"] || root["TypeError"],
-        Math = context["Math"] || root["Math"],
-        nativeJSON = context["JSON"] || root["JSON"];
-
-    // Delegate to the native `stringify` and `parse` implementations.
-    if (typeof nativeJSON == "object" && nativeJSON) {
-      exports.stringify = nativeJSON.stringify;
-      exports.parse = nativeJSON.parse;
-    }
-
-    // Convenience aliases.
-    var objectProto = Object.prototype,
-        getClass = objectProto.toString,
-        isProperty, forEach, undef;
-
-    // Test the `Date#getUTC*` methods. Based on work by @Yaffle.
-    var isExtended = new Date(-3509827334573292);
-    try {
-      // The `getUTCFullYear`, `Month`, and `Date` methods return nonsensical
-      // results for certain dates in Opera >= 10.53.
-      isExtended = isExtended.getUTCFullYear() == -109252 && isExtended.getUTCMonth() === 0 && isExtended.getUTCDate() === 1 &&
-        // Safari < 2.0.2 stores the internal millisecond time value correctly,
-        // but clips the values returned by the date methods to the range of
-        // signed 32-bit integers ([-2 ** 31, 2 ** 31 - 1]).
-        isExtended.getUTCHours() == 10 && isExtended.getUTCMinutes() == 37 && isExtended.getUTCSeconds() == 6 && isExtended.getUTCMilliseconds() == 708;
-    } catch (exception) {}
-
-    // Internal: Determines whether the native `JSON.stringify` and `parse`
-    // implementations are spec-compliant. Based on work by Ken Snyder.
-    function has(name) {
-      if (has[name] !== undef) {
-        // Return cached feature test result.
-        return has[name];
-      }
-      var isSupported;
-      if (name == "bug-string-char-index") {
-        // IE <= 7 doesn't support accessing string characters using square
-        // bracket notation. IE 8 only supports this for primitives.
-        isSupported = "a"[0] != "a";
-      } else if (name == "json") {
-        // Indicates whether both `JSON.stringify` and `JSON.parse` are
-        // supported.
-        isSupported = has("json-stringify") && has("json-parse");
-      } else {
-        var value, serialized = '{"a":[1,true,false,null,"\\u0000\\b\\n\\f\\r\\t"]}';
-        // Test `JSON.stringify`.
-        if (name == "json-stringify") {
-          var stringify = exports.stringify, stringifySupported = typeof stringify == "function" && isExtended;
-          if (stringifySupported) {
-            // A test function object with a custom `toJSON` method.
-            (value = function () {
-              return 1;
-            }).toJSON = value;
-            try {
-              stringifySupported =
-                // Firefox 3.1b1 and b2 serialize string, number, and boolean
-                // primitives as object literals.
-                stringify(0) === "0" &&
-                // FF 3.1b1, b2, and JSON 2 serialize wrapped primitives as object
-                // literals.
-                stringify(new Number()) === "0" &&
-                stringify(new String()) == '""' &&
-                // FF 3.1b1, 2 throw an error if the value is `null`, `undefined`, or
-                // does not define a canonical JSON representation (this applies to
-                // objects with `toJSON` properties as well, *unless* they are nested
-                // within an object or array).
-                stringify(getClass) === undef &&
-                // IE 8 serializes `undefined` as `"undefined"`. Safari <= 5.1.7 and
-                // FF 3.1b3 pass this test.
-                stringify(undef) === undef &&
-                // Safari <= 5.1.7 and FF 3.1b3 throw `Error`s and `TypeError`s,
-                // respectively, if the value is omitted entirely.
-                stringify() === undef &&
-                // FF 3.1b1, 2 throw an error if the given value is not a number,
-                // string, array, object, Boolean, or `null` literal. This applies to
-                // objects with custom `toJSON` methods as well, unless they are nested
-                // inside object or array literals. YUI 3.0.0b1 ignores custom `toJSON`
-                // methods entirely.
-                stringify(value) === "1" &&
-                stringify([value]) == "[1]" &&
-                // Prototype <= 1.6.1 serializes `[undefined]` as `"[]"` instead of
-                // `"[null]"`.
-                stringify([undef]) == "[null]" &&
-                // YUI 3.0.0b1 fails to serialize `null` literals.
-                stringify(null) == "null" &&
-                // FF 3.1b1, 2 halts serialization if an array contains a function:
-                // `[1, true, getClass, 1]` serializes as "[1,true,],". FF 3.1b3
-                // elides non-JSON values from objects and arrays, unless they
-                // define custom `toJSON` methods.
-                stringify([undef, getClass, null]) == "[null,null,null]" &&
-                // Simple serialization test. FF 3.1b1 uses Unicode escape sequences
-                // where character escape codes are expected (e.g., `\b` => `\u0008`).
-                stringify({ "a": [value, true, false, null, "\x00\b\n\f\r\t"] }) == serialized &&
-                // FF 3.1b1 and b2 ignore the `filter` and `width` arguments.
-                stringify(null, value) === "1" &&
-                stringify([1, 2], null, 1) == "[\n 1,\n 2\n]" &&
-                // JSON 2, Prototype <= 1.7, and older WebKit builds incorrectly
-                // serialize extended years.
-                stringify(new Date(-8.64e15)) == '"-271821-04-20T00:00:00.000Z"' &&
-                // The milliseconds are optional in ES 5, but required in 5.1.
-                stringify(new Date(8.64e15)) == '"+275760-09-13T00:00:00.000Z"' &&
-                // Firefox <= 11.0 incorrectly serializes years prior to 0 as negative
-                // four-digit years instead of six-digit years. Credits: @Yaffle.
-                stringify(new Date(-621987552e5)) == '"-000001-01-01T00:00:00.000Z"' &&
-                // Safari <= 5.1.5 and Opera >= 10.53 incorrectly serialize millisecond
-                // values less than 1000. Credits: @Yaffle.
-                stringify(new Date(-1)) == '"1969-12-31T23:59:59.999Z"';
-            } catch (exception) {
-              stringifySupported = false;
-            }
-          }
-          isSupported = stringifySupported;
-        }
-        // Test `JSON.parse`.
-        if (name == "json-parse") {
-          var parse = exports.parse;
-          if (typeof parse == "function") {
-            try {
-              // FF 3.1b1, b2 will throw an exception if a bare literal is provided.
-              // Conforming implementations should also coerce the initial argument to
-              // a string prior to parsing.
-              if (parse("0") === 0 && !parse(false)) {
-                // Simple parsing test.
-                value = parse(serialized);
-                var parseSupported = value["a"].length == 5 && value["a"][0] === 1;
-                if (parseSupported) {
-                  try {
-                    // Safari <= 5.1.2 and FF 3.1b1 allow unescaped tabs in strings.
-                    parseSupported = !parse('"\t"');
-                  } catch (exception) {}
-                  if (parseSupported) {
-                    try {
-                      // FF 4.0 and 4.0.1 allow leading `+` signs and leading
-                      // decimal points. FF 4.0, 4.0.1, and IE 9-10 also allow
-                      // certain octal literals.
-                      parseSupported = parse("01") !== 1;
-                    } catch (exception) {}
-                  }
-                  if (parseSupported) {
-                    try {
-                      // FF 4.0, 4.0.1, and Rhino 1.7R3-R4 allow trailing decimal
-                      // points. These environments, along with FF 3.1b1 and 2,
-                      // also allow trailing commas in JSON objects and arrays.
-                      parseSupported = parse("1.") !== 1;
-                    } catch (exception) {}
-                  }
-                }
-              }
-            } catch (exception) {
-              parseSupported = false;
-            }
-          }
-          isSupported = parseSupported;
-        }
-      }
-      return has[name] = !!isSupported;
-    }
-
-    if (!has("json")) {
-      // Common `[[Class]]` name aliases.
-      var functionClass = "[object Function]",
-          dateClass = "[object Date]",
-          numberClass = "[object Number]",
-          stringClass = "[object String]",
-          arrayClass = "[object Array]",
-          booleanClass = "[object Boolean]";
-
-      // Detect incomplete support for accessing string characters by index.
-      var charIndexBuggy = has("bug-string-char-index");
-
-      // Define additional utility methods if the `Date` methods are buggy.
-      if (!isExtended) {
-        var floor = Math.floor;
-        // A mapping between the months of the year and the number of days between
-        // January 1st and the first of the respective month.
-        var Months = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-        // Internal: Calculates the number of days between the Unix epoch and the
-        // first day of the given month.
-        var getDay = function (year, month) {
-          return Months[month] + 365 * (year - 1970) + floor((year - 1969 + (month = +(month > 1))) / 4) - floor((year - 1901 + month) / 100) + floor((year - 1601 + month) / 400);
-        };
-      }
-
-      // Internal: Determines if a property is a direct property of the given
-      // object. Delegates to the native `Object#hasOwnProperty` method.
-      if (!(isProperty = objectProto.hasOwnProperty)) {
-        isProperty = function (property) {
-          var members = {}, constructor;
-          if ((members.__proto__ = null, members.__proto__ = {
-            // The *proto* property cannot be set multiple times in recent
-            // versions of Firefox and SeaMonkey.
-            "toString": 1
-          }, members).toString != getClass) {
-            // Safari <= 2.0.3 doesn't implement `Object#hasOwnProperty`, but
-            // supports the mutable *proto* property.
-            isProperty = function (property) {
-              // Capture and break the object's prototype chain (see section 8.6.2
-              // of the ES 5.1 spec). The parenthesized expression prevents an
-              // unsafe transformation by the Closure Compiler.
-              var original = this.__proto__, result = property in (this.__proto__ = null, this);
-              // Restore the original prototype chain.
-              this.__proto__ = original;
-              return result;
-            };
-          } else {
-            // Capture a reference to the top-level `Object` constructor.
-            constructor = members.constructor;
-            // Use the `constructor` property to simulate `Object#hasOwnProperty` in
-            // other environments.
-            isProperty = function (property) {
-              var parent = (this.constructor || constructor).prototype;
-              return property in this && !(property in parent && this[property] === parent[property]);
-            };
-          }
-          members = null;
-          return isProperty.call(this, property);
-        };
-      }
-
-      // Internal: Normalizes the `for...in` iteration algorithm across
-      // environments. Each enumerated key is yielded to a `callback` function.
-      forEach = function (object, callback) {
-        var size = 0, Properties, members, property;
-
-        // Tests for bugs in the current environment's `for...in` algorithm. The
-        // `valueOf` property inherits the non-enumerable flag from
-        // `Object.prototype` in older versions of IE, Netscape, and Mozilla.
-        (Properties = function () {
-          this.valueOf = 0;
-        }).prototype.valueOf = 0;
-
-        // Iterate over a new instance of the `Properties` class.
-        members = new Properties();
-        for (property in members) {
-          // Ignore all properties inherited from `Object.prototype`.
-          if (isProperty.call(members, property)) {
-            size++;
-          }
-        }
-        Properties = members = null;
-
-        // Normalize the iteration algorithm.
-        if (!size) {
-          // A list of non-enumerable properties inherited from `Object.prototype`.
-          members = ["valueOf", "toString", "toLocaleString", "propertyIsEnumerable", "isPrototypeOf", "hasOwnProperty", "constructor"];
-          // IE <= 8, Mozilla 1.0, and Netscape 6.2 ignore shadowed non-enumerable
-          // properties.
-          forEach = function (object, callback) {
-            var isFunction = getClass.call(object) == functionClass, property, length;
-            var hasProperty = !isFunction && typeof object.constructor != "function" && objectTypes[typeof object.hasOwnProperty] && object.hasOwnProperty || isProperty;
-            for (property in object) {
-              // Gecko <= 1.0 enumerates the `prototype` property of functions under
-              // certain conditions; IE does not.
-              if (!(isFunction && property == "prototype") && hasProperty.call(object, property)) {
-                callback(property);
-              }
-            }
-            // Manually invoke the callback for each non-enumerable property.
-            for (length = members.length; property = members[--length]; hasProperty.call(object, property) && callback(property));
-          };
-        } else if (size == 2) {
-          // Safari <= 2.0.4 enumerates shadowed properties twice.
-          forEach = function (object, callback) {
-            // Create a set of iterated properties.
-            var members = {}, isFunction = getClass.call(object) == functionClass, property;
-            for (property in object) {
-              // Store each property name to prevent double enumeration. The
-              // `prototype` property of functions is not enumerated due to cross-
-              // environment inconsistencies.
-              if (!(isFunction && property == "prototype") && !isProperty.call(members, property) && (members[property] = 1) && isProperty.call(object, property)) {
-                callback(property);
-              }
-            }
-          };
-        } else {
-          // No bugs detected; use the standard `for...in` algorithm.
-          forEach = function (object, callback) {
-            var isFunction = getClass.call(object) == functionClass, property, isConstructor;
-            for (property in object) {
-              if (!(isFunction && property == "prototype") && isProperty.call(object, property) && !(isConstructor = property === "constructor")) {
-                callback(property);
-              }
-            }
-            // Manually invoke the callback for the `constructor` property due to
-            // cross-environment inconsistencies.
-            if (isConstructor || isProperty.call(object, (property = "constructor"))) {
-              callback(property);
-            }
-          };
-        }
-        return forEach(object, callback);
-      };
-
-      // Public: Serializes a JavaScript `value` as a JSON string. The optional
-      // `filter` argument may specify either a function that alters how object and
-      // array members are serialized, or an array of strings and numbers that
-      // indicates which properties should be serialized. The optional `width`
-      // argument may be either a string or number that specifies the indentation
-      // level of the output.
-      if (!has("json-stringify")) {
-        // Internal: A map of control characters and their escaped equivalents.
-        var Escapes = {
-          92: "\\\\",
-          34: '\\"',
-          8: "\\b",
-          12: "\\f",
-          10: "\\n",
-          13: "\\r",
-          9: "\\t"
-        };
-
-        // Internal: Converts `value` into a zero-padded string such that its
-        // length is at least equal to `width`. The `width` must be <= 6.
-        var leadingZeroes = "000000";
-        var toPaddedString = function (width, value) {
-          // The `|| 0` expression is necessary to work around a bug in
-          // Opera <= 7.54u2 where `0 == -0`, but `String(-0) !== "0"`.
-          return (leadingZeroes + (value || 0)).slice(-width);
-        };
-
-        // Internal: Double-quotes a string `value`, replacing all ASCII control
-        // characters (characters with code unit values between 0 and 31) with
-        // their escaped equivalents. This is an implementation of the
-        // `Quote(value)` operation defined in ES 5.1 section 15.12.3.
-        var unicodePrefix = "\\u00";
-        var quote = function (value) {
-          var result = '"', index = 0, length = value.length, useCharIndex = !charIndexBuggy || length > 10;
-          var symbols = useCharIndex && (charIndexBuggy ? value.split("") : value);
-          for (; index < length; index++) {
-            var charCode = value.charCodeAt(index);
-            // If the character is a control character, append its Unicode or
-            // shorthand escape sequence; otherwise, append the character as-is.
-            switch (charCode) {
-              case 8: case 9: case 10: case 12: case 13: case 34: case 92:
-                result += Escapes[charCode];
-                break;
-              default:
-                if (charCode < 32) {
-                  result += unicodePrefix + toPaddedString(2, charCode.toString(16));
-                  break;
-                }
-                result += useCharIndex ? symbols[index] : value.charAt(index);
-            }
-          }
-          return result + '"';
-        };
-
-        // Internal: Recursively serializes an object. Implements the
-        // `Str(key, holder)`, `JO(value)`, and `JA(value)` operations.
-        var serialize = function (property, object, callback, properties, whitespace, indentation, stack) {
-          var value, className, year, month, date, time, hours, minutes, seconds, milliseconds, results, element, index, length, prefix, result;
-          try {
-            // Necessary for host object support.
-            value = object[property];
-          } catch (exception) {}
-          if (typeof value == "object" && value) {
-            className = getClass.call(value);
-            if (className == dateClass && !isProperty.call(value, "toJSON")) {
-              if (value > -1 / 0 && value < 1 / 0) {
-                // Dates are serialized according to the `Date#toJSON` method
-                // specified in ES 5.1 section 15.9.5.44. See section 15.9.1.15
-                // for the ISO 8601 date time string format.
-                if (getDay) {
-                  // Manually compute the year, month, date, hours, minutes,
-                  // seconds, and milliseconds if the `getUTC*` methods are
-                  // buggy. Adapted from @Yaffle's `date-shim` project.
-                  date = floor(value / 864e5);
-                  for (year = floor(date / 365.2425) + 1970 - 1; getDay(year + 1, 0) <= date; year++);
-                  for (month = floor((date - getDay(year, 0)) / 30.42); getDay(year, month + 1) <= date; month++);
-                  date = 1 + date - getDay(year, month);
-                  // The `time` value specifies the time within the day (see ES
-                  // 5.1 section 15.9.1.2). The formula `(A % B + B) % B` is used
-                  // to compute `A modulo B`, as the `%` operator does not
-                  // correspond to the `modulo` operation for negative numbers.
-                  time = (value % 864e5 + 864e5) % 864e5;
-                  // The hours, minutes, seconds, and milliseconds are obtained by
-                  // decomposing the time within the day. See section 15.9.1.10.
-                  hours = floor(time / 36e5) % 24;
-                  minutes = floor(time / 6e4) % 60;
-                  seconds = floor(time / 1e3) % 60;
-                  milliseconds = time % 1e3;
-                } else {
-                  year = value.getUTCFullYear();
-                  month = value.getUTCMonth();
-                  date = value.getUTCDate();
-                  hours = value.getUTCHours();
-                  minutes = value.getUTCMinutes();
-                  seconds = value.getUTCSeconds();
-                  milliseconds = value.getUTCMilliseconds();
-                }
-                // Serialize extended years correctly.
-                value = (year <= 0 || year >= 1e4 ? (year < 0 ? "-" : "+") + toPaddedString(6, year < 0 ? -year : year) : toPaddedString(4, year)) +
-                  "-" + toPaddedString(2, month + 1) + "-" + toPaddedString(2, date) +
-                  // Months, dates, hours, minutes, and seconds should have two
-                  // digits; milliseconds should have three.
-                  "T" + toPaddedString(2, hours) + ":" + toPaddedString(2, minutes) + ":" + toPaddedString(2, seconds) +
-                  // Milliseconds are optional in ES 5.0, but required in 5.1.
-                  "." + toPaddedString(3, milliseconds) + "Z";
-              } else {
-                value = null;
-              }
-            } else if (typeof value.toJSON == "function" && ((className != numberClass && className != stringClass && className != arrayClass) || isProperty.call(value, "toJSON"))) {
-              // Prototype <= 1.6.1 adds non-standard `toJSON` methods to the
-              // `Number`, `String`, `Date`, and `Array` prototypes. JSON 3
-              // ignores all `toJSON` methods on these objects unless they are
-              // defined directly on an instance.
-              value = value.toJSON(property);
-            }
-          }
-          if (callback) {
-            // If a replacement function was provided, call it to obtain the value
-            // for serialization.
-            value = callback.call(object, property, value);
-          }
-          if (value === null) {
-            return "null";
-          }
-          className = getClass.call(value);
-          if (className == booleanClass) {
-            // Booleans are represented literally.
-            return "" + value;
-          } else if (className == numberClass) {
-            // JSON numbers must be finite. `Infinity` and `NaN` are serialized as
-            // `"null"`.
-            return value > -1 / 0 && value < 1 / 0 ? "" + value : "null";
-          } else if (className == stringClass) {
-            // Strings are double-quoted and escaped.
-            return quote("" + value);
-          }
-          // Recursively serialize objects and arrays.
-          if (typeof value == "object") {
-            // Check for cyclic structures. This is a linear search; performance
-            // is inversely proportional to the number of unique nested objects.
-            for (length = stack.length; length--;) {
-              if (stack[length] === value) {
-                // Cyclic structures cannot be serialized by `JSON.stringify`.
-                throw TypeError();
-              }
-            }
-            // Add the object to the stack of traversed objects.
-            stack.push(value);
-            results = [];
-            // Save the current indentation level and indent one additional level.
-            prefix = indentation;
-            indentation += whitespace;
-            if (className == arrayClass) {
-              // Recursively serialize array elements.
-              for (index = 0, length = value.length; index < length; index++) {
-                element = serialize(index, value, callback, properties, whitespace, indentation, stack);
-                results.push(element === undef ? "null" : element);
-              }
-              result = results.length ? (whitespace ? "[\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "]" : ("[" + results.join(",") + "]")) : "[]";
-            } else {
-              // Recursively serialize object members. Members are selected from
-              // either a user-specified list of property names, or the object
-              // itself.
-              forEach(properties || value, function (property) {
-                var element = serialize(property, value, callback, properties, whitespace, indentation, stack);
-                if (element !== undef) {
-                  // According to ES 5.1 section 15.12.3: "If `gap` {whitespace}
-                  // is not the empty string, let `member` {quote(property) + ":"}
-                  // be the concatenation of `member` and the `space` character."
-                  // The "`space` character" refers to the literal space
-                  // character, not the `space` {width} argument provided to
-                  // `JSON.stringify`.
-                  results.push(quote(property) + ":" + (whitespace ? " " : "") + element);
-                }
-              });
-              result = results.length ? (whitespace ? "{\n" + indentation + results.join(",\n" + indentation) + "\n" + prefix + "}" : ("{" + results.join(",") + "}")) : "{}";
-            }
-            // Remove the object from the traversed object stack.
-            stack.pop();
-            return result;
-          }
-        };
-
-        // Public: `JSON.stringify`. See ES 5.1 section 15.12.3.
-        exports.stringify = function (source, filter, width) {
-          var whitespace, callback, properties, className;
-          if (objectTypes[typeof filter] && filter) {
-            if ((className = getClass.call(filter)) == functionClass) {
-              callback = filter;
-            } else if (className == arrayClass) {
-              // Convert the property names array into a makeshift set.
-              properties = {};
-              for (var index = 0, length = filter.length, value; index < length; value = filter[index++], ((className = getClass.call(value)), className == stringClass || className == numberClass) && (properties[value] = 1));
-            }
-          }
-          if (width) {
-            if ((className = getClass.call(width)) == numberClass) {
-              // Convert the `width` to an integer and create a string containing
-              // `width` number of space characters.
-              if ((width -= width % 1) > 0) {
-                for (whitespace = "", width > 10 && (width = 10); whitespace.length < width; whitespace += " ");
-              }
-            } else if (className == stringClass) {
-              whitespace = width.length <= 10 ? width : width.slice(0, 10);
-            }
-          }
-          // Opera <= 7.54u2 discards the values associated with empty string keys
-          // (`""`) only if they are used directly within an object member list
-          // (e.g., `!("" in { "": 1})`).
-          return serialize("", (value = {}, value[""] = source, value), callback, properties, whitespace, "", []);
-        };
-      }
-
-      // Public: Parses a JSON source string.
-      if (!has("json-parse")) {
-        var fromCharCode = String.fromCharCode;
-
-        // Internal: A map of escaped control characters and their unescaped
-        // equivalents.
-        var Unescapes = {
-          92: "\\",
-          34: '"',
-          47: "/",
-          98: "\b",
-          116: "\t",
-          110: "\n",
-          102: "\f",
-          114: "\r"
-        };
-
-        // Internal: Stores the parser state.
-        var Index, Source;
-
-        // Internal: Resets the parser state and throws a `SyntaxError`.
-        var abort = function () {
-          Index = Source = null;
-          throw SyntaxError();
-        };
-
-        // Internal: Returns the next token, or `"$"` if the parser has reached
-        // the end of the source string. A token may be a string, number, `null`
-        // literal, or Boolean literal.
-        var lex = function () {
-          var source = Source, length = source.length, value, begin, position, isSigned, charCode;
-          while (Index < length) {
-            charCode = source.charCodeAt(Index);
-            switch (charCode) {
-              case 9: case 10: case 13: case 32:
-                // Skip whitespace tokens, including tabs, carriage returns, line
-                // feeds, and space characters.
-                Index++;
-                break;
-              case 123: case 125: case 91: case 93: case 58: case 44:
-                // Parse a punctuator token (`{`, `}`, `[`, `]`, `:`, or `,`) at
-                // the current position.
-                value = charIndexBuggy ? source.charAt(Index) : source[Index];
-                Index++;
-                return value;
-              case 34:
-                // `"` delimits a JSON string; advance to the next character and
-                // begin parsing the string. String tokens are prefixed with the
-                // sentinel `@` character to distinguish them from punctuators and
-                // end-of-string tokens.
-                for (value = "@", Index++; Index < length;) {
-                  charCode = source.charCodeAt(Index);
-                  if (charCode < 32) {
-                    // Unescaped ASCII control characters (those with a code unit
-                    // less than the space character) are not permitted.
-                    abort();
-                  } else if (charCode == 92) {
-                    // A reverse solidus (`\`) marks the beginning of an escaped
-                    // control character (including `"`, `\`, and `/`) or Unicode
-                    // escape sequence.
-                    charCode = source.charCodeAt(++Index);
-                    switch (charCode) {
-                      case 92: case 34: case 47: case 98: case 116: case 110: case 102: case 114:
-                        // Revive escaped control characters.
-                        value += Unescapes[charCode];
-                        Index++;
-                        break;
-                      case 117:
-                        // `\u` marks the beginning of a Unicode escape sequence.
-                        // Advance to the first character and validate the
-                        // four-digit code point.
-                        begin = ++Index;
-                        for (position = Index + 4; Index < position; Index++) {
-                          charCode = source.charCodeAt(Index);
-                          // A valid sequence comprises four hexdigits (case-
-                          // insensitive) that form a single hexadecimal value.
-                          if (!(charCode >= 48 && charCode <= 57 || charCode >= 97 && charCode <= 102 || charCode >= 65 && charCode <= 70)) {
-                            // Invalid Unicode escape sequence.
-                            abort();
-                          }
-                        }
-                        // Revive the escaped character.
-                        value += fromCharCode("0x" + source.slice(begin, Index));
-                        break;
-                      default:
-                        // Invalid escape sequence.
-                        abort();
-                    }
-                  } else {
-                    if (charCode == 34) {
-                      // An unescaped double-quote character marks the end of the
-                      // string.
-                      break;
-                    }
-                    charCode = source.charCodeAt(Index);
-                    begin = Index;
-                    // Optimize for the common case where a string is valid.
-                    while (charCode >= 32 && charCode != 92 && charCode != 34) {
-                      charCode = source.charCodeAt(++Index);
-                    }
-                    // Append the string as-is.
-                    value += source.slice(begin, Index);
-                  }
-                }
-                if (source.charCodeAt(Index) == 34) {
-                  // Advance to the next character and return the revived string.
-                  Index++;
-                  return value;
-                }
-                // Unterminated string.
-                abort();
-              default:
-                // Parse numbers and literals.
-                begin = Index;
-                // Advance past the negative sign, if one is specified.
-                if (charCode == 45) {
-                  isSigned = true;
-                  charCode = source.charCodeAt(++Index);
-                }
-                // Parse an integer or floating-point value.
-                if (charCode >= 48 && charCode <= 57) {
-                  // Leading zeroes are interpreted as octal literals.
-                  if (charCode == 48 && ((charCode = source.charCodeAt(Index + 1)), charCode >= 48 && charCode <= 57)) {
-                    // Illegal octal literal.
-                    abort();
-                  }
-                  isSigned = false;
-                  // Parse the integer component.
-                  for (; Index < length && ((charCode = source.charCodeAt(Index)), charCode >= 48 && charCode <= 57); Index++);
-                  // Floats cannot contain a leading decimal point; however, this
-                  // case is already accounted for by the parser.
-                  if (source.charCodeAt(Index) == 46) {
-                    position = ++Index;
-                    // Parse the decimal component.
-                    for (; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                    if (position == Index) {
-                      // Illegal trailing decimal.
-                      abort();
-                    }
-                    Index = position;
-                  }
-                  // Parse exponents. The `e` denoting the exponent is
-                  // case-insensitive.
-                  charCode = source.charCodeAt(Index);
-                  if (charCode == 101 || charCode == 69) {
-                    charCode = source.charCodeAt(++Index);
-                    // Skip past the sign following the exponent, if one is
-                    // specified.
-                    if (charCode == 43 || charCode == 45) {
-                      Index++;
-                    }
-                    // Parse the exponential component.
-                    for (position = Index; position < length && ((charCode = source.charCodeAt(position)), charCode >= 48 && charCode <= 57); position++);
-                    if (position == Index) {
-                      // Illegal empty exponent.
-                      abort();
-                    }
-                    Index = position;
-                  }
-                  // Coerce the parsed value to a JavaScript number.
-                  return +source.slice(begin, Index);
-                }
-                // A negative sign may only precede numbers.
-                if (isSigned) {
-                  abort();
-                }
-                // `true`, `false`, and `null` literals.
-                if (source.slice(Index, Index + 4) == "true") {
-                  Index += 4;
-                  return true;
-                } else if (source.slice(Index, Index + 5) == "false") {
-                  Index += 5;
-                  return false;
-                } else if (source.slice(Index, Index + 4) == "null") {
-                  Index += 4;
-                  return null;
-                }
-                // Unrecognized token.
-                abort();
-            }
-          }
-          // Return the sentinel `$` character if the parser has reached the end
-          // of the source string.
-          return "$";
-        };
-
-        // Internal: Parses a JSON `value` token.
-        var get = function (value) {
-          var results, hasMembers;
-          if (value == "$") {
-            // Unexpected end of input.
-            abort();
-          }
-          if (typeof value == "string") {
-            if ((charIndexBuggy ? value.charAt(0) : value[0]) == "@") {
-              // Remove the sentinel `@` character.
-              return value.slice(1);
-            }
-            // Parse object and array literals.
-            if (value == "[") {
-              // Parses a JSON array, returning a new JavaScript array.
-              results = [];
-              for (;; hasMembers || (hasMembers = true)) {
-                value = lex();
-                // A closing square bracket marks the end of the array literal.
-                if (value == "]") {
-                  break;
-                }
-                // If the array literal contains elements, the current token
-                // should be a comma separating the previous element from the
-                // next.
-                if (hasMembers) {
-                  if (value == ",") {
-                    value = lex();
-                    if (value == "]") {
-                      // Unexpected trailing `,` in array literal.
-                      abort();
-                    }
-                  } else {
-                    // A `,` must separate each array element.
-                    abort();
-                  }
-                }
-                // Elisions and leading commas are not permitted.
-                if (value == ",") {
-                  abort();
-                }
-                results.push(get(value));
-              }
-              return results;
-            } else if (value == "{") {
-              // Parses a JSON object, returning a new JavaScript object.
-              results = {};
-              for (;; hasMembers || (hasMembers = true)) {
-                value = lex();
-                // A closing curly brace marks the end of the object literal.
-                if (value == "}") {
-                  break;
-                }
-                // If the object literal contains members, the current token
-                // should be a comma separator.
-                if (hasMembers) {
-                  if (value == ",") {
-                    value = lex();
-                    if (value == "}") {
-                      // Unexpected trailing `,` in object literal.
-                      abort();
-                    }
-                  } else {
-                    // A `,` must separate each object member.
-                    abort();
-                  }
-                }
-                // Leading commas are not permitted, object property names must be
-                // double-quoted strings, and a `:` must separate each property
-                // name and value.
-                if (value == "," || typeof value != "string" || (charIndexBuggy ? value.charAt(0) : value[0]) != "@" || lex() != ":") {
-                  abort();
-                }
-                results[value.slice(1)] = get(lex());
-              }
-              return results;
-            }
-            // Unexpected token encountered.
-            abort();
-          }
-          return value;
-        };
-
-        // Internal: Updates a traversed object member.
-        var update = function (source, property, callback) {
-          var element = walk(source, property, callback);
-          if (element === undef) {
-            delete source[property];
-          } else {
-            source[property] = element;
-          }
-        };
-
-        // Internal: Recursively traverses a parsed JSON object, invoking the
-        // `callback` function for each value. This is an implementation of the
-        // `Walk(holder, name)` operation defined in ES 5.1 section 15.12.2.
-        var walk = function (source, property, callback) {
-          var value = source[property], length;
-          if (typeof value == "object" && value) {
-            // `forEach` can't be used to traverse an array in Opera <= 8.54
-            // because its `Object#hasOwnProperty` implementation returns `false`
-            // for array indices (e.g., `![1, 2, 3].hasOwnProperty("0")`).
-            if (getClass.call(value) == arrayClass) {
-              for (length = value.length; length--;) {
-                update(value, length, callback);
-              }
-            } else {
-              forEach(value, function (property) {
-                update(value, property, callback);
-              });
-            }
-          }
-          return callback.call(source, property, value);
-        };
-
-        // Public: `JSON.parse`. See ES 5.1 section 15.12.2.
-        exports.parse = function (source, callback) {
-          var result, value;
-          Index = 0;
-          Source = "" + source;
-          result = get(lex());
-          // If a JSON string contains multiple tokens, it is invalid.
-          if (lex() != "$") {
-            abort();
-          }
-          // Reset the parser state.
-          Index = Source = null;
-          return callback && getClass.call(callback) == functionClass ? walk((value = {}, value[""] = result, value), "", callback) : result;
-        };
-      }
-    }
-
-    exports["runInContext"] = runInContext;
-    return exports;
-  }
-
-  if (freeExports && !isLoader) {
-    // Export for CommonJS environments.
-    runInContext(root, freeExports);
-  } else {
-    // Export for web browsers and JavaScript engines.
-    var nativeJSON = root.JSON,
-        previousJSON = root["JSON3"],
-        isRestored = false;
-
-    var JSON3 = runInContext(root, (root["JSON3"] = {
-      // Public: Restores the original value of the global `JSON` object and
-      // returns a reference to the `JSON3` object.
-      "noConflict": function () {
-        if (!isRestored) {
-          isRestored = true;
-          root.JSON = nativeJSON;
-          root["JSON3"] = previousJSON;
-          nativeJSON = previousJSON = null;
-        }
-        return JSON3;
-      }
-    }));
-
-    root.JSON = {
-      "parse": JSON3.parse,
-      "stringify": JSON3.stringify
-    };
-  }
-
-  // Export for asynchronous module loaders.
-  if (isLoader) {
-    define(function () {
-      return JSON3;
-    });
-  }
-}).call(this);
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],56:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -34073,7 +33638,7 @@ var DataView = getNative(root, 'DataView');
 
 module.exports = DataView;
 
-},{"./_getNative":115,"./_root":154}],57:[function(require,module,exports){
+},{"./_getNative":114,"./_root":153}],56:[function(require,module,exports){
 var hashClear = require('./_hashClear'),
     hashDelete = require('./_hashDelete'),
     hashGet = require('./_hashGet'),
@@ -34107,7 +33672,7 @@ Hash.prototype.set = hashSet;
 
 module.exports = Hash;
 
-},{"./_hashClear":123,"./_hashDelete":124,"./_hashGet":125,"./_hashHas":126,"./_hashSet":127}],58:[function(require,module,exports){
+},{"./_hashClear":122,"./_hashDelete":123,"./_hashGet":124,"./_hashHas":125,"./_hashSet":126}],57:[function(require,module,exports){
 var listCacheClear = require('./_listCacheClear'),
     listCacheDelete = require('./_listCacheDelete'),
     listCacheGet = require('./_listCacheGet'),
@@ -34141,7 +33706,7 @@ ListCache.prototype.set = listCacheSet;
 
 module.exports = ListCache;
 
-},{"./_listCacheClear":136,"./_listCacheDelete":137,"./_listCacheGet":138,"./_listCacheHas":139,"./_listCacheSet":140}],59:[function(require,module,exports){
+},{"./_listCacheClear":135,"./_listCacheDelete":136,"./_listCacheGet":137,"./_listCacheHas":138,"./_listCacheSet":139}],58:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -34150,7 +33715,7 @@ var Map = getNative(root, 'Map');
 
 module.exports = Map;
 
-},{"./_getNative":115,"./_root":154}],60:[function(require,module,exports){
+},{"./_getNative":114,"./_root":153}],59:[function(require,module,exports){
 var mapCacheClear = require('./_mapCacheClear'),
     mapCacheDelete = require('./_mapCacheDelete'),
     mapCacheGet = require('./_mapCacheGet'),
@@ -34184,7 +33749,7 @@ MapCache.prototype.set = mapCacheSet;
 
 module.exports = MapCache;
 
-},{"./_mapCacheClear":141,"./_mapCacheDelete":142,"./_mapCacheGet":143,"./_mapCacheHas":144,"./_mapCacheSet":145}],61:[function(require,module,exports){
+},{"./_mapCacheClear":140,"./_mapCacheDelete":141,"./_mapCacheGet":142,"./_mapCacheHas":143,"./_mapCacheSet":144}],60:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -34193,7 +33758,7 @@ var Promise = getNative(root, 'Promise');
 
 module.exports = Promise;
 
-},{"./_getNative":115,"./_root":154}],62:[function(require,module,exports){
+},{"./_getNative":114,"./_root":153}],61:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -34202,7 +33767,7 @@ var Set = getNative(root, 'Set');
 
 module.exports = Set;
 
-},{"./_getNative":115,"./_root":154}],63:[function(require,module,exports){
+},{"./_getNative":114,"./_root":153}],62:[function(require,module,exports){
 var MapCache = require('./_MapCache'),
     setCacheAdd = require('./_setCacheAdd'),
     setCacheHas = require('./_setCacheHas');
@@ -34231,7 +33796,7 @@ SetCache.prototype.has = setCacheHas;
 
 module.exports = SetCache;
 
-},{"./_MapCache":60,"./_setCacheAdd":155,"./_setCacheHas":156}],64:[function(require,module,exports){
+},{"./_MapCache":59,"./_setCacheAdd":154,"./_setCacheHas":155}],63:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     stackClear = require('./_stackClear'),
     stackDelete = require('./_stackDelete'),
@@ -34260,7 +33825,7 @@ Stack.prototype.set = stackSet;
 
 module.exports = Stack;
 
-},{"./_ListCache":58,"./_stackClear":158,"./_stackDelete":159,"./_stackGet":160,"./_stackHas":161,"./_stackSet":162}],65:[function(require,module,exports){
+},{"./_ListCache":57,"./_stackClear":157,"./_stackDelete":158,"./_stackGet":159,"./_stackHas":160,"./_stackSet":161}],64:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -34268,7 +33833,7 @@ var Symbol = root.Symbol;
 
 module.exports = Symbol;
 
-},{"./_root":154}],66:[function(require,module,exports){
+},{"./_root":153}],65:[function(require,module,exports){
 var root = require('./_root');
 
 /** Built-in value references. */
@@ -34276,7 +33841,7 @@ var Uint8Array = root.Uint8Array;
 
 module.exports = Uint8Array;
 
-},{"./_root":154}],67:[function(require,module,exports){
+},{"./_root":153}],66:[function(require,module,exports){
 var getNative = require('./_getNative'),
     root = require('./_root');
 
@@ -34285,7 +33850,7 @@ var WeakMap = getNative(root, 'WeakMap');
 
 module.exports = WeakMap;
 
-},{"./_getNative":115,"./_root":154}],68:[function(require,module,exports){
+},{"./_getNative":114,"./_root":153}],67:[function(require,module,exports){
 /**
  * A specialized version of `_.filter` for arrays without support for
  * iteratee shorthands.
@@ -34312,7 +33877,7 @@ function arrayFilter(array, predicate) {
 
 module.exports = arrayFilter;
 
-},{}],69:[function(require,module,exports){
+},{}],68:[function(require,module,exports){
 var baseTimes = require('./_baseTimes'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -34363,7 +33928,7 @@ function arrayLikeKeys(value, inherited) {
 
 module.exports = arrayLikeKeys;
 
-},{"./_baseTimes":96,"./_isIndex":128,"./isArguments":172,"./isArray":173,"./isBuffer":175,"./isTypedArray":184}],70:[function(require,module,exports){
+},{"./_baseTimes":95,"./_isIndex":127,"./isArguments":171,"./isArray":172,"./isBuffer":174,"./isTypedArray":183}],69:[function(require,module,exports){
 /**
  * A specialized version of `_.map` for arrays without support for iteratee
  * shorthands.
@@ -34386,7 +33951,7 @@ function arrayMap(array, iteratee) {
 
 module.exports = arrayMap;
 
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 /**
  * Appends the elements of `values` to `array`.
  *
@@ -34408,7 +33973,7 @@ function arrayPush(array, values) {
 
 module.exports = arrayPush;
 
-},{}],72:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 /**
  * A specialized version of `_.some` for arrays without support for iteratee
  * shorthands.
@@ -34433,7 +33998,7 @@ function arraySome(array, predicate) {
 
 module.exports = arraySome;
 
-},{}],73:[function(require,module,exports){
+},{}],72:[function(require,module,exports){
 /**
  * Converts an ASCII `string` to an array.
  *
@@ -34447,7 +34012,7 @@ function asciiToArray(string) {
 
 module.exports = asciiToArray;
 
-},{}],74:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 var eq = require('./eq');
 
 /**
@@ -34470,7 +34035,7 @@ function assocIndexOf(array, key) {
 
 module.exports = assocIndexOf;
 
-},{"./eq":168}],75:[function(require,module,exports){
+},{"./eq":167}],74:[function(require,module,exports){
 var baseForOwn = require('./_baseForOwn'),
     createBaseEach = require('./_createBaseEach');
 
@@ -34486,7 +34051,7 @@ var baseEach = createBaseEach(baseForOwn);
 
 module.exports = baseEach;
 
-},{"./_baseForOwn":77,"./_createBaseEach":105}],76:[function(require,module,exports){
+},{"./_baseForOwn":76,"./_createBaseEach":104}],75:[function(require,module,exports){
 var createBaseFor = require('./_createBaseFor');
 
 /**
@@ -34504,7 +34069,7 @@ var baseFor = createBaseFor();
 
 module.exports = baseFor;
 
-},{"./_createBaseFor":106}],77:[function(require,module,exports){
+},{"./_createBaseFor":105}],76:[function(require,module,exports){
 var baseFor = require('./_baseFor'),
     keys = require('./keys');
 
@@ -34522,7 +34087,7 @@ function baseForOwn(object, iteratee) {
 
 module.exports = baseForOwn;
 
-},{"./_baseFor":76,"./keys":185}],78:[function(require,module,exports){
+},{"./_baseFor":75,"./keys":184}],77:[function(require,module,exports){
 var castPath = require('./_castPath'),
     toKey = require('./_toKey');
 
@@ -34548,7 +34113,7 @@ function baseGet(object, path) {
 
 module.exports = baseGet;
 
-},{"./_castPath":101,"./_toKey":165}],79:[function(require,module,exports){
+},{"./_castPath":100,"./_toKey":164}],78:[function(require,module,exports){
 var arrayPush = require('./_arrayPush'),
     isArray = require('./isArray');
 
@@ -34570,7 +34135,7 @@ function baseGetAllKeys(object, keysFunc, symbolsFunc) {
 
 module.exports = baseGetAllKeys;
 
-},{"./_arrayPush":71,"./isArray":173}],80:[function(require,module,exports){
+},{"./_arrayPush":70,"./isArray":172}],79:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     getRawTag = require('./_getRawTag'),
     objectToString = require('./_objectToString');
@@ -34600,7 +34165,7 @@ function baseGetTag(value) {
 
 module.exports = baseGetTag;
 
-},{"./_Symbol":65,"./_getRawTag":117,"./_objectToString":152}],81:[function(require,module,exports){
+},{"./_Symbol":64,"./_getRawTag":116,"./_objectToString":151}],80:[function(require,module,exports){
 /**
  * The base implementation of `_.hasIn` without support for deep paths.
  *
@@ -34615,7 +34180,7 @@ function baseHasIn(object, key) {
 
 module.exports = baseHasIn;
 
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -34635,7 +34200,7 @@ function baseIsArguments(value) {
 
 module.exports = baseIsArguments;
 
-},{"./_baseGetTag":80,"./isObjectLike":180}],83:[function(require,module,exports){
+},{"./_baseGetTag":79,"./isObjectLike":179}],82:[function(require,module,exports){
 var baseIsEqualDeep = require('./_baseIsEqualDeep'),
     isObjectLike = require('./isObjectLike');
 
@@ -34665,7 +34230,7 @@ function baseIsEqual(value, other, bitmask, customizer, stack) {
 
 module.exports = baseIsEqual;
 
-},{"./_baseIsEqualDeep":84,"./isObjectLike":180}],84:[function(require,module,exports){
+},{"./_baseIsEqualDeep":83,"./isObjectLike":179}],83:[function(require,module,exports){
 var Stack = require('./_Stack'),
     equalArrays = require('./_equalArrays'),
     equalByTag = require('./_equalByTag'),
@@ -34750,7 +34315,7 @@ function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = baseIsEqualDeep;
 
-},{"./_Stack":64,"./_equalArrays":108,"./_equalByTag":109,"./_equalObjects":110,"./_getTag":119,"./isArray":173,"./isBuffer":175,"./isTypedArray":184}],85:[function(require,module,exports){
+},{"./_Stack":63,"./_equalArrays":107,"./_equalByTag":108,"./_equalObjects":109,"./_getTag":118,"./isArray":172,"./isBuffer":174,"./isTypedArray":183}],84:[function(require,module,exports){
 var Stack = require('./_Stack'),
     baseIsEqual = require('./_baseIsEqual');
 
@@ -34814,7 +34379,7 @@ function baseIsMatch(object, source, matchData, customizer) {
 
 module.exports = baseIsMatch;
 
-},{"./_Stack":64,"./_baseIsEqual":83}],86:[function(require,module,exports){
+},{"./_Stack":63,"./_baseIsEqual":82}],85:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isMasked = require('./_isMasked'),
     isObject = require('./isObject'),
@@ -34863,7 +34428,7 @@ function baseIsNative(value) {
 
 module.exports = baseIsNative;
 
-},{"./_isMasked":132,"./_toSource":166,"./isFunction":176,"./isObject":179}],87:[function(require,module,exports){
+},{"./_isMasked":131,"./_toSource":165,"./isFunction":175,"./isObject":178}],86:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isLength = require('./isLength'),
     isObjectLike = require('./isObjectLike');
@@ -34925,7 +34490,7 @@ function baseIsTypedArray(value) {
 
 module.exports = baseIsTypedArray;
 
-},{"./_baseGetTag":80,"./isLength":178,"./isObjectLike":180}],88:[function(require,module,exports){
+},{"./_baseGetTag":79,"./isLength":177,"./isObjectLike":179}],87:[function(require,module,exports){
 var baseMatches = require('./_baseMatches'),
     baseMatchesProperty = require('./_baseMatchesProperty'),
     identity = require('./identity'),
@@ -34958,7 +34523,7 @@ function baseIteratee(value) {
 
 module.exports = baseIteratee;
 
-},{"./_baseMatches":90,"./_baseMatchesProperty":91,"./identity":171,"./isArray":173,"./property":188}],89:[function(require,module,exports){
+},{"./_baseMatches":89,"./_baseMatchesProperty":90,"./identity":170,"./isArray":172,"./property":187}],88:[function(require,module,exports){
 var isPrototype = require('./_isPrototype'),
     nativeKeys = require('./_nativeKeys');
 
@@ -34990,7 +34555,7 @@ function baseKeys(object) {
 
 module.exports = baseKeys;
 
-},{"./_isPrototype":133,"./_nativeKeys":150}],90:[function(require,module,exports){
+},{"./_isPrototype":132,"./_nativeKeys":149}],89:[function(require,module,exports){
 var baseIsMatch = require('./_baseIsMatch'),
     getMatchData = require('./_getMatchData'),
     matchesStrictComparable = require('./_matchesStrictComparable');
@@ -35014,7 +34579,7 @@ function baseMatches(source) {
 
 module.exports = baseMatches;
 
-},{"./_baseIsMatch":85,"./_getMatchData":114,"./_matchesStrictComparable":147}],91:[function(require,module,exports){
+},{"./_baseIsMatch":84,"./_getMatchData":113,"./_matchesStrictComparable":146}],90:[function(require,module,exports){
 var baseIsEqual = require('./_baseIsEqual'),
     get = require('./get'),
     hasIn = require('./hasIn'),
@@ -35049,7 +34614,7 @@ function baseMatchesProperty(path, srcValue) {
 
 module.exports = baseMatchesProperty;
 
-},{"./_baseIsEqual":83,"./_isKey":130,"./_isStrictComparable":134,"./_matchesStrictComparable":147,"./_toKey":165,"./get":169,"./hasIn":170}],92:[function(require,module,exports){
+},{"./_baseIsEqual":82,"./_isKey":129,"./_isStrictComparable":133,"./_matchesStrictComparable":146,"./_toKey":164,"./get":168,"./hasIn":169}],91:[function(require,module,exports){
 /**
  * The base implementation of `_.property` without support for deep paths.
  *
@@ -35065,7 +34630,7 @@ function baseProperty(key) {
 
 module.exports = baseProperty;
 
-},{}],93:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -35083,7 +34648,7 @@ function basePropertyDeep(path) {
 
 module.exports = basePropertyDeep;
 
-},{"./_baseGet":78}],94:[function(require,module,exports){
+},{"./_baseGet":77}],93:[function(require,module,exports){
 /**
  * The base implementation of `_.slice` without an iteratee call guard.
  *
@@ -35116,7 +34681,7 @@ function baseSlice(array, start, end) {
 
 module.exports = baseSlice;
 
-},{}],95:[function(require,module,exports){
+},{}],94:[function(require,module,exports){
 var baseEach = require('./_baseEach');
 
 /**
@@ -35140,7 +34705,7 @@ function baseSome(collection, predicate) {
 
 module.exports = baseSome;
 
-},{"./_baseEach":75}],96:[function(require,module,exports){
+},{"./_baseEach":74}],95:[function(require,module,exports){
 /**
  * The base implementation of `_.times` without support for iteratee shorthands
  * or max array length checks.
@@ -35162,7 +34727,7 @@ function baseTimes(n, iteratee) {
 
 module.exports = baseTimes;
 
-},{}],97:[function(require,module,exports){
+},{}],96:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     arrayMap = require('./_arrayMap'),
     isArray = require('./isArray'),
@@ -35201,7 +34766,7 @@ function baseToString(value) {
 
 module.exports = baseToString;
 
-},{"./_Symbol":65,"./_arrayMap":70,"./isArray":173,"./isSymbol":183}],98:[function(require,module,exports){
+},{"./_Symbol":64,"./_arrayMap":69,"./isArray":172,"./isSymbol":182}],97:[function(require,module,exports){
 /**
  * The base implementation of `_.unary` without support for storing metadata.
  *
@@ -35217,7 +34782,7 @@ function baseUnary(func) {
 
 module.exports = baseUnary;
 
-},{}],99:[function(require,module,exports){
+},{}],98:[function(require,module,exports){
 var arrayMap = require('./_arrayMap');
 
 /**
@@ -35238,7 +34803,7 @@ function baseValues(object, props) {
 
 module.exports = baseValues;
 
-},{"./_arrayMap":70}],100:[function(require,module,exports){
+},{"./_arrayMap":69}],99:[function(require,module,exports){
 /**
  * Checks if a `cache` value for `key` exists.
  *
@@ -35253,7 +34818,7 @@ function cacheHas(cache, key) {
 
 module.exports = cacheHas;
 
-},{}],101:[function(require,module,exports){
+},{}],100:[function(require,module,exports){
 var isArray = require('./isArray'),
     isKey = require('./_isKey'),
     stringToPath = require('./_stringToPath'),
@@ -35276,7 +34841,7 @@ function castPath(value, object) {
 
 module.exports = castPath;
 
-},{"./_isKey":130,"./_stringToPath":164,"./isArray":173,"./toString":196}],102:[function(require,module,exports){
+},{"./_isKey":129,"./_stringToPath":163,"./isArray":172,"./toString":195}],101:[function(require,module,exports){
 var baseSlice = require('./_baseSlice');
 
 /**
@@ -35296,7 +34861,7 @@ function castSlice(array, start, end) {
 
 module.exports = castSlice;
 
-},{"./_baseSlice":94}],103:[function(require,module,exports){
+},{"./_baseSlice":93}],102:[function(require,module,exports){
 /**
  * Copies the values of `source` to `array`.
  *
@@ -35318,7 +34883,7 @@ function copyArray(source, array) {
 
 module.exports = copyArray;
 
-},{}],104:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 var root = require('./_root');
 
 /** Used to detect overreaching core-js shims. */
@@ -35326,7 +34891,7 @@ var coreJsData = root['__core-js_shared__'];
 
 module.exports = coreJsData;
 
-},{"./_root":154}],105:[function(require,module,exports){
+},{"./_root":153}],104:[function(require,module,exports){
 var isArrayLike = require('./isArrayLike');
 
 /**
@@ -35360,7 +34925,7 @@ function createBaseEach(eachFunc, fromRight) {
 
 module.exports = createBaseEach;
 
-},{"./isArrayLike":174}],106:[function(require,module,exports){
+},{"./isArrayLike":173}],105:[function(require,module,exports){
 /**
  * Creates a base function for methods like `_.forIn` and `_.forOwn`.
  *
@@ -35387,7 +34952,7 @@ function createBaseFor(fromRight) {
 
 module.exports = createBaseFor;
 
-},{}],107:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 var castSlice = require('./_castSlice'),
     hasUnicode = require('./_hasUnicode'),
     stringToArray = require('./_stringToArray'),
@@ -35422,7 +34987,7 @@ function createCaseFirst(methodName) {
 
 module.exports = createCaseFirst;
 
-},{"./_castSlice":102,"./_hasUnicode":122,"./_stringToArray":163,"./toString":196}],108:[function(require,module,exports){
+},{"./_castSlice":101,"./_hasUnicode":121,"./_stringToArray":162,"./toString":195}],107:[function(require,module,exports){
 var SetCache = require('./_SetCache'),
     arraySome = require('./_arraySome'),
     cacheHas = require('./_cacheHas');
@@ -35507,7 +35072,7 @@ function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalArrays;
 
-},{"./_SetCache":63,"./_arraySome":72,"./_cacheHas":100}],109:[function(require,module,exports){
+},{"./_SetCache":62,"./_arraySome":71,"./_cacheHas":99}],108:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     Uint8Array = require('./_Uint8Array'),
     eq = require('./eq'),
@@ -35621,7 +35186,7 @@ function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalByTag;
 
-},{"./_Symbol":65,"./_Uint8Array":66,"./_equalArrays":108,"./_mapToArray":146,"./_setToArray":157,"./eq":168}],110:[function(require,module,exports){
+},{"./_Symbol":64,"./_Uint8Array":65,"./_equalArrays":107,"./_mapToArray":145,"./_setToArray":156,"./eq":167}],109:[function(require,module,exports){
 var getAllKeys = require('./_getAllKeys');
 
 /** Used to compose bitmasks for value comparisons. */
@@ -35712,7 +35277,7 @@ function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
 
 module.exports = equalObjects;
 
-},{"./_getAllKeys":112}],111:[function(require,module,exports){
+},{"./_getAllKeys":111}],110:[function(require,module,exports){
 (function (global){
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -35720,7 +35285,7 @@ var freeGlobal = typeof global == 'object' && global && global.Object === Object
 module.exports = freeGlobal;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],112:[function(require,module,exports){
+},{}],111:[function(require,module,exports){
 var baseGetAllKeys = require('./_baseGetAllKeys'),
     getSymbols = require('./_getSymbols'),
     keys = require('./keys');
@@ -35738,7 +35303,7 @@ function getAllKeys(object) {
 
 module.exports = getAllKeys;
 
-},{"./_baseGetAllKeys":79,"./_getSymbols":118,"./keys":185}],113:[function(require,module,exports){
+},{"./_baseGetAllKeys":78,"./_getSymbols":117,"./keys":184}],112:[function(require,module,exports){
 var isKeyable = require('./_isKeyable');
 
 /**
@@ -35758,7 +35323,7 @@ function getMapData(map, key) {
 
 module.exports = getMapData;
 
-},{"./_isKeyable":131}],114:[function(require,module,exports){
+},{"./_isKeyable":130}],113:[function(require,module,exports){
 var isStrictComparable = require('./_isStrictComparable'),
     keys = require('./keys');
 
@@ -35784,7 +35349,7 @@ function getMatchData(object) {
 
 module.exports = getMatchData;
 
-},{"./_isStrictComparable":134,"./keys":185}],115:[function(require,module,exports){
+},{"./_isStrictComparable":133,"./keys":184}],114:[function(require,module,exports){
 var baseIsNative = require('./_baseIsNative'),
     getValue = require('./_getValue');
 
@@ -35803,7 +35368,7 @@ function getNative(object, key) {
 
 module.exports = getNative;
 
-},{"./_baseIsNative":86,"./_getValue":120}],116:[function(require,module,exports){
+},{"./_baseIsNative":85,"./_getValue":119}],115:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /** Built-in value references. */
@@ -35811,7 +35376,7 @@ var getPrototype = overArg(Object.getPrototypeOf, Object);
 
 module.exports = getPrototype;
 
-},{"./_overArg":153}],117:[function(require,module,exports){
+},{"./_overArg":152}],116:[function(require,module,exports){
 var Symbol = require('./_Symbol');
 
 /** Used for built-in method references. */
@@ -35859,7 +35424,7 @@ function getRawTag(value) {
 
 module.exports = getRawTag;
 
-},{"./_Symbol":65}],118:[function(require,module,exports){
+},{"./_Symbol":64}],117:[function(require,module,exports){
 var arrayFilter = require('./_arrayFilter'),
     stubArray = require('./stubArray');
 
@@ -35891,7 +35456,7 @@ var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
 
 module.exports = getSymbols;
 
-},{"./_arrayFilter":68,"./stubArray":190}],119:[function(require,module,exports){
+},{"./_arrayFilter":67,"./stubArray":189}],118:[function(require,module,exports){
 var DataView = require('./_DataView'),
     Map = require('./_Map'),
     Promise = require('./_Promise'),
@@ -35951,7 +35516,7 @@ if ((DataView && getTag(new DataView(new ArrayBuffer(1))) != dataViewTag) ||
 
 module.exports = getTag;
 
-},{"./_DataView":56,"./_Map":59,"./_Promise":61,"./_Set":62,"./_WeakMap":67,"./_baseGetTag":80,"./_toSource":166}],120:[function(require,module,exports){
+},{"./_DataView":55,"./_Map":58,"./_Promise":60,"./_Set":61,"./_WeakMap":66,"./_baseGetTag":79,"./_toSource":165}],119:[function(require,module,exports){
 /**
  * Gets the value at `key` of `object`.
  *
@@ -35966,7 +35531,7 @@ function getValue(object, key) {
 
 module.exports = getValue;
 
-},{}],121:[function(require,module,exports){
+},{}],120:[function(require,module,exports){
 var castPath = require('./_castPath'),
     isArguments = require('./isArguments'),
     isArray = require('./isArray'),
@@ -36007,7 +35572,7 @@ function hasPath(object, path, hasFunc) {
 
 module.exports = hasPath;
 
-},{"./_castPath":101,"./_isIndex":128,"./_toKey":165,"./isArguments":172,"./isArray":173,"./isLength":178}],122:[function(require,module,exports){
+},{"./_castPath":100,"./_isIndex":127,"./_toKey":164,"./isArguments":171,"./isArray":172,"./isLength":177}],121:[function(require,module,exports){
 /** Used to compose unicode character classes. */
 var rsAstralRange = '\\ud800-\\udfff',
     rsComboMarksRange = '\\u0300-\\u036f',
@@ -36035,7 +35600,7 @@ function hasUnicode(string) {
 
 module.exports = hasUnicode;
 
-},{}],123:[function(require,module,exports){
+},{}],122:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /**
@@ -36052,7 +35617,7 @@ function hashClear() {
 
 module.exports = hashClear;
 
-},{"./_nativeCreate":149}],124:[function(require,module,exports){
+},{"./_nativeCreate":148}],123:[function(require,module,exports){
 /**
  * Removes `key` and its value from the hash.
  *
@@ -36071,7 +35636,7 @@ function hashDelete(key) {
 
 module.exports = hashDelete;
 
-},{}],125:[function(require,module,exports){
+},{}],124:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -36103,7 +35668,7 @@ function hashGet(key) {
 
 module.exports = hashGet;
 
-},{"./_nativeCreate":149}],126:[function(require,module,exports){
+},{"./_nativeCreate":148}],125:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used for built-in method references. */
@@ -36128,7 +35693,7 @@ function hashHas(key) {
 
 module.exports = hashHas;
 
-},{"./_nativeCreate":149}],127:[function(require,module,exports){
+},{"./_nativeCreate":148}],126:[function(require,module,exports){
 var nativeCreate = require('./_nativeCreate');
 
 /** Used to stand-in for `undefined` hash values. */
@@ -36153,7 +35718,7 @@ function hashSet(key, value) {
 
 module.exports = hashSet;
 
-},{"./_nativeCreate":149}],128:[function(require,module,exports){
+},{"./_nativeCreate":148}],127:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -36177,7 +35742,7 @@ function isIndex(value, length) {
 
 module.exports = isIndex;
 
-},{}],129:[function(require,module,exports){
+},{}],128:[function(require,module,exports){
 var eq = require('./eq'),
     isArrayLike = require('./isArrayLike'),
     isIndex = require('./_isIndex'),
@@ -36209,7 +35774,7 @@ function isIterateeCall(value, index, object) {
 
 module.exports = isIterateeCall;
 
-},{"./_isIndex":128,"./eq":168,"./isArrayLike":174,"./isObject":179}],130:[function(require,module,exports){
+},{"./_isIndex":127,"./eq":167,"./isArrayLike":173,"./isObject":178}],129:[function(require,module,exports){
 var isArray = require('./isArray'),
     isSymbol = require('./isSymbol');
 
@@ -36240,7 +35805,7 @@ function isKey(value, object) {
 
 module.exports = isKey;
 
-},{"./isArray":173,"./isSymbol":183}],131:[function(require,module,exports){
+},{"./isArray":172,"./isSymbol":182}],130:[function(require,module,exports){
 /**
  * Checks if `value` is suitable for use as unique object key.
  *
@@ -36257,7 +35822,7 @@ function isKeyable(value) {
 
 module.exports = isKeyable;
 
-},{}],132:[function(require,module,exports){
+},{}],131:[function(require,module,exports){
 var coreJsData = require('./_coreJsData');
 
 /** Used to detect methods masquerading as native. */
@@ -36279,7 +35844,7 @@ function isMasked(func) {
 
 module.exports = isMasked;
 
-},{"./_coreJsData":104}],133:[function(require,module,exports){
+},{"./_coreJsData":103}],132:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -36299,7 +35864,7 @@ function isPrototype(value) {
 
 module.exports = isPrototype;
 
-},{}],134:[function(require,module,exports){
+},{}],133:[function(require,module,exports){
 var isObject = require('./isObject');
 
 /**
@@ -36316,7 +35881,7 @@ function isStrictComparable(value) {
 
 module.exports = isStrictComparable;
 
-},{"./isObject":179}],135:[function(require,module,exports){
+},{"./isObject":178}],134:[function(require,module,exports){
 /**
  * Converts `iterator` to an array.
  *
@@ -36336,7 +35901,7 @@ function iteratorToArray(iterator) {
 
 module.exports = iteratorToArray;
 
-},{}],136:[function(require,module,exports){
+},{}],135:[function(require,module,exports){
 /**
  * Removes all key-value entries from the list cache.
  *
@@ -36351,7 +35916,7 @@ function listCacheClear() {
 
 module.exports = listCacheClear;
 
-},{}],137:[function(require,module,exports){
+},{}],136:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /** Used for built-in method references. */
@@ -36388,7 +35953,7 @@ function listCacheDelete(key) {
 
 module.exports = listCacheDelete;
 
-},{"./_assocIndexOf":74}],138:[function(require,module,exports){
+},{"./_assocIndexOf":73}],137:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -36409,7 +35974,7 @@ function listCacheGet(key) {
 
 module.exports = listCacheGet;
 
-},{"./_assocIndexOf":74}],139:[function(require,module,exports){
+},{"./_assocIndexOf":73}],138:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -36427,7 +35992,7 @@ function listCacheHas(key) {
 
 module.exports = listCacheHas;
 
-},{"./_assocIndexOf":74}],140:[function(require,module,exports){
+},{"./_assocIndexOf":73}],139:[function(require,module,exports){
 var assocIndexOf = require('./_assocIndexOf');
 
 /**
@@ -36455,7 +36020,7 @@ function listCacheSet(key, value) {
 
 module.exports = listCacheSet;
 
-},{"./_assocIndexOf":74}],141:[function(require,module,exports){
+},{"./_assocIndexOf":73}],140:[function(require,module,exports){
 var Hash = require('./_Hash'),
     ListCache = require('./_ListCache'),
     Map = require('./_Map');
@@ -36478,7 +36043,7 @@ function mapCacheClear() {
 
 module.exports = mapCacheClear;
 
-},{"./_Hash":57,"./_ListCache":58,"./_Map":59}],142:[function(require,module,exports){
+},{"./_Hash":56,"./_ListCache":57,"./_Map":58}],141:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -36498,7 +36063,7 @@ function mapCacheDelete(key) {
 
 module.exports = mapCacheDelete;
 
-},{"./_getMapData":113}],143:[function(require,module,exports){
+},{"./_getMapData":112}],142:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -36516,7 +36081,7 @@ function mapCacheGet(key) {
 
 module.exports = mapCacheGet;
 
-},{"./_getMapData":113}],144:[function(require,module,exports){
+},{"./_getMapData":112}],143:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -36534,7 +36099,7 @@ function mapCacheHas(key) {
 
 module.exports = mapCacheHas;
 
-},{"./_getMapData":113}],145:[function(require,module,exports){
+},{"./_getMapData":112}],144:[function(require,module,exports){
 var getMapData = require('./_getMapData');
 
 /**
@@ -36558,7 +36123,7 @@ function mapCacheSet(key, value) {
 
 module.exports = mapCacheSet;
 
-},{"./_getMapData":113}],146:[function(require,module,exports){
+},{"./_getMapData":112}],145:[function(require,module,exports){
 /**
  * Converts `map` to its key-value pairs.
  *
@@ -36578,7 +36143,7 @@ function mapToArray(map) {
 
 module.exports = mapToArray;
 
-},{}],147:[function(require,module,exports){
+},{}],146:[function(require,module,exports){
 /**
  * A specialized version of `matchesProperty` for source values suitable
  * for strict equality comparisons, i.e. `===`.
@@ -36600,7 +36165,7 @@ function matchesStrictComparable(key, srcValue) {
 
 module.exports = matchesStrictComparable;
 
-},{}],148:[function(require,module,exports){
+},{}],147:[function(require,module,exports){
 var memoize = require('./memoize');
 
 /** Used as the maximum memoize cache size. */
@@ -36628,7 +36193,7 @@ function memoizeCapped(func) {
 
 module.exports = memoizeCapped;
 
-},{"./memoize":187}],149:[function(require,module,exports){
+},{"./memoize":186}],148:[function(require,module,exports){
 var getNative = require('./_getNative');
 
 /* Built-in method references that are verified to be native. */
@@ -36636,7 +36201,7 @@ var nativeCreate = getNative(Object, 'create');
 
 module.exports = nativeCreate;
 
-},{"./_getNative":115}],150:[function(require,module,exports){
+},{"./_getNative":114}],149:[function(require,module,exports){
 var overArg = require('./_overArg');
 
 /* Built-in method references for those with the same name as other `lodash` methods. */
@@ -36644,7 +36209,7 @@ var nativeKeys = overArg(Object.keys, Object);
 
 module.exports = nativeKeys;
 
-},{"./_overArg":153}],151:[function(require,module,exports){
+},{"./_overArg":152}],150:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `exports`. */
@@ -36668,7 +36233,7 @@ var nodeUtil = (function() {
 
 module.exports = nodeUtil;
 
-},{"./_freeGlobal":111}],152:[function(require,module,exports){
+},{"./_freeGlobal":110}],151:[function(require,module,exports){
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -36692,7 +36257,7 @@ function objectToString(value) {
 
 module.exports = objectToString;
 
-},{}],153:[function(require,module,exports){
+},{}],152:[function(require,module,exports){
 /**
  * Creates a unary function that invokes `func` with its argument transformed.
  *
@@ -36709,7 +36274,7 @@ function overArg(func, transform) {
 
 module.exports = overArg;
 
-},{}],154:[function(require,module,exports){
+},{}],153:[function(require,module,exports){
 var freeGlobal = require('./_freeGlobal');
 
 /** Detect free variable `self`. */
@@ -36720,7 +36285,7 @@ var root = freeGlobal || freeSelf || Function('return this')();
 
 module.exports = root;
 
-},{"./_freeGlobal":111}],155:[function(require,module,exports){
+},{"./_freeGlobal":110}],154:[function(require,module,exports){
 /** Used to stand-in for `undefined` hash values. */
 var HASH_UNDEFINED = '__lodash_hash_undefined__';
 
@@ -36741,7 +36306,7 @@ function setCacheAdd(value) {
 
 module.exports = setCacheAdd;
 
-},{}],156:[function(require,module,exports){
+},{}],155:[function(require,module,exports){
 /**
  * Checks if `value` is in the array cache.
  *
@@ -36757,7 +36322,7 @@ function setCacheHas(value) {
 
 module.exports = setCacheHas;
 
-},{}],157:[function(require,module,exports){
+},{}],156:[function(require,module,exports){
 /**
  * Converts `set` to an array of its values.
  *
@@ -36777,7 +36342,7 @@ function setToArray(set) {
 
 module.exports = setToArray;
 
-},{}],158:[function(require,module,exports){
+},{}],157:[function(require,module,exports){
 var ListCache = require('./_ListCache');
 
 /**
@@ -36794,7 +36359,7 @@ function stackClear() {
 
 module.exports = stackClear;
 
-},{"./_ListCache":58}],159:[function(require,module,exports){
+},{"./_ListCache":57}],158:[function(require,module,exports){
 /**
  * Removes `key` and its value from the stack.
  *
@@ -36814,7 +36379,7 @@ function stackDelete(key) {
 
 module.exports = stackDelete;
 
-},{}],160:[function(require,module,exports){
+},{}],159:[function(require,module,exports){
 /**
  * Gets the stack value for `key`.
  *
@@ -36830,7 +36395,7 @@ function stackGet(key) {
 
 module.exports = stackGet;
 
-},{}],161:[function(require,module,exports){
+},{}],160:[function(require,module,exports){
 /**
  * Checks if a stack value for `key` exists.
  *
@@ -36846,7 +36411,7 @@ function stackHas(key) {
 
 module.exports = stackHas;
 
-},{}],162:[function(require,module,exports){
+},{}],161:[function(require,module,exports){
 var ListCache = require('./_ListCache'),
     Map = require('./_Map'),
     MapCache = require('./_MapCache');
@@ -36882,7 +36447,7 @@ function stackSet(key, value) {
 
 module.exports = stackSet;
 
-},{"./_ListCache":58,"./_Map":59,"./_MapCache":60}],163:[function(require,module,exports){
+},{"./_ListCache":57,"./_Map":58,"./_MapCache":59}],162:[function(require,module,exports){
 var asciiToArray = require('./_asciiToArray'),
     hasUnicode = require('./_hasUnicode'),
     unicodeToArray = require('./_unicodeToArray');
@@ -36902,7 +36467,7 @@ function stringToArray(string) {
 
 module.exports = stringToArray;
 
-},{"./_asciiToArray":73,"./_hasUnicode":122,"./_unicodeToArray":167}],164:[function(require,module,exports){
+},{"./_asciiToArray":72,"./_hasUnicode":121,"./_unicodeToArray":166}],163:[function(require,module,exports){
 var memoizeCapped = require('./_memoizeCapped');
 
 /** Used to match property names within property paths. */
@@ -36932,7 +36497,7 @@ var stringToPath = memoizeCapped(function(string) {
 
 module.exports = stringToPath;
 
-},{"./_memoizeCapped":148}],165:[function(require,module,exports){
+},{"./_memoizeCapped":147}],164:[function(require,module,exports){
 var isSymbol = require('./isSymbol');
 
 /** Used as references for various `Number` constants. */
@@ -36955,7 +36520,7 @@ function toKey(value) {
 
 module.exports = toKey;
 
-},{"./isSymbol":183}],166:[function(require,module,exports){
+},{"./isSymbol":182}],165:[function(require,module,exports){
 /** Used for built-in method references. */
 var funcProto = Function.prototype;
 
@@ -36983,7 +36548,7 @@ function toSource(func) {
 
 module.exports = toSource;
 
-},{}],167:[function(require,module,exports){
+},{}],166:[function(require,module,exports){
 /** Used to compose unicode character classes. */
 var rsAstralRange = '\\ud800-\\udfff',
     rsComboMarksRange = '\\u0300-\\u036f',
@@ -37025,7 +36590,7 @@ function unicodeToArray(string) {
 
 module.exports = unicodeToArray;
 
-},{}],168:[function(require,module,exports){
+},{}],167:[function(require,module,exports){
 /**
  * Performs a
  * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
@@ -37064,7 +36629,7 @@ function eq(value, other) {
 
 module.exports = eq;
 
-},{}],169:[function(require,module,exports){
+},{}],168:[function(require,module,exports){
 var baseGet = require('./_baseGet');
 
 /**
@@ -37099,7 +36664,7 @@ function get(object, path, defaultValue) {
 
 module.exports = get;
 
-},{"./_baseGet":78}],170:[function(require,module,exports){
+},{"./_baseGet":77}],169:[function(require,module,exports){
 var baseHasIn = require('./_baseHasIn'),
     hasPath = require('./_hasPath');
 
@@ -37135,7 +36700,7 @@ function hasIn(object, path) {
 
 module.exports = hasIn;
 
-},{"./_baseHasIn":81,"./_hasPath":121}],171:[function(require,module,exports){
+},{"./_baseHasIn":80,"./_hasPath":120}],170:[function(require,module,exports){
 /**
  * This method returns the first argument it receives.
  *
@@ -37158,7 +36723,7 @@ function identity(value) {
 
 module.exports = identity;
 
-},{}],172:[function(require,module,exports){
+},{}],171:[function(require,module,exports){
 var baseIsArguments = require('./_baseIsArguments'),
     isObjectLike = require('./isObjectLike');
 
@@ -37196,7 +36761,7 @@ var isArguments = baseIsArguments(function() { return arguments; }()) ? baseIsAr
 
 module.exports = isArguments;
 
-},{"./_baseIsArguments":82,"./isObjectLike":180}],173:[function(require,module,exports){
+},{"./_baseIsArguments":81,"./isObjectLike":179}],172:[function(require,module,exports){
 /**
  * Checks if `value` is classified as an `Array` object.
  *
@@ -37224,7 +36789,7 @@ var isArray = Array.isArray;
 
 module.exports = isArray;
 
-},{}],174:[function(require,module,exports){
+},{}],173:[function(require,module,exports){
 var isFunction = require('./isFunction'),
     isLength = require('./isLength');
 
@@ -37259,7 +36824,7 @@ function isArrayLike(value) {
 
 module.exports = isArrayLike;
 
-},{"./isFunction":176,"./isLength":178}],175:[function(require,module,exports){
+},{"./isFunction":175,"./isLength":177}],174:[function(require,module,exports){
 var root = require('./_root'),
     stubFalse = require('./stubFalse');
 
@@ -37299,7 +36864,7 @@ var isBuffer = nativeIsBuffer || stubFalse;
 
 module.exports = isBuffer;
 
-},{"./_root":154,"./stubFalse":191}],176:[function(require,module,exports){
+},{"./_root":153,"./stubFalse":190}],175:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObject = require('./isObject');
 
@@ -37338,7 +36903,7 @@ function isFunction(value) {
 
 module.exports = isFunction;
 
-},{"./_baseGetTag":80,"./isObject":179}],177:[function(require,module,exports){
+},{"./_baseGetTag":79,"./isObject":178}],176:[function(require,module,exports){
 var toInteger = require('./toInteger');
 
 /**
@@ -37373,7 +36938,7 @@ function isInteger(value) {
 
 module.exports = isInteger;
 
-},{"./toInteger":194}],178:[function(require,module,exports){
+},{"./toInteger":193}],177:[function(require,module,exports){
 /** Used as references for various `Number` constants. */
 var MAX_SAFE_INTEGER = 9007199254740991;
 
@@ -37410,7 +36975,7 @@ function isLength(value) {
 
 module.exports = isLength;
 
-},{}],179:[function(require,module,exports){
+},{}],178:[function(require,module,exports){
 /**
  * Checks if `value` is the
  * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -37443,7 +37008,7 @@ function isObject(value) {
 
 module.exports = isObject;
 
-},{}],180:[function(require,module,exports){
+},{}],179:[function(require,module,exports){
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
  * and has a `typeof` result of "object".
@@ -37474,7 +37039,7 @@ function isObjectLike(value) {
 
 module.exports = isObjectLike;
 
-},{}],181:[function(require,module,exports){
+},{}],180:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     getPrototype = require('./_getPrototype'),
     isObjectLike = require('./isObjectLike');
@@ -37538,7 +37103,7 @@ function isPlainObject(value) {
 
 module.exports = isPlainObject;
 
-},{"./_baseGetTag":80,"./_getPrototype":116,"./isObjectLike":180}],182:[function(require,module,exports){
+},{"./_baseGetTag":79,"./_getPrototype":115,"./isObjectLike":179}],181:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isArray = require('./isArray'),
     isObjectLike = require('./isObjectLike');
@@ -37570,7 +37135,7 @@ function isString(value) {
 
 module.exports = isString;
 
-},{"./_baseGetTag":80,"./isArray":173,"./isObjectLike":180}],183:[function(require,module,exports){
+},{"./_baseGetTag":79,"./isArray":172,"./isObjectLike":179}],182:[function(require,module,exports){
 var baseGetTag = require('./_baseGetTag'),
     isObjectLike = require('./isObjectLike');
 
@@ -37601,7 +37166,7 @@ function isSymbol(value) {
 
 module.exports = isSymbol;
 
-},{"./_baseGetTag":80,"./isObjectLike":180}],184:[function(require,module,exports){
+},{"./_baseGetTag":79,"./isObjectLike":179}],183:[function(require,module,exports){
 var baseIsTypedArray = require('./_baseIsTypedArray'),
     baseUnary = require('./_baseUnary'),
     nodeUtil = require('./_nodeUtil');
@@ -37630,7 +37195,7 @@ var isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedA
 
 module.exports = isTypedArray;
 
-},{"./_baseIsTypedArray":87,"./_baseUnary":98,"./_nodeUtil":151}],185:[function(require,module,exports){
+},{"./_baseIsTypedArray":86,"./_baseUnary":97,"./_nodeUtil":150}],184:[function(require,module,exports){
 var arrayLikeKeys = require('./_arrayLikeKeys'),
     baseKeys = require('./_baseKeys'),
     isArrayLike = require('./isArrayLike');
@@ -37669,7 +37234,7 @@ function keys(object) {
 
 module.exports = keys;
 
-},{"./_arrayLikeKeys":69,"./_baseKeys":89,"./isArrayLike":174}],186:[function(require,module,exports){
+},{"./_arrayLikeKeys":68,"./_baseKeys":88,"./isArrayLike":173}],185:[function(require,module,exports){
 (function (global){
 /**
  * @license
@@ -54757,7 +54322,7 @@ module.exports = keys;
 }.call(this));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],187:[function(require,module,exports){
+},{}],186:[function(require,module,exports){
 var MapCache = require('./_MapCache');
 
 /** Error message constants. */
@@ -54832,7 +54397,7 @@ memoize.Cache = MapCache;
 
 module.exports = memoize;
 
-},{"./_MapCache":60}],188:[function(require,module,exports){
+},{"./_MapCache":59}],187:[function(require,module,exports){
 var baseProperty = require('./_baseProperty'),
     basePropertyDeep = require('./_basePropertyDeep'),
     isKey = require('./_isKey'),
@@ -54866,7 +54431,7 @@ function property(path) {
 
 module.exports = property;
 
-},{"./_baseProperty":92,"./_basePropertyDeep":93,"./_isKey":130,"./_toKey":165}],189:[function(require,module,exports){
+},{"./_baseProperty":91,"./_basePropertyDeep":92,"./_isKey":129,"./_toKey":164}],188:[function(require,module,exports){
 var arraySome = require('./_arraySome'),
     baseIteratee = require('./_baseIteratee'),
     baseSome = require('./_baseSome'),
@@ -54919,7 +54484,7 @@ function some(collection, predicate, guard) {
 
 module.exports = some;
 
-},{"./_arraySome":72,"./_baseIteratee":88,"./_baseSome":95,"./_isIterateeCall":129,"./isArray":173}],190:[function(require,module,exports){
+},{"./_arraySome":71,"./_baseIteratee":87,"./_baseSome":94,"./_isIterateeCall":128,"./isArray":172}],189:[function(require,module,exports){
 /**
  * This method returns a new empty array.
  *
@@ -54944,7 +54509,7 @@ function stubArray() {
 
 module.exports = stubArray;
 
-},{}],191:[function(require,module,exports){
+},{}],190:[function(require,module,exports){
 /**
  * This method returns `false`.
  *
@@ -54964,7 +54529,7 @@ function stubFalse() {
 
 module.exports = stubFalse;
 
-},{}],192:[function(require,module,exports){
+},{}],191:[function(require,module,exports){
 var Symbol = require('./_Symbol'),
     copyArray = require('./_copyArray'),
     getTag = require('./_getTag'),
@@ -55024,7 +54589,7 @@ function toArray(value) {
 
 module.exports = toArray;
 
-},{"./_Symbol":65,"./_copyArray":103,"./_getTag":119,"./_iteratorToArray":135,"./_mapToArray":146,"./_setToArray":157,"./_stringToArray":163,"./isArrayLike":174,"./isString":182,"./values":198}],193:[function(require,module,exports){
+},{"./_Symbol":64,"./_copyArray":102,"./_getTag":118,"./_iteratorToArray":134,"./_mapToArray":145,"./_setToArray":156,"./_stringToArray":162,"./isArrayLike":173,"./isString":181,"./values":197}],192:[function(require,module,exports){
 var toNumber = require('./toNumber');
 
 /** Used as references for various `Number` constants. */
@@ -55068,7 +54633,7 @@ function toFinite(value) {
 
 module.exports = toFinite;
 
-},{"./toNumber":195}],194:[function(require,module,exports){
+},{"./toNumber":194}],193:[function(require,module,exports){
 var toFinite = require('./toFinite');
 
 /**
@@ -55106,7 +54671,7 @@ function toInteger(value) {
 
 module.exports = toInteger;
 
-},{"./toFinite":193}],195:[function(require,module,exports){
+},{"./toFinite":192}],194:[function(require,module,exports){
 var isObject = require('./isObject'),
     isSymbol = require('./isSymbol');
 
@@ -55174,7 +54739,7 @@ function toNumber(value) {
 
 module.exports = toNumber;
 
-},{"./isObject":179,"./isSymbol":183}],196:[function(require,module,exports){
+},{"./isObject":178,"./isSymbol":182}],195:[function(require,module,exports){
 var baseToString = require('./_baseToString');
 
 /**
@@ -55204,7 +54769,7 @@ function toString(value) {
 
 module.exports = toString;
 
-},{"./_baseToString":97}],197:[function(require,module,exports){
+},{"./_baseToString":96}],196:[function(require,module,exports){
 var createCaseFirst = require('./_createCaseFirst');
 
 /**
@@ -55228,7 +54793,7 @@ var upperFirst = createCaseFirst('toUpperCase');
 
 module.exports = upperFirst;
 
-},{"./_createCaseFirst":107}],198:[function(require,module,exports){
+},{"./_createCaseFirst":106}],197:[function(require,module,exports){
 var baseValues = require('./_baseValues'),
     keys = require('./keys');
 
@@ -55264,16 +54829,16 @@ function values(object) {
 
 module.exports = values;
 
-},{"./_baseValues":99,"./keys":185}],199:[function(require,module,exports){
+},{"./_baseValues":98,"./keys":184}],198:[function(require,module,exports){
 /**
  * Helpers.
  */
 
-var s = 1000
-var m = s * 60
-var h = m * 60
-var d = h * 24
-var y = d * 365.25
+var s = 1000;
+var m = s * 60;
+var h = m * 60;
+var d = h * 24;
+var y = d * 365.25;
 
 /**
  * Parse or format the given `val`.
@@ -55283,24 +54848,25 @@ var y = d * 365.25
  *  - `long` verbose formatting [false]
  *
  * @param {String|Number} val
- * @param {Object} options
+ * @param {Object} [options]
  * @throws {Error} throw an error if val is not a non-empty string or a number
  * @return {String|Number}
  * @api public
  */
 
-module.exports = function (val, options) {
-  options = options || {}
-  var type = typeof val
+module.exports = function(val, options) {
+  options = options || {};
+  var type = typeof val;
   if (type === 'string' && val.length > 0) {
-    return parse(val)
+    return parse(val);
   } else if (type === 'number' && isNaN(val) === false) {
-    return options.long ?
-			fmtLong(val) :
-			fmtShort(val)
+    return options.long ? fmtLong(val) : fmtShort(val);
   }
-  throw new Error('val is not a non-empty string or a valid number. val=' + JSON.stringify(val))
-}
+  throw new Error(
+    'val is not a non-empty string or a valid number. val=' +
+      JSON.stringify(val)
+  );
+};
 
 /**
  * Parse the given `str` and return milliseconds.
@@ -55311,53 +54877,55 @@ module.exports = function (val, options) {
  */
 
 function parse(str) {
-  str = String(str)
-  if (str.length > 10000) {
-    return
+  str = String(str);
+  if (str.length > 100) {
+    return;
   }
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str)
+  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(
+    str
+  );
   if (!match) {
-    return
+    return;
   }
-  var n = parseFloat(match[1])
-  var type = (match[2] || 'ms').toLowerCase()
+  var n = parseFloat(match[1]);
+  var type = (match[2] || 'ms').toLowerCase();
   switch (type) {
     case 'years':
     case 'year':
     case 'yrs':
     case 'yr':
     case 'y':
-      return n * y
+      return n * y;
     case 'days':
     case 'day':
     case 'd':
-      return n * d
+      return n * d;
     case 'hours':
     case 'hour':
     case 'hrs':
     case 'hr':
     case 'h':
-      return n * h
+      return n * h;
     case 'minutes':
     case 'minute':
     case 'mins':
     case 'min':
     case 'm':
-      return n * m
+      return n * m;
     case 'seconds':
     case 'second':
     case 'secs':
     case 'sec':
     case 's':
-      return n * s
+      return n * s;
     case 'milliseconds':
     case 'millisecond':
     case 'msecs':
     case 'msec':
     case 'ms':
-      return n
+      return n;
     default:
-      return undefined
+      return undefined;
   }
 }
 
@@ -55371,18 +54939,18 @@ function parse(str) {
 
 function fmtShort(ms) {
   if (ms >= d) {
-    return Math.round(ms / d) + 'd'
+    return Math.round(ms / d) + 'd';
   }
   if (ms >= h) {
-    return Math.round(ms / h) + 'h'
+    return Math.round(ms / h) + 'h';
   }
   if (ms >= m) {
-    return Math.round(ms / m) + 'm'
+    return Math.round(ms / m) + 'm';
   }
   if (ms >= s) {
-    return Math.round(ms / s) + 's'
+    return Math.round(ms / s) + 's';
   }
-  return ms + 'ms'
+  return ms + 'ms';
 }
 
 /**
@@ -55398,7 +54966,7 @@ function fmtLong(ms) {
     plural(ms, h, 'hour') ||
     plural(ms, m, 'minute') ||
     plural(ms, s, 'second') ||
-    ms + ' ms'
+    ms + ' ms';
 }
 
 /**
@@ -55407,15 +54975,59 @@ function fmtLong(ms) {
 
 function plural(ms, n, name) {
   if (ms < n) {
-    return
+    return;
   }
   if (ms < n * 1.5) {
-    return Math.floor(ms / n) + ' ' + name
+    return Math.floor(ms / n) + ' ' + name;
   }
-  return Math.ceil(ms / n) + ' ' + name + 's'
+  return Math.ceil(ms / n) + ' ' + name + 's';
 }
 
-},{}],200:[function(require,module,exports){
+},{}],199:[function(require,module,exports){
+var wrappy = require('wrappy')
+module.exports = wrappy(once)
+module.exports.strict = wrappy(onceStrict)
+
+once.proto = once(function () {
+  Object.defineProperty(Function.prototype, 'once', {
+    value: function () {
+      return once(this)
+    },
+    configurable: true
+  })
+
+  Object.defineProperty(Function.prototype, 'onceStrict', {
+    value: function () {
+      return onceStrict(this)
+    },
+    configurable: true
+  })
+})
+
+function once (fn) {
+  var f = function () {
+    if (f.called) return f.value
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  f.called = false
+  return f
+}
+
+function onceStrict (fn) {
+  var f = function () {
+    if (f.called)
+      throw new Error(f.onceError)
+    f.called = true
+    return f.value = fn.apply(this, arguments)
+  }
+  var name = fn.name || 'Function wrapped with `once`'
+  f.onceError = name + " shouldn't be called more than once"
+  f.called = false
+  return f
+}
+
+},{"wrappy":237}],200:[function(require,module,exports){
 (function (global){
 /**
  * JSON parse.
@@ -55976,6 +55588,10 @@ process.off = noop;
 process.removeListener = noop;
 process.removeAllListeners = noop;
 process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
 
 process.binding = function (name) {
     throw new Error('process.binding is not supported');
@@ -55988,725 +55604,9 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],206:[function(require,module,exports){
-(function (global){
-/*! https://mths.be/punycode v1.4.1 by @mathias */
-;(function(root) {
-
-	/** Detect free variables */
-	var freeExports = typeof exports == 'object' && exports &&
-		!exports.nodeType && exports;
-	var freeModule = typeof module == 'object' && module &&
-		!module.nodeType && module;
-	var freeGlobal = typeof global == 'object' && global;
-	if (
-		freeGlobal.global === freeGlobal ||
-		freeGlobal.window === freeGlobal ||
-		freeGlobal.self === freeGlobal
-	) {
-		root = freeGlobal;
-	}
-
-	/**
-	 * The `punycode` object.
-	 * @name punycode
-	 * @type Object
-	 */
-	var punycode,
-
-	/** Highest positive signed 32-bit float value */
-	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
-
-	/** Bootstring parameters */
-	base = 36,
-	tMin = 1,
-	tMax = 26,
-	skew = 38,
-	damp = 700,
-	initialBias = 72,
-	initialN = 128, // 0x80
-	delimiter = '-', // '\x2D'
-
-	/** Regular expressions */
-	regexPunycode = /^xn--/,
-	regexNonASCII = /[^\x20-\x7E]/, // unprintable ASCII chars + non-ASCII chars
-	regexSeparators = /[\x2E\u3002\uFF0E\uFF61]/g, // RFC 3490 separators
-
-	/** Error messages */
-	errors = {
-		'overflow': 'Overflow: input needs wider integers to process',
-		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
-		'invalid-input': 'Invalid input'
-	},
-
-	/** Convenience shortcuts */
-	baseMinusTMin = base - tMin,
-	floor = Math.floor,
-	stringFromCharCode = String.fromCharCode,
-
-	/** Temporary variable */
-	key;
-
-	/*--------------------------------------------------------------------------*/
-
-	/**
-	 * A generic error utility function.
-	 * @private
-	 * @param {String} type The error type.
-	 * @returns {Error} Throws a `RangeError` with the applicable error message.
-	 */
-	function error(type) {
-		throw new RangeError(errors[type]);
-	}
-
-	/**
-	 * A generic `Array#map` utility function.
-	 * @private
-	 * @param {Array} array The array to iterate over.
-	 * @param {Function} callback The function that gets called for every array
-	 * item.
-	 * @returns {Array} A new array of values returned by the callback function.
-	 */
-	function map(array, fn) {
-		var length = array.length;
-		var result = [];
-		while (length--) {
-			result[length] = fn(array[length]);
-		}
-		return result;
-	}
-
-	/**
-	 * A simple `Array#map`-like wrapper to work with domain name strings or email
-	 * addresses.
-	 * @private
-	 * @param {String} domain The domain name or email address.
-	 * @param {Function} callback The function that gets called for every
-	 * character.
-	 * @returns {Array} A new string of characters returned by the callback
-	 * function.
-	 */
-	function mapDomain(string, fn) {
-		var parts = string.split('@');
-		var result = '';
-		if (parts.length > 1) {
-			// In email addresses, only the domain name should be punycoded. Leave
-			// the local part (i.e. everything up to `@`) intact.
-			result = parts[0] + '@';
-			string = parts[1];
-		}
-		// Avoid `split(regex)` for IE8 compatibility. See #17.
-		string = string.replace(regexSeparators, '\x2E');
-		var labels = string.split('.');
-		var encoded = map(labels, fn).join('.');
-		return result + encoded;
-	}
-
-	/**
-	 * Creates an array containing the numeric code points of each Unicode
-	 * character in the string. While JavaScript uses UCS-2 internally,
-	 * this function will convert a pair of surrogate halves (each of which
-	 * UCS-2 exposes as separate characters) into a single code point,
-	 * matching UTF-16.
-	 * @see `punycode.ucs2.encode`
-	 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-	 * @memberOf punycode.ucs2
-	 * @name decode
-	 * @param {String} string The Unicode input string (UCS-2).
-	 * @returns {Array} The new array of code points.
-	 */
-	function ucs2decode(string) {
-		var output = [],
-		    counter = 0,
-		    length = string.length,
-		    value,
-		    extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	/**
-	 * Creates a string based on an array of numeric code points.
-	 * @see `punycode.ucs2.decode`
-	 * @memberOf punycode.ucs2
-	 * @name encode
-	 * @param {Array} codePoints The array of numeric code points.
-	 * @returns {String} The new Unicode string (UCS-2).
-	 */
-	function ucs2encode(array) {
-		return map(array, function(value) {
-			var output = '';
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-			return output;
-		}).join('');
-	}
-
-	/**
-	 * Converts a basic code point into a digit/integer.
-	 * @see `digitToBasic()`
-	 * @private
-	 * @param {Number} codePoint The basic numeric code point value.
-	 * @returns {Number} The numeric value of a basic code point (for use in
-	 * representing integers) in the range `0` to `base - 1`, or `base` if
-	 * the code point does not represent a value.
-	 */
-	function basicToDigit(codePoint) {
-		if (codePoint - 48 < 10) {
-			return codePoint - 22;
-		}
-		if (codePoint - 65 < 26) {
-			return codePoint - 65;
-		}
-		if (codePoint - 97 < 26) {
-			return codePoint - 97;
-		}
-		return base;
-	}
-
-	/**
-	 * Converts a digit/integer into a basic code point.
-	 * @see `basicToDigit()`
-	 * @private
-	 * @param {Number} digit The numeric value of a basic code point.
-	 * @returns {Number} The basic code point whose value (when used for
-	 * representing integers) is `digit`, which needs to be in the range
-	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
-	 * used; else, the lowercase form is used. The behavior is undefined
-	 * if `flag` is non-zero and `digit` has no uppercase form.
-	 */
-	function digitToBasic(digit, flag) {
-		//  0..25 map to ASCII a..z or A..Z
-		// 26..35 map to ASCII 0..9
-		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
-	}
-
-	/**
-	 * Bias adaptation function as per section 3.4 of RFC 3492.
-	 * https://tools.ietf.org/html/rfc3492#section-3.4
-	 * @private
-	 */
-	function adapt(delta, numPoints, firstTime) {
-		var k = 0;
-		delta = firstTime ? floor(delta / damp) : delta >> 1;
-		delta += floor(delta / numPoints);
-		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
-			delta = floor(delta / baseMinusTMin);
-		}
-		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
-	}
-
-	/**
-	 * Converts a Punycode string of ASCII-only symbols to a string of Unicode
-	 * symbols.
-	 * @memberOf punycode
-	 * @param {String} input The Punycode string of ASCII-only symbols.
-	 * @returns {String} The resulting string of Unicode symbols.
-	 */
-	function decode(input) {
-		// Don't use UCS-2
-		var output = [],
-		    inputLength = input.length,
-		    out,
-		    i = 0,
-		    n = initialN,
-		    bias = initialBias,
-		    basic,
-		    j,
-		    index,
-		    oldi,
-		    w,
-		    k,
-		    digit,
-		    t,
-		    /** Cached calculation results */
-		    baseMinusT;
-
-		// Handle the basic code points: let `basic` be the number of input code
-		// points before the last delimiter, or `0` if there is none, then copy
-		// the first basic code points to the output.
-
-		basic = input.lastIndexOf(delimiter);
-		if (basic < 0) {
-			basic = 0;
-		}
-
-		for (j = 0; j < basic; ++j) {
-			// if it's not a basic code point
-			if (input.charCodeAt(j) >= 0x80) {
-				error('not-basic');
-			}
-			output.push(input.charCodeAt(j));
-		}
-
-		// Main decoding loop: start just after the last delimiter if any basic code
-		// points were copied; start at the beginning otherwise.
-
-		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
-
-			// `index` is the index of the next character to be consumed.
-			// Decode a generalized variable-length integer into `delta`,
-			// which gets added to `i`. The overflow checking is easier
-			// if we increase `i` as we go, then subtract off its starting
-			// value at the end to obtain `delta`.
-			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
-
-				if (index >= inputLength) {
-					error('invalid-input');
-				}
-
-				digit = basicToDigit(input.charCodeAt(index++));
-
-				if (digit >= base || digit > floor((maxInt - i) / w)) {
-					error('overflow');
-				}
-
-				i += digit * w;
-				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-
-				if (digit < t) {
-					break;
-				}
-
-				baseMinusT = base - t;
-				if (w > floor(maxInt / baseMinusT)) {
-					error('overflow');
-				}
-
-				w *= baseMinusT;
-
-			}
-
-			out = output.length + 1;
-			bias = adapt(i - oldi, out, oldi == 0);
-
-			// `i` was supposed to wrap around from `out` to `0`,
-			// incrementing `n` each time, so we'll fix that now:
-			if (floor(i / out) > maxInt - n) {
-				error('overflow');
-			}
-
-			n += floor(i / out);
-			i %= out;
-
-			// Insert `n` at position `i` of the output
-			output.splice(i++, 0, n);
-
-		}
-
-		return ucs2encode(output);
-	}
-
-	/**
-	 * Converts a string of Unicode symbols (e.g. a domain name label) to a
-	 * Punycode string of ASCII-only symbols.
-	 * @memberOf punycode
-	 * @param {String} input The string of Unicode symbols.
-	 * @returns {String} The resulting Punycode string of ASCII-only symbols.
-	 */
-	function encode(input) {
-		var n,
-		    delta,
-		    handledCPCount,
-		    basicLength,
-		    bias,
-		    j,
-		    m,
-		    q,
-		    k,
-		    t,
-		    currentValue,
-		    output = [],
-		    /** `inputLength` will hold the number of code points in `input`. */
-		    inputLength,
-		    /** Cached calculation results */
-		    handledCPCountPlusOne,
-		    baseMinusT,
-		    qMinusT;
-
-		// Convert the input in UCS-2 to Unicode
-		input = ucs2decode(input);
-
-		// Cache the length
-		inputLength = input.length;
-
-		// Initialize the state
-		n = initialN;
-		delta = 0;
-		bias = initialBias;
-
-		// Handle the basic code points
-		for (j = 0; j < inputLength; ++j) {
-			currentValue = input[j];
-			if (currentValue < 0x80) {
-				output.push(stringFromCharCode(currentValue));
-			}
-		}
-
-		handledCPCount = basicLength = output.length;
-
-		// `handledCPCount` is the number of code points that have been handled;
-		// `basicLength` is the number of basic code points.
-
-		// Finish the basic string - if it is not empty - with a delimiter
-		if (basicLength) {
-			output.push(delimiter);
-		}
-
-		// Main encoding loop:
-		while (handledCPCount < inputLength) {
-
-			// All non-basic code points < n have been handled already. Find the next
-			// larger one:
-			for (m = maxInt, j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-				if (currentValue >= n && currentValue < m) {
-					m = currentValue;
-				}
-			}
-
-			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
-			// but guard against overflow
-			handledCPCountPlusOne = handledCPCount + 1;
-			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
-				error('overflow');
-			}
-
-			delta += (m - n) * handledCPCountPlusOne;
-			n = m;
-
-			for (j = 0; j < inputLength; ++j) {
-				currentValue = input[j];
-
-				if (currentValue < n && ++delta > maxInt) {
-					error('overflow');
-				}
-
-				if (currentValue == n) {
-					// Represent delta as a generalized variable-length integer
-					for (q = delta, k = base; /* no condition */; k += base) {
-						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
-						if (q < t) {
-							break;
-						}
-						qMinusT = q - t;
-						baseMinusT = base - t;
-						output.push(
-							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
-						);
-						q = floor(qMinusT / baseMinusT);
-					}
-
-					output.push(stringFromCharCode(digitToBasic(q, 0)));
-					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
-					delta = 0;
-					++handledCPCount;
-				}
-			}
-
-			++delta;
-			++n;
-
-		}
-		return output.join('');
-	}
-
-	/**
-	 * Converts a Punycode string representing a domain name or an email address
-	 * to Unicode. Only the Punycoded parts of the input will be converted, i.e.
-	 * it doesn't matter if you call it on a string that has already been
-	 * converted to Unicode.
-	 * @memberOf punycode
-	 * @param {String} input The Punycoded domain name or email address to
-	 * convert to Unicode.
-	 * @returns {String} The Unicode representation of the given Punycode
-	 * string.
-	 */
-	function toUnicode(input) {
-		return mapDomain(input, function(string) {
-			return regexPunycode.test(string)
-				? decode(string.slice(4).toLowerCase())
-				: string;
-		});
-	}
-
-	/**
-	 * Converts a Unicode string representing a domain name or an email address to
-	 * Punycode. Only the non-ASCII parts of the domain name will be converted,
-	 * i.e. it doesn't matter if you call it with a domain that's already in
-	 * ASCII.
-	 * @memberOf punycode
-	 * @param {String} input The domain name or email address to convert, as a
-	 * Unicode string.
-	 * @returns {String} The Punycode representation of the given domain name or
-	 * email address.
-	 */
-	function toASCII(input) {
-		return mapDomain(input, function(string) {
-			return regexNonASCII.test(string)
-				? 'xn--' + encode(string)
-				: string;
-		});
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	/** Define the public API */
-	punycode = {
-		/**
-		 * A string representing the current Punycode.js version number.
-		 * @memberOf punycode
-		 * @type String
-		 */
-		'version': '1.4.1',
-		/**
-		 * An object of methods to convert from JavaScript's internal character
-		 * representation (UCS-2) to Unicode code points, and back.
-		 * @see <https://mathiasbynens.be/notes/javascript-encoding>
-		 * @memberOf punycode
-		 * @type Object
-		 */
-		'ucs2': {
-			'decode': ucs2decode,
-			'encode': ucs2encode
-		},
-		'decode': decode,
-		'encode': encode,
-		'toASCII': toASCII,
-		'toUnicode': toUnicode
-	};
-
-	/** Expose `punycode` */
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		typeof define == 'function' &&
-		typeof define.amd == 'object' &&
-		define.amd
-	) {
-		define('punycode', function() {
-			return punycode;
-		});
-	} else if (freeExports && freeModule) {
-		if (module.exports == freeExports) {
-			// in Node.js, io.js, or RingoJS v0.8.0+
-			freeModule.exports = punycode;
-		} else {
-			// in Narwhal or RingoJS v0.7.0-
-			for (key in punycode) {
-				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
-			}
-		}
-	} else {
-		// in Rhino or a web browser
-		root.punycode = punycode;
-	}
-
-}(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],207:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-// If obj.hasOwnProperty has been overridden, then calling
-// obj.hasOwnProperty(prop) will break.
-// See: https://github.com/joyent/node/issues/1707
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-module.exports = function(qs, sep, eq, options) {
-  sep = sep || '&';
-  eq = eq || '=';
-  var obj = {};
-
-  if (typeof qs !== 'string' || qs.length === 0) {
-    return obj;
-  }
-
-  var regexp = /\+/g;
-  qs = qs.split(sep);
-
-  var maxKeys = 1000;
-  if (options && typeof options.maxKeys === 'number') {
-    maxKeys = options.maxKeys;
-  }
-
-  var len = qs.length;
-  // maxKeys <= 0 means that we should not limit keys count
-  if (maxKeys > 0 && len > maxKeys) {
-    len = maxKeys;
-  }
-
-  for (var i = 0; i < len; ++i) {
-    var x = qs[i].replace(regexp, '%20'),
-        idx = x.indexOf(eq),
-        kstr, vstr, k, v;
-
-    if (idx >= 0) {
-      kstr = x.substr(0, idx);
-      vstr = x.substr(idx + 1);
-    } else {
-      kstr = x;
-      vstr = '';
-    }
-
-    k = decodeURIComponent(kstr);
-    v = decodeURIComponent(vstr);
-
-    if (!hasOwnProperty(obj, k)) {
-      obj[k] = v;
-    } else if (isArray(obj[k])) {
-      obj[k].push(v);
-    } else {
-      obj[k] = [obj[k], v];
-    }
-  }
-
-  return obj;
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-},{}],208:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-var stringifyPrimitive = function(v) {
-  switch (typeof v) {
-    case 'string':
-      return v;
-
-    case 'boolean':
-      return v ? 'true' : 'false';
-
-    case 'number':
-      return isFinite(v) ? v : '';
-
-    default:
-      return '';
-  }
-};
-
-module.exports = function(obj, sep, eq, name) {
-  sep = sep || '&';
-  eq = eq || '=';
-  if (obj === null) {
-    obj = undefined;
-  }
-
-  if (typeof obj === 'object') {
-    return map(objectKeys(obj), function(k) {
-      var ks = encodeURIComponent(stringifyPrimitive(k)) + eq;
-      if (isArray(obj[k])) {
-        return map(obj[k], function(v) {
-          return ks + encodeURIComponent(stringifyPrimitive(v));
-        }).join(sep);
-      } else {
-        return ks + encodeURIComponent(stringifyPrimitive(obj[k]));
-      }
-    }).join(sep);
-
-  }
-
-  if (!name) return '';
-  return encodeURIComponent(stringifyPrimitive(name)) + eq +
-         encodeURIComponent(stringifyPrimitive(obj));
-};
-
-var isArray = Array.isArray || function (xs) {
-  return Object.prototype.toString.call(xs) === '[object Array]';
-};
-
-function map (xs, f) {
-  if (xs.map) return xs.map(f);
-  var res = [];
-  for (var i = 0; i < xs.length; i++) {
-    res.push(f(xs[i], i));
-  }
-  return res;
-}
-
-var objectKeys = Object.keys || function (obj) {
-  var res = [];
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) res.push(key);
-  }
-  return res;
-};
-
-},{}],209:[function(require,module,exports){
-'use strict';
-
-exports.decode = exports.parse = require('./decode');
-exports.encode = exports.stringify = require('./encode');
-
-},{"./decode":207,"./encode":208}],210:[function(require,module,exports){
 module.exports = require("./lib/_stream_duplex.js")
 
-},{"./lib/_stream_duplex.js":211}],211:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":207}],207:[function(require,module,exports){
 // a duplex stream is just a stream that is both readable and writable.
 // Since JS doesn't have multiple prototypal inheritance, this class
 // prototypally inherits from Readable, and then parasitically from
@@ -56782,7 +55682,7 @@ function forEach(xs, f) {
     f(xs[i], i);
   }
 }
-},{"./_stream_readable":213,"./_stream_writable":215,"core-util-is":28,"inherits":52,"process-nextick-args":204}],212:[function(require,module,exports){
+},{"./_stream_readable":209,"./_stream_writable":211,"core-util-is":29,"inherits":52,"process-nextick-args":204}],208:[function(require,module,exports){
 // a passthrough stream.
 // basically just the most minimal sort of Transform stream.
 // Every written chunk gets output as-is.
@@ -56809,7 +55709,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":214,"core-util-is":28,"inherits":52}],213:[function(require,module,exports){
+},{"./_stream_transform":210,"core-util-is":29,"inherits":52}],209:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -57753,7 +56653,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":211,"./internal/streams/BufferList":216,"_process":205,"buffer":24,"buffer-shims":23,"core-util-is":28,"events":47,"inherits":52,"isarray":217,"process-nextick-args":204,"string_decoder/":237,"util":21}],214:[function(require,module,exports){
+},{"./_stream_duplex":207,"./internal/streams/BufferList":212,"_process":205,"buffer":25,"buffer-shims":24,"core-util-is":29,"events":47,"inherits":52,"isarray":213,"process-nextick-args":204,"string_decoder/":229,"util":21}],210:[function(require,module,exports){
 // a transform stream is a readable/writable stream where you do
 // something with the data.  Sometimes it's called a "filter",
 // but that's not a great name for it, since that implies a thing where
@@ -57936,7 +56836,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":211,"core-util-is":28,"inherits":52}],215:[function(require,module,exports){
+},{"./_stream_duplex":207,"core-util-is":29,"inherits":52}],211:[function(require,module,exports){
 (function (process){
 // A bit simpler than readable streams.
 // Implement an async ._write(chunk, encoding, cb), and it'll handle all
@@ -58493,7 +57393,7 @@ function CorkedRequest(state) {
   };
 }
 }).call(this,require('_process'))
-},{"./_stream_duplex":211,"_process":205,"buffer":24,"buffer-shims":23,"core-util-is":28,"events":47,"inherits":52,"process-nextick-args":204,"util-deprecate":245}],216:[function(require,module,exports){
+},{"./_stream_duplex":207,"_process":205,"buffer":25,"buffer-shims":24,"core-util-is":29,"events":47,"inherits":52,"process-nextick-args":204,"util-deprecate":232}],212:[function(require,module,exports){
 'use strict';
 
 var Buffer = require('buffer').Buffer;
@@ -58558,17 +57458,12 @@ BufferList.prototype.concat = function (n) {
   }
   return ret;
 };
-},{"buffer":24,"buffer-shims":23}],217:[function(require,module,exports){
-var toString = {}.toString;
-
-module.exports = Array.isArray || function (arr) {
-  return toString.call(arr) == '[object Array]';
-};
-
-},{}],218:[function(require,module,exports){
+},{"buffer":25,"buffer-shims":24}],213:[function(require,module,exports){
+arguments[4][54][0].apply(exports,arguments)
+},{"dup":54}],214:[function(require,module,exports){
 module.exports = require("./lib/_stream_passthrough.js")
 
-},{"./lib/_stream_passthrough.js":212}],219:[function(require,module,exports){
+},{"./lib/_stream_passthrough.js":208}],215:[function(require,module,exports){
 (function (process){
 var Stream = (function (){
   try {
@@ -58588,13 +57483,13 @@ if (!process.browser && process.env.READABLE_STREAM === 'disable' && Stream) {
 }
 
 }).call(this,require('_process'))
-},{"./lib/_stream_duplex.js":211,"./lib/_stream_passthrough.js":212,"./lib/_stream_readable.js":213,"./lib/_stream_transform.js":214,"./lib/_stream_writable.js":215,"_process":205}],220:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":207,"./lib/_stream_passthrough.js":208,"./lib/_stream_readable.js":209,"./lib/_stream_transform.js":210,"./lib/_stream_writable.js":211,"_process":205}],216:[function(require,module,exports){
 module.exports = require("./lib/_stream_transform.js")
 
-},{"./lib/_stream_transform.js":214}],221:[function(require,module,exports){
+},{"./lib/_stream_transform.js":210}],217:[function(require,module,exports){
 module.exports = require("./lib/_stream_writable.js")
 
-},{"./lib/_stream_writable.js":215}],222:[function(require,module,exports){
+},{"./lib/_stream_writable.js":211}],218:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -58660,25 +57555,10 @@ function lookup (uri, opts) {
   }
   if (parsed.query && !opts.query) {
     opts.query = parsed.query;
-  } else if (opts && 'object' === typeof opts.query) {
-    opts.query = encodeQueryString(opts.query);
   }
   return io.socket(parsed.path, opts);
 }
-/**
- *  Helper method to parse query objects to string.
- * @param {object} query
- * @returns {string}
- */
-function encodeQueryString (obj) {
-  var str = [];
-  for (var p in obj) {
-    if (obj.hasOwnProperty(p)) {
-      str.push(encodeURIComponent(p) + '=' + encodeURIComponent(obj[p]));
-    }
-  }
-  return str.join('&');
-}
+
 /**
  * Protocol version.
  *
@@ -58705,7 +57585,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./manager":223,"./socket":225,"./url":226,"debug":29,"socket.io-parser":229}],223:[function(require,module,exports){
+},{"./manager":219,"./socket":221,"./url":222,"debug":30,"socket.io-parser":224}],219:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -58770,8 +57650,9 @@ function Manager (uri, opts) {
   this.lastPing = null;
   this.encoding = false;
   this.packetBuffer = [];
-  this.encoder = new parser.Encoder();
-  this.decoder = new parser.Decoder();
+  var _parser = opts.parser || parser;
+  this.encoder = new _parser.Encoder();
+  this.decoder = new _parser.Decoder();
   this.autoConnect = opts.autoConnect !== false;
   if (this.autoConnect) this.open();
 }
@@ -58800,9 +57681,21 @@ Manager.prototype.emitAll = function () {
 Manager.prototype.updateSocketIds = function () {
   for (var nsp in this.nsps) {
     if (has.call(this.nsps, nsp)) {
-      this.nsps[nsp].id = this.engine.id;
+      this.nsps[nsp].id = this.generateId(nsp);
     }
   }
+};
+
+/**
+ * generate `socket.id` for the given `nsp`
+ *
+ * @param {String} nsp
+ * @return {String}
+ * @api private
+ */
+
+Manager.prototype.generateId = function (nsp) {
+  return (nsp === '/' ? '' : (nsp + '#')) + this.engine.id;
 };
 
 /**
@@ -59066,11 +57959,11 @@ Manager.prototype.socket = function (nsp, opts) {
     var self = this;
     socket.on('connecting', onConnecting);
     socket.on('connect', function () {
-      socket.id = self.engine.id;
+      socket.id = self.generateId(nsp);
     });
 
     if (this.autoConnect) {
-      // manually call here since connecting evnet is fired before listening
+      // manually call here since connecting event is fired before listening
       onConnecting();
     }
   }
@@ -59267,7 +58160,7 @@ Manager.prototype.onreconnect = function () {
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":224,"./socket":225,"backo2":13,"component-bind":25,"component-emitter":227,"debug":29,"engine.io-client":34,"indexof":51,"socket.io-parser":229}],224:[function(require,module,exports){
+},{"./on":220,"./socket":221,"backo2":13,"component-bind":26,"component-emitter":27,"debug":30,"engine.io-client":34,"indexof":51,"socket.io-parser":224}],220:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -59293,7 +58186,7 @@ function on (obj, ev, fn) {
   };
 }
 
-},{}],225:[function(require,module,exports){
+},{}],221:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -59305,7 +58198,7 @@ var toArray = require('to-array');
 var on = require('./on');
 var bind = require('component-bind');
 var debug = require('debug')('socket.io-client:socket');
-var hasBin = require('has-binary');
+var parseqs = require('parseqs');
 
 /**
  * Module exports.
@@ -59434,9 +58327,7 @@ Socket.prototype.emit = function (ev) {
   }
 
   var args = toArray(arguments);
-  var parserType = parser.EVENT; // default
-  if (hasBin(args)) { parserType = parser.BINARY_EVENT; } // binary
-  var packet = { type: parserType, data: args };
+  var packet = { type: parser.EVENT, data: args };
 
   packet.options = {};
   packet.options.compress = !this.flags || false !== this.flags.compress;
@@ -59483,7 +58374,9 @@ Socket.prototype.onopen = function () {
   // write connect packet if necessary
   if ('/' !== this.nsp) {
     if (this.query) {
-      this.packet({type: parser.CONNECT, query: this.query});
+      var query = typeof this.query === 'object' ? parseqs.encode(this.query) : this.query;
+      debug('sending connect packet with query %s', query);
+      this.packet({type: parser.CONNECT, query: query});
     } else {
       this.packet({type: parser.CONNECT});
     }
@@ -59585,9 +58478,8 @@ Socket.prototype.ack = function (id) {
     var args = toArray(arguments);
     debug('sending ack %j', args);
 
-    var type = hasBin(args) ? parser.BINARY_ACK : parser.ACK;
     self.packet({
-      type: type,
+      type: parser.ACK,
       id: id,
       data: args
     });
@@ -59714,7 +58606,7 @@ Socket.prototype.compress = function (compress) {
   return this;
 };
 
-},{"./on":224,"component-bind":25,"component-emitter":227,"debug":29,"has-binary":48,"socket.io-parser":229,"to-array":242}],226:[function(require,module,exports){
+},{"./on":220,"component-bind":26,"component-emitter":27,"debug":30,"parseqs":201,"socket.io-parser":224,"to-array":231}],222:[function(require,module,exports){
 (function (global){
 
 /**
@@ -59793,9 +58685,7 @@ function url (uri, loc) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":29,"parseuri":202}],227:[function(require,module,exports){
-arguments[4][44][0].apply(exports,arguments)
-},{"dup":44}],228:[function(require,module,exports){
+},{"debug":30,"parseuri":202}],223:[function(require,module,exports){
 (function (global){
 /*global Blob,File*/
 
@@ -59805,6 +58695,9 @@ arguments[4][44][0].apply(exports,arguments)
 
 var isArray = require('isarray');
 var isBuf = require('./is-buffer');
+var toString = Object.prototype.toString;
+var withNativeBlob = typeof global.Blob === 'function' || toString.call(global.Blob) === '[object BlobConstructor]';
+var withNativeFile = typeof global.File === 'function' || toString.call(global.File) === '[object FileConstructor]';
 
 /**
  * Replaces every Buffer | ArrayBuffer in packet with a numbered placeholder.
@@ -59816,38 +58709,37 @@ var isBuf = require('./is-buffer');
  * @api public
  */
 
-exports.deconstructPacket = function(packet){
+exports.deconstructPacket = function(packet) {
   var buffers = [];
   var packetData = packet.data;
-
-  function _deconstructPacket(data) {
-    if (!data) return data;
-
-    if (isBuf(data)) {
-      var placeholder = { _placeholder: true, num: buffers.length };
-      buffers.push(data);
-      return placeholder;
-    } else if (isArray(data)) {
-      var newData = new Array(data.length);
-      for (var i = 0; i < data.length; i++) {
-        newData[i] = _deconstructPacket(data[i]);
-      }
-      return newData;
-    } else if ('object' == typeof data && !(data instanceof Date)) {
-      var newData = {};
-      for (var key in data) {
-        newData[key] = _deconstructPacket(data[key]);
-      }
-      return newData;
-    }
-    return data;
-  }
-
   var pack = packet;
-  pack.data = _deconstructPacket(packetData);
+  pack.data = _deconstructPacket(packetData, buffers);
   pack.attachments = buffers.length; // number of binary 'attachments'
   return {packet: pack, buffers: buffers};
 };
+
+function _deconstructPacket(data, buffers) {
+  if (!data) return data;
+
+  if (isBuf(data)) {
+    var placeholder = { _placeholder: true, num: buffers.length };
+    buffers.push(data);
+    return placeholder;
+  } else if (isArray(data)) {
+    var newData = new Array(data.length);
+    for (var i = 0; i < data.length; i++) {
+      newData[i] = _deconstructPacket(data[i], buffers);
+    }
+    return newData;
+  } else if (typeof data === 'object' && !(data instanceof Date)) {
+    var newData = {};
+    for (var key in data) {
+      newData[key] = _deconstructPacket(data[key], buffers);
+    }
+    return newData;
+  }
+  return data;
+}
 
 /**
  * Reconstructs a binary packet from its placeholder packet and buffers
@@ -59859,30 +58751,28 @@ exports.deconstructPacket = function(packet){
  */
 
 exports.reconstructPacket = function(packet, buffers) {
-  var curPlaceHolder = 0;
-
-  function _reconstructPacket(data) {
-    if (data && data._placeholder) {
-      var buf = buffers[data.num]; // appropriate buffer (should be natural order anyway)
-      return buf;
-    } else if (isArray(data)) {
-      for (var i = 0; i < data.length; i++) {
-        data[i] = _reconstructPacket(data[i]);
-      }
-      return data;
-    } else if (data && 'object' == typeof data) {
-      for (var key in data) {
-        data[key] = _reconstructPacket(data[key]);
-      }
-      return data;
-    }
-    return data;
-  }
-
-  packet.data = _reconstructPacket(packet.data);
+  packet.data = _reconstructPacket(packet.data, buffers);
   packet.attachments = undefined; // no longer useful
   return packet;
 };
+
+function _reconstructPacket(data, buffers) {
+  if (!data) return data;
+
+  if (data && data._placeholder) {
+    return buffers[data.num]; // appropriate buffer (should be natural order anyway)
+  } else if (isArray(data)) {
+    for (var i = 0; i < data.length; i++) {
+      data[i] = _reconstructPacket(data[i], buffers);
+    }
+  } else if (typeof data === 'object') {
+    for (var key in data) {
+      data[key] = _reconstructPacket(data[key], buffers);
+    }
+  }
+
+  return data;
+}
 
 /**
  * Asynchronously removes Blobs or Files from data via
@@ -59899,8 +58789,8 @@ exports.removeBlobs = function(data, callback) {
     if (!obj) return obj;
 
     // convert any blob
-    if ((global.Blob && obj instanceof Blob) ||
-        (global.File && obj instanceof File)) {
+    if ((withNativeBlob && obj instanceof Blob) ||
+        (withNativeFile && obj instanceof File)) {
       pendingBlobs++;
 
       // async filereader
@@ -59924,7 +58814,7 @@ exports.removeBlobs = function(data, callback) {
       for (var i = 0; i < obj.length; i++) {
         _removeBlobs(obj[i], i, obj);
       }
-    } else if (obj && 'object' == typeof obj && !isBuf(obj)) { // and object
+    } else if (typeof obj === 'object' && !isBuf(obj)) { // and object
       for (var key in obj) {
         _removeBlobs(obj[key], key, obj);
       }
@@ -59940,15 +58830,15 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":230,"isarray":54}],229:[function(require,module,exports){
+},{"./is-buffer":225,"isarray":54}],224:[function(require,module,exports){
 
 /**
  * Module dependencies.
  */
 
 var debug = require('debug')('socket.io-parser');
-var json = require('json3');
 var Emitter = require('component-emitter');
+var hasBin = require('has-binary2');
 var binary = require('./binary');
 var isBuf = require('./is-buffer');
 
@@ -60067,9 +58957,13 @@ function Encoder() {}
  */
 
 Encoder.prototype.encode = function(obj, callback){
+  if ((obj.type === exports.EVENT || obj.type === exports.ACK) && hasBin(obj.data)) {
+    obj.type = obj.type === exports.EVENT ? exports.BINARY_EVENT : exports.BINARY_ACK;
+  }
+
   debug('encoding packet %j', obj);
 
-  if (exports.BINARY_EVENT == obj.type || exports.BINARY_ACK == obj.type) {
+  if (exports.BINARY_EVENT === obj.type || exports.BINARY_ACK === obj.type) {
     encodeAsBinary(obj, callback);
   }
   else {
@@ -60087,38 +58981,29 @@ Encoder.prototype.encode = function(obj, callback){
  */
 
 function encodeAsString(obj) {
-  var str = '';
-  var nsp = false;
 
   // first is type
-  str += obj.type;
+  var str = '' + obj.type;
 
   // attachments if we have them
-  if (exports.BINARY_EVENT == obj.type || exports.BINARY_ACK == obj.type) {
-    str += obj.attachments;
-    str += '-';
+  if (exports.BINARY_EVENT === obj.type || exports.BINARY_ACK === obj.type) {
+    str += obj.attachments + '-';
   }
 
   // if we have a namespace other than `/`
   // we append it followed by a comma `,`
-  if (obj.nsp && '/' != obj.nsp) {
-    nsp = true;
-    str += obj.nsp;
+  if (obj.nsp && '/' !== obj.nsp) {
+    str += obj.nsp + ',';
   }
 
   // immediately followed by the id
   if (null != obj.id) {
-    if (nsp) {
-      str += ',';
-      nsp = false;
-    }
     str += obj.id;
   }
 
   // json data
   if (null != obj.data) {
-    if (nsp) str += ',';
-    str += json.stringify(obj.data);
+    str += JSON.stringify(obj.data);
   }
 
   debug('encoded %j as %s', obj, str);
@@ -60176,9 +59061,9 @@ Emitter(Decoder.prototype);
 
 Decoder.prototype.add = function(obj) {
   var packet;
-  if ('string' == typeof obj) {
+  if (typeof obj === 'string') {
     packet = decodeString(obj);
-    if (exports.BINARY_EVENT == packet.type || exports.BINARY_ACK == packet.type) { // binary packet's json
+    if (exports.BINARY_EVENT === packet.type || exports.BINARY_ACK === packet.type) { // binary packet's json
       this.reconstructor = new BinaryReconstructor(packet);
 
       // no attachments, labeled binary but no binary data to follow
@@ -60214,34 +59099,35 @@ Decoder.prototype.add = function(obj) {
  */
 
 function decodeString(str) {
-  var p = {};
   var i = 0;
-
   // look up type
-  p.type = Number(str.charAt(0));
+  var p = {
+    type: Number(str.charAt(0))
+  };
+
   if (null == exports.types[p.type]) return error();
 
   // look up attachments if type binary
-  if (exports.BINARY_EVENT == p.type || exports.BINARY_ACK == p.type) {
+  if (exports.BINARY_EVENT === p.type || exports.BINARY_ACK === p.type) {
     var buf = '';
-    while (str.charAt(++i) != '-') {
+    while (str.charAt(++i) !== '-') {
       buf += str.charAt(i);
       if (i == str.length) break;
     }
-    if (buf != Number(buf) || str.charAt(i) != '-') {
+    if (buf != Number(buf) || str.charAt(i) !== '-') {
       throw new Error('Illegal attachments');
     }
     p.attachments = Number(buf);
   }
 
   // look up namespace (if any)
-  if ('/' == str.charAt(i + 1)) {
+  if ('/' === str.charAt(i + 1)) {
     p.nsp = '';
     while (++i) {
       var c = str.charAt(i);
-      if (',' == c) break;
+      if (',' === c) break;
       p.nsp += c;
-      if (i == str.length) break;
+      if (i === str.length) break;
     }
   } else {
     p.nsp = '/';
@@ -60258,7 +59144,7 @@ function decodeString(str) {
         break;
       }
       p.id += str.charAt(i);
-      if (i == str.length) break;
+      if (i === str.length) break;
     }
     p.id = Number(p.id);
   }
@@ -60274,12 +59160,12 @@ function decodeString(str) {
 
 function tryParse(p, str) {
   try {
-    p.data = json.parse(str);
+    p.data = JSON.parse(str);
   } catch(e){
     return error();
   }
   return p; 
-};
+}
 
 /**
  * Deallocates a parser's resources
@@ -60320,7 +59206,7 @@ function BinaryReconstructor(packet) {
 
 BinaryReconstructor.prototype.takeBinaryData = function(binData) {
   this.buffers.push(binData);
-  if (this.buffers.length == this.reconPack.attachments) { // done with buffer list
+  if (this.buffers.length === this.reconPack.attachments) { // done with buffer list
     var packet = binary.reconstructPacket(this.reconPack, this.buffers);
     this.finishedReconstruction();
     return packet;
@@ -60339,14 +59225,14 @@ BinaryReconstructor.prototype.finishedReconstruction = function() {
   this.buffers = [];
 };
 
-function error(data){
+function error() {
   return {
     type: exports.ERROR,
     data: 'parser error'
   };
 }
 
-},{"./binary":228,"./is-buffer":230,"component-emitter":26,"debug":231,"json3":55}],230:[function(require,module,exports){
+},{"./binary":223,"./is-buffer":225,"component-emitter":27,"debug":30,"has-binary2":48}],225:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -60363,503 +59249,7 @@ function isBuf(obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],231:[function(require,module,exports){
-
-/**
- * This is the web browser implementation of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = require('./debug');
-exports.log = log;
-exports.formatArgs = formatArgs;
-exports.save = save;
-exports.load = load;
-exports.useColors = useColors;
-exports.storage = 'undefined' != typeof chrome
-               && 'undefined' != typeof chrome.storage
-                  ? chrome.storage.local
-                  : localstorage();
-
-/**
- * Colors.
- */
-
-exports.colors = [
-  'lightseagreen',
-  'forestgreen',
-  'goldenrod',
-  'dodgerblue',
-  'darkorchid',
-  'crimson'
-];
-
-/**
- * Currently only WebKit-based Web Inspectors, Firefox >= v31,
- * and the Firebug extension (any Firefox version) are known
- * to support "%c" CSS customizations.
- *
- * TODO: add a `localStorage` variable to explicitly enable/disable colors
- */
-
-function useColors() {
-  // is webkit? http://stackoverflow.com/a/16459606/376773
-  return ('WebkitAppearance' in document.documentElement.style) ||
-    // is firebug? http://stackoverflow.com/a/398120/376773
-    (window.console && (console.firebug || (console.exception && console.table))) ||
-    // is firefox >= v31?
-    // https://developer.mozilla.org/en-US/docs/Tools/Web_Console#Styling_messages
-    (navigator.userAgent.toLowerCase().match(/firefox\/(\d+)/) && parseInt(RegExp.$1, 10) >= 31);
-}
-
-/**
- * Map %j to `JSON.stringify()`, since no Web Inspectors do that by default.
- */
-
-exports.formatters.j = function(v) {
-  return JSON.stringify(v);
-};
-
-
-/**
- * Colorize log arguments if enabled.
- *
- * @api public
- */
-
-function formatArgs() {
-  var args = arguments;
-  var useColors = this.useColors;
-
-  args[0] = (useColors ? '%c' : '')
-    + this.namespace
-    + (useColors ? ' %c' : ' ')
-    + args[0]
-    + (useColors ? '%c ' : ' ')
-    + '+' + exports.humanize(this.diff);
-
-  if (!useColors) return args;
-
-  var c = 'color: ' + this.color;
-  args = [args[0], c, 'color: inherit'].concat(Array.prototype.slice.call(args, 1));
-
-  // the final "%c" is somewhat tricky, because there could be other
-  // arguments passed either before or after the %c, so we need to
-  // figure out the correct index to insert the CSS into
-  var index = 0;
-  var lastC = 0;
-  args[0].replace(/%[a-z%]/g, function(match) {
-    if ('%%' === match) return;
-    index++;
-    if ('%c' === match) {
-      // we only are interested in the *last* %c
-      // (the user may have provided their own)
-      lastC = index;
-    }
-  });
-
-  args.splice(lastC, 0, c);
-  return args;
-}
-
-/**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
- *
- * @api public
- */
-
-function log() {
-  // this hackery is required for IE8/9, where
-  // the `console.log` function doesn't have 'apply'
-  return 'object' === typeof console
-    && console.log
-    && Function.prototype.apply.call(console.log, console, arguments);
-}
-
-/**
- * Save `namespaces`.
- *
- * @param {String} namespaces
- * @api private
- */
-
-function save(namespaces) {
-  try {
-    if (null == namespaces) {
-      exports.storage.removeItem('debug');
-    } else {
-      exports.storage.debug = namespaces;
-    }
-  } catch(e) {}
-}
-
-/**
- * Load `namespaces`.
- *
- * @return {String} returns the previously persisted debug modes
- * @api private
- */
-
-function load() {
-  var r;
-  try {
-    r = exports.storage.debug;
-  } catch(e) {}
-  return r;
-}
-
-/**
- * Enable namespaces listed in `localStorage.debug` initially.
- */
-
-exports.enable(load());
-
-/**
- * Localstorage attempts to return the localstorage.
- *
- * This is necessary because safari throws
- * when a user disables cookies/localstorage
- * and you attempt to access it.
- *
- * @return {LocalStorage}
- * @api private
- */
-
-function localstorage(){
-  try {
-    return window.localStorage;
-  } catch (e) {}
-}
-
-},{"./debug":232}],232:[function(require,module,exports){
-
-/**
- * This is the common logic for both the Node.js and web browser
- * implementations of `debug()`.
- *
- * Expose `debug()` as the module.
- */
-
-exports = module.exports = debug;
-exports.coerce = coerce;
-exports.disable = disable;
-exports.enable = enable;
-exports.enabled = enabled;
-exports.humanize = require('ms');
-
-/**
- * The currently active debug mode names, and names to skip.
- */
-
-exports.names = [];
-exports.skips = [];
-
-/**
- * Map of special "%n" handling functions, for the debug "format" argument.
- *
- * Valid key names are a single, lowercased letter, i.e. "n".
- */
-
-exports.formatters = {};
-
-/**
- * Previously assigned color.
- */
-
-var prevColor = 0;
-
-/**
- * Previous log timestamp.
- */
-
-var prevTime;
-
-/**
- * Select a color.
- *
- * @return {Number}
- * @api private
- */
-
-function selectColor() {
-  return exports.colors[prevColor++ % exports.colors.length];
-}
-
-/**
- * Create a debugger with the given `namespace`.
- *
- * @param {String} namespace
- * @return {Function}
- * @api public
- */
-
-function debug(namespace) {
-
-  // define the `disabled` version
-  function disabled() {
-  }
-  disabled.enabled = false;
-
-  // define the `enabled` version
-  function enabled() {
-
-    var self = enabled;
-
-    // set `diff` timestamp
-    var curr = +new Date();
-    var ms = curr - (prevTime || curr);
-    self.diff = ms;
-    self.prev = prevTime;
-    self.curr = curr;
-    prevTime = curr;
-
-    // add the `color` if not set
-    if (null == self.useColors) self.useColors = exports.useColors();
-    if (null == self.color && self.useColors) self.color = selectColor();
-
-    var args = Array.prototype.slice.call(arguments);
-
-    args[0] = exports.coerce(args[0]);
-
-    if ('string' !== typeof args[0]) {
-      // anything else let's inspect with %o
-      args = ['%o'].concat(args);
-    }
-
-    // apply any `formatters` transformations
-    var index = 0;
-    args[0] = args[0].replace(/%([a-z%])/g, function(match, format) {
-      // if we encounter an escaped % then don't increase the array index
-      if (match === '%%') return match;
-      index++;
-      var formatter = exports.formatters[format];
-      if ('function' === typeof formatter) {
-        var val = args[index];
-        match = formatter.call(self, val);
-
-        // now we need to remove `args[index]` since it's inlined in the `format`
-        args.splice(index, 1);
-        index--;
-      }
-      return match;
-    });
-
-    if ('function' === typeof exports.formatArgs) {
-      args = exports.formatArgs.apply(self, args);
-    }
-    var logFn = enabled.log || exports.log || console.log.bind(console);
-    logFn.apply(self, args);
-  }
-  enabled.enabled = true;
-
-  var fn = exports.enabled(namespace) ? enabled : disabled;
-
-  fn.namespace = namespace;
-
-  return fn;
-}
-
-/**
- * Enables a debug mode by namespaces. This can include modes
- * separated by a colon and wildcards.
- *
- * @param {String} namespaces
- * @api public
- */
-
-function enable(namespaces) {
-  exports.save(namespaces);
-
-  var split = (namespaces || '').split(/[\s,]+/);
-  var len = split.length;
-
-  for (var i = 0; i < len; i++) {
-    if (!split[i]) continue; // ignore empty strings
-    namespaces = split[i].replace(/\*/g, '.*?');
-    if (namespaces[0] === '-') {
-      exports.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
-    } else {
-      exports.names.push(new RegExp('^' + namespaces + '$'));
-    }
-  }
-}
-
-/**
- * Disable debug output.
- *
- * @api public
- */
-
-function disable() {
-  exports.enable('');
-}
-
-/**
- * Returns true if the given mode name is enabled, false otherwise.
- *
- * @param {String} name
- * @return {Boolean}
- * @api public
- */
-
-function enabled(name) {
-  var i, len;
-  for (i = 0, len = exports.skips.length; i < len; i++) {
-    if (exports.skips[i].test(name)) {
-      return false;
-    }
-  }
-  for (i = 0, len = exports.names.length; i < len; i++) {
-    if (exports.names[i].test(name)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Coerce `val`.
- *
- * @param {Mixed} val
- * @return {Mixed}
- * @api private
- */
-
-function coerce(val) {
-  if (val instanceof Error) return val.stack || val.message;
-  return val;
-}
-
-},{"ms":233}],233:[function(require,module,exports){
-/**
- * Helpers.
- */
-
-var s = 1000;
-var m = s * 60;
-var h = m * 60;
-var d = h * 24;
-var y = d * 365.25;
-
-/**
- * Parse or format the given `val`.
- *
- * Options:
- *
- *  - `long` verbose formatting [false]
- *
- * @param {String|Number} val
- * @param {Object} options
- * @return {String|Number}
- * @api public
- */
-
-module.exports = function(val, options){
-  options = options || {};
-  if ('string' == typeof val) return parse(val);
-  return options.long
-    ? long(val)
-    : short(val);
-};
-
-/**
- * Parse the given `str` and return milliseconds.
- *
- * @param {String} str
- * @return {Number}
- * @api private
- */
-
-function parse(str) {
-  str = '' + str;
-  if (str.length > 10000) return;
-  var match = /^((?:\d+)?\.?\d+) *(milliseconds?|msecs?|ms|seconds?|secs?|s|minutes?|mins?|m|hours?|hrs?|h|days?|d|years?|yrs?|y)?$/i.exec(str);
-  if (!match) return;
-  var n = parseFloat(match[1]);
-  var type = (match[2] || 'ms').toLowerCase();
-  switch (type) {
-    case 'years':
-    case 'year':
-    case 'yrs':
-    case 'yr':
-    case 'y':
-      return n * y;
-    case 'days':
-    case 'day':
-    case 'd':
-      return n * d;
-    case 'hours':
-    case 'hour':
-    case 'hrs':
-    case 'hr':
-    case 'h':
-      return n * h;
-    case 'minutes':
-    case 'minute':
-    case 'mins':
-    case 'min':
-    case 'm':
-      return n * m;
-    case 'seconds':
-    case 'second':
-    case 'secs':
-    case 'sec':
-    case 's':
-      return n * s;
-    case 'milliseconds':
-    case 'millisecond':
-    case 'msecs':
-    case 'msec':
-    case 'ms':
-      return n;
-  }
-}
-
-/**
- * Short format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function short(ms) {
-  if (ms >= d) return Math.round(ms / d) + 'd';
-  if (ms >= h) return Math.round(ms / h) + 'h';
-  if (ms >= m) return Math.round(ms / m) + 'm';
-  if (ms >= s) return Math.round(ms / s) + 's';
-  return ms + 'ms';
-}
-
-/**
- * Long format for `ms`.
- *
- * @param {Number} ms
- * @return {String}
- * @api private
- */
-
-function long(ms) {
-  return plural(ms, d, 'day')
-    || plural(ms, h, 'hour')
-    || plural(ms, m, 'minute')
-    || plural(ms, s, 'second')
-    || ms + ' ms';
-}
-
-/**
- * Pluralization helper.
- */
-
-function plural(ms, n, name) {
-  if (ms < n) return;
-  if (ms < n * 1.5) return Math.floor(ms / n) + ' ' + name;
-  return Math.ceil(ms / n) + ' ' + name + 's';
-}
-
-},{}],234:[function(require,module,exports){
+},{}],226:[function(require,module,exports){
 /*
 Copyright (c) 2014-2016, Matteo Collina <hello@matteocollina.com>
 
@@ -60968,7 +59358,7 @@ function split (matcher, mapper, options) {
 
 module.exports = split
 
-},{"string_decoder":237,"through2":241}],235:[function(require,module,exports){
+},{"string_decoder":23,"through2":230}],227:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -61097,7 +59487,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":47,"inherits":52,"readable-stream/duplex.js":210,"readable-stream/passthrough.js":218,"readable-stream/readable.js":219,"readable-stream/transform.js":220,"readable-stream/writable.js":221}],236:[function(require,module,exports){
+},{"events":47,"inherits":52,"readable-stream/duplex.js":206,"readable-stream/passthrough.js":214,"readable-stream/readable.js":215,"readable-stream/transform.js":216,"readable-stream/writable.js":217}],228:[function(require,module,exports){
 module.exports = shift
 
 function shift (stream) {
@@ -61119,7 +59509,7 @@ function getStateLength (state) {
   return state.length
 }
 
-},{}],237:[function(require,module,exports){
+},{}],229:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -61342,6046 +59732,7 @@ function base64DetectIncompleteChar(buffer) {
   this.charLength = this.charReceived ? 3 : 0;
 }
 
-},{"buffer":24}],238:[function(require,module,exports){
-module.exports = require('./lib/index.js');
-
-},{"./lib/index.js":239}],239:[function(require,module,exports){
-(function (Buffer,__dirname){
-/**
- * term.js - an xterm emulator
- * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
- * https://github.com/chjj/term.js
- */
-
-function term(options) {
-  return new term.Terminal(options);
-}
-
-term.middleware = function(options) {
-  var url = require('url');
-
-  options = options || {};
-  options.path = options.path || '/term.js';
-
-  return function(req, res, next) {
-    if (url.parse(req.url).pathname !== options.path) {
-      return next();
-    }
-
-    if (+new Date(req.headers['if-modified-since']) === term.last) {
-      res.statusCode = 304;
-      res.end();
-      return;
-    }
-
-    res.writeHead(200, {
-      'Content-Type': 'application/javascript; charset=utf-8',
-      'Content-Length': Buffer.byteLength(term.script),
-      'Last-Modified': term.last
-    });
-
-    res.end(term.script);
-  };
-};
-
-term.path = __dirname + '/../src/term.js';
-
-term.__defineGetter__('script', function() {
-  if (term._script) return term._script;
-  term.last = +new Date;
-  return term._script = require('fs').readFileSync(term.path, 'utf8');
-});
-
-term.__defineGetter__('Terminal', function() {
-  if (term._Terminal) return term._Terminal;
-  return term._Terminal = require('../src/term');
-});
-
-/**
- * Expose
- */
-
-module.exports = term;
-
-}).call(this,require("buffer").Buffer,"/node_modules\\term.js\\lib")
-},{"../src/term":240,"buffer":24,"fs":22,"url":243}],240:[function(require,module,exports){
-(function (global){
-/**
- * term.js - an xterm emulator
- * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
- * https://github.com/chjj/term.js
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- *
- * Originally forked from (with the author's permission):
- *   Fabrice Bellard's javascript vt100 for jslinux:
- *   http://bellard.org/jslinux/
- *   Copyright (c) 2011 Fabrice Bellard
- *   The original design remains. The terminal itself
- *   has been extended to include xterm CSI codes, among
- *   other features.
- */
-
-;(function() {
-
-/**
- * Terminal Emulation References:
- *   http://vt100.net/
- *   http://invisible-island.net/xterm/ctlseqs/ctlseqs.txt
- *   http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
- *   http://invisible-island.net/vttest/
- *   http://www.inwap.com/pdp10/ansicode.txt
- *   http://linux.die.net/man/4/console_codes
- *   http://linux.die.net/man/7/urxvt
- */
-
-'use strict';
-
-/**
- * Shared
- */
-
-var window = this
-  , document = this.document;
-
-/**
- * EventEmitter
- */
-
-function EventEmitter() {
-  this._events = this._events || {};
-}
-
-EventEmitter.prototype.addListener = function(type, listener) {
-  this._events[type] = this._events[type] || [];
-  this._events[type].push(listener);
-};
-
-EventEmitter.prototype.on = EventEmitter.prototype.addListener;
-
-EventEmitter.prototype.removeListener = function(type, listener) {
-  if (!this._events[type]) return;
-
-  var obj = this._events[type]
-    , i = obj.length;
-
-  while (i--) {
-    if (obj[i] === listener || obj[i].listener === listener) {
-      obj.splice(i, 1);
-      return;
-    }
-  }
-};
-
-EventEmitter.prototype.off = EventEmitter.prototype.removeListener;
-
-EventEmitter.prototype.removeAllListeners = function(type) {
-  if (this._events[type]) delete this._events[type];
-};
-
-EventEmitter.prototype.once = function(type, listener) {
-  function on() {
-    var args = Array.prototype.slice.call(arguments);
-    this.removeListener(type, on);
-    return listener.apply(this, args);
-  }
-  on.listener = listener;
-  return this.on(type, on);
-};
-
-EventEmitter.prototype.emit = function(type) {
-  if (!this._events[type]) return;
-
-  var args = Array.prototype.slice.call(arguments, 1)
-    , obj = this._events[type]
-    , l = obj.length
-    , i = 0;
-
-  for (; i < l; i++) {
-    obj[i].apply(this, args);
-  }
-};
-
-EventEmitter.prototype.listeners = function(type) {
-  return this._events[type] = this._events[type] || [];
-};
-
-/**
- * Stream
- */
-
-function Stream() {
-  EventEmitter.call(this);
-}
-
-inherits(Stream, EventEmitter);
-
-Stream.prototype.pipe = function(dest, options) {
-  var src = this
-    , ondata
-    , onerror
-    , onend;
-
-  function unbind() {
-    src.removeListener('data', ondata);
-    src.removeListener('error', onerror);
-    src.removeListener('end', onend);
-    dest.removeListener('error', onerror);
-    dest.removeListener('close', unbind);
-  }
-
-  src.on('data', ondata = function(data) {
-    dest.write(data);
-  });
-
-  src.on('error', onerror = function(err) {
-    unbind();
-    if (!this.listeners('error').length) {
-      throw err;
-    }
-  });
-
-  src.on('end', onend = function() {
-    dest.end();
-    unbind();
-  });
-
-  dest.on('error', onerror);
-  dest.on('close', unbind);
-
-  dest.emit('pipe', src);
-
-  return dest;
-};
-
-/**
- * States
- */
-
-var normal = 0
-  , escaped = 1
-  , csi = 2
-  , osc = 3
-  , charset = 4
-  , dcs = 5
-  , ignore = 6
-  , UDK = { type: 'udk' };
-
-/**
- * Terminal
- */
-
-function Terminal(options) {
-  var self = this;
-
-  if (!(this instanceof Terminal)) {
-    return new Terminal(arguments[0], arguments[1], arguments[2]);
-  }
-
-  Stream.call(this);
-
-  if (typeof options === 'number') {
-    options = {
-      cols: arguments[0],
-      rows: arguments[1],
-      handler: arguments[2]
-    };
-  }
-
-  options = options || {};
-
-  each(keys(Terminal.defaults), function(key) {
-    if (options[key] == null) {
-      options[key] = Terminal.options[key];
-      // Legacy:
-      if (Terminal[key] !== Terminal.defaults[key]) {
-        options[key] = Terminal[key];
-      }
-    }
-    self[key] = options[key];
-  });
-
-  if (options.colors.length === 8) {
-    options.colors = options.colors.concat(Terminal._colors.slice(8));
-  } else if (options.colors.length === 16) {
-    options.colors = options.colors.concat(Terminal._colors.slice(16));
-  } else if (options.colors.length === 10) {
-    options.colors = options.colors.slice(0, -2).concat(
-      Terminal._colors.slice(8, -2), options.colors.slice(-2));
-  } else if (options.colors.length === 18) {
-    options.colors = options.colors.slice(0, -2).concat(
-      Terminal._colors.slice(16, -2), options.colors.slice(-2));
-  }
-  this.colors = options.colors;
-
-  this.options = options;
-
-  // this.context = options.context || window;
-  // this.document = options.document || document;
-  this.parent = options.body || options.parent
-    || (document ? document.getElementsByTagName('body')[0] : null);
-
-  this.cols = options.cols || options.geometry[0];
-  this.rows = options.rows || options.geometry[1];
-
-  // Act as though we are a node TTY stream:
-  this.setRawMode;
-  this.isTTY = true;
-  this.isRaw = true;
-  this.columns = this.cols;
-  this.rows = this.rows;
-
-  if (options.handler) {
-    this.on('data', options.handler);
-  }
-
-  this.ybase = 0;
-  this.ydisp = 0;
-  this.x = 0;
-  this.y = 0;
-  this.cursorState = 0;
-  this.cursorHidden = false;
-  this.convertEol;
-  this.state = 0;
-  this.queue = '';
-  this.scrollTop = 0;
-  this.scrollBottom = this.rows - 1;
-
-  // modes
-  this.applicationKeypad = false;
-  this.applicationCursor = false;
-  this.originMode = false;
-  this.insertMode = false;
-  this.wraparoundMode = false;
-  this.normal = null;
-
-  // select modes
-  this.prefixMode = false;
-  this.selectMode = false;
-  this.visualMode = false;
-  this.searchMode = false;
-  this.searchDown;
-  this.entry = '';
-  this.entryPrefix = 'Search: ';
-  this._real;
-  this._selected;
-  this._textarea;
-
-  // charset
-  this.charset = null;
-  this.gcharset = null;
-  this.glevel = 0;
-  this.charsets = [null];
-
-  // mouse properties
-  this.decLocator;
-  this.x10Mouse;
-  this.vt200Mouse;
-  this.vt300Mouse;
-  this.normalMouse;
-  this.mouseEvents;
-  this.sendFocus;
-  this.utfMouse;
-  this.sgrMouse;
-  this.urxvtMouse;
-
-  // misc
-  this.element;
-  this.children;
-  this.refreshStart;
-  this.refreshEnd;
-  this.savedX;
-  this.savedY;
-  this.savedCols;
-
-  // stream
-  this.readable = true;
-  this.writable = true;
-
-  this.defAttr = (0 << 18) | (257 << 9) | (256 << 0);
-  this.curAttr = this.defAttr;
-
-  this.params = [];
-  this.currentParam = 0;
-  this.prefix = '';
-  this.postfix = '';
-
-  this.lines = [];
-  var i = this.rows;
-  while (i--) {
-    this.lines.push(this.blankLine());
-  }
-
-  this.tabs;
-  this.setupStops();
-}
-
-inherits(Terminal, Stream);
-
-/**
- * Colors
- */
-
-// Colors 0-15
-Terminal.tangoColors = [
-  // dark:
-  '#2e3436',
-  '#cc0000',
-  '#4e9a06',
-  '#c4a000',
-  '#3465a4',
-  '#75507b',
-  '#06989a',
-  '#d3d7cf',
-  // bright:
-  '#555753',
-  '#ef2929',
-  '#8ae234',
-  '#fce94f',
-  '#729fcf',
-  '#ad7fa8',
-  '#34e2e2',
-  '#eeeeec'
-];
-
-Terminal.xtermColors = [
-  // dark:
-  '#000000', // black
-  '#cd0000', // red3
-  '#00cd00', // green3
-  '#cdcd00', // yellow3
-  '#0000ee', // blue2
-  '#cd00cd', // magenta3
-  '#00cdcd', // cyan3
-  '#e5e5e5', // gray90
-  // bright:
-  '#7f7f7f', // gray50
-  '#ff0000', // red
-  '#00ff00', // green
-  '#ffff00', // yellow
-  '#5c5cff', // rgb:5c/5c/ff
-  '#ff00ff', // magenta
-  '#00ffff', // cyan
-  '#ffffff'  // white
-];
-
-// Colors 0-15 + 16-255
-// Much thanks to TooTallNate for writing this.
-Terminal.colors = (function() {
-  var colors = Terminal.tangoColors.slice()
-    , r = [0x00, 0x5f, 0x87, 0xaf, 0xd7, 0xff]
-    , i;
-
-  // 16-231
-  i = 0;
-  for (; i < 216; i++) {
-    out(r[(i / 36) % 6 | 0], r[(i / 6) % 6 | 0], r[i % 6]);
-  }
-
-  // 232-255 (grey)
-  i = 0;
-  for (; i < 24; i++) {
-    r = 8 + i * 10;
-    out(r, r, r);
-  }
-
-  function out(r, g, b) {
-    colors.push('#' + hex(r) + hex(g) + hex(b));
-  }
-
-  function hex(c) {
-    c = c.toString(16);
-    return c.length < 2 ? '0' + c : c;
-  }
-
-  return colors;
-})();
-
-// Default BG/FG
-Terminal.colors[256] = '#000000';
-Terminal.colors[257] = '#f0f0f0';
-
-Terminal._colors = Terminal.colors.slice();
-
-Terminal.vcolors = (function() {
-  var out = []
-    , colors = Terminal.colors
-    , i = 0
-    , color;
-
-  for (; i < 256; i++) {
-    color = parseInt(colors[i].substring(1), 16);
-    out.push([
-      (color >> 16) & 0xff,
-      (color >> 8) & 0xff,
-      color & 0xff
-    ]);
-  }
-
-  return out;
-})();
-
-/**
- * Options
- */
-
-Terminal.defaults = {
-  colors: Terminal.colors,
-  convertEol: false,
-  termName: 'xterm',
-  geometry: [80, 24],
-  cursorBlink: true,
-  visualBell: false,
-  popOnBell: false,
-  scrollback: 1000,
-  screenKeys: false,
-  debug: false,
-  useStyle: false
-  // programFeatures: false,
-  // focusKeys: false,
-};
-
-Terminal.options = {};
-
-each(keys(Terminal.defaults), function(key) {
-  Terminal[key] = Terminal.defaults[key];
-  Terminal.options[key] = Terminal.defaults[key];
-});
-
-/**
- * Focused Terminal
- */
-
-Terminal.focus = null;
-
-Terminal.prototype.focus = function() {
-  if (Terminal.focus === this) return;
-
-  if (Terminal.focus) {
-    Terminal.focus.blur();
-  }
-
-  if (this.sendFocus) this.send('\x1b[I');
-  this.showCursor();
-
-  // try {
-  //   this.element.focus();
-  // } catch (e) {
-  //   ;
-  // }
-
-  // this.emit('focus');
-
-  Terminal.focus = this;
-};
-
-Terminal.prototype.blur = function() {
-  if (Terminal.focus !== this) return;
-
-  this.cursorState = 0;
-  this.refresh(this.y, this.y);
-  if (this.sendFocus) this.send('\x1b[O');
-
-  // try {
-  //   this.element.blur();
-  // } catch (e) {
-  //   ;
-  // }
-
-  // this.emit('blur');
-
-  Terminal.focus = null;
-};
-
-/**
- * Initialize global behavior
- */
-
-Terminal.prototype.initGlobal = function() {
-  var document = this.document;
-
-  Terminal._boundDocs = Terminal._boundDocs || [];
-  if (~indexOf(Terminal._boundDocs, document)) {
-    return;
-  }
-  Terminal._boundDocs.push(document);
-
-  Terminal.bindPaste(document);
-
-  Terminal.bindKeys(document);
-
-  Terminal.bindCopy(document);
-
-  if (this.isMobile) {
-    this.fixMobile(document);
-  }
-
-  if (this.useStyle) {
-    Terminal.insertStyle(document, this.colors[256], this.colors[257]);
-  }
-};
-
-/**
- * Bind to paste event
- */
-
-Terminal.bindPaste = function(document) {
-  // This seems to work well for ctrl-V and middle-click,
-  // even without the contentEditable workaround.
-  var window = document.defaultView;
-  on(window, 'paste', function(ev) {
-    var term = Terminal.focus;
-    if (!term) return;
-    if (ev.clipboardData) {
-      term.send(ev.clipboardData.getData('text/plain'));
-    } else if (term.context.clipboardData) {
-      term.send(term.context.clipboardData.getData('Text'));
-    }
-    // Not necessary. Do it anyway for good measure.
-    term.element.contentEditable = 'inherit';
-    return cancel(ev);
-  });
-};
-
-/**
- * Global Events for key handling
- */
-
-Terminal.bindKeys = function(document) {
-  // We should only need to check `target === body` below,
-  // but we can check everything for good measure.
-  on(document, 'keydown', function(ev) {
-    if (!Terminal.focus) return;
-    var target = ev.target || ev.srcElement;
-    if (!target) return;
-    if (target === Terminal.focus.element
-        || target === Terminal.focus.context
-        || target === Terminal.focus.document
-        || target === Terminal.focus.body
-        || target === Terminal._textarea
-        || target === Terminal.focus.parent) {
-      return Terminal.focus.keyDown(ev);
-    }
-  }, true);
-
-  on(document, 'keypress', function(ev) {
-    if (!Terminal.focus) return;
-    var target = ev.target || ev.srcElement;
-    if (!target) return;
-    if (target === Terminal.focus.element
-        || target === Terminal.focus.context
-        || target === Terminal.focus.document
-        || target === Terminal.focus.body
-        || target === Terminal._textarea
-        || target === Terminal.focus.parent) {
-      return Terminal.focus.keyPress(ev);
-    }
-  }, true);
-
-  // If we click somewhere other than a
-  // terminal, unfocus the terminal.
-  on(document, 'mousedown', function(ev) {
-    if (!Terminal.focus) return;
-
-    var el = ev.target || ev.srcElement;
-    if (!el) return;
-
-    do {
-      if (el === Terminal.focus.element) return;
-    } while (el = el.parentNode);
-
-    Terminal.focus.blur();
-  });
-};
-
-/**
- * Copy Selection w/ Ctrl-C (Select Mode)
- */
-
-Terminal.bindCopy = function(document) {
-  var window = document.defaultView;
-
-  // if (!('onbeforecopy' in document)) {
-  //   // Copies to *only* the clipboard.
-  //   on(window, 'copy', function fn(ev) {
-  //     var term = Terminal.focus;
-  //     if (!term) return;
-  //     if (!term._selected) return;
-  //     var text = term.grabText(
-  //       term._selected.x1, term._selected.x2,
-  //       term._selected.y1, term._selected.y2);
-  //     term.emit('copy', text);
-  //     ev.clipboardData.setData('text/plain', text);
-  //   });
-  //   return;
-  // }
-
-  // Copies to primary selection *and* clipboard.
-  // NOTE: This may work better on capture phase,
-  // or using the `beforecopy` event.
-  on(window, 'copy', function(ev) {
-    var term = Terminal.focus;
-    if (!term) return;
-    if (!term._selected) return;
-    var textarea = term.getCopyTextarea();
-    var text = term.grabText(
-      term._selected.x1, term._selected.x2,
-      term._selected.y1, term._selected.y2);
-    term.emit('copy', text);
-    textarea.focus();
-    textarea.textContent = text;
-    textarea.value = text;
-    textarea.setSelectionRange(0, text.length);
-    setTimeout(function() {
-      term.element.focus();
-      term.focus();
-    }, 1);
-  });
-};
-
-/**
- * Fix Mobile
- */
-
-Terminal.prototype.fixMobile = function(document) {
-  var self = this;
-
-  var textarea = document.createElement('textarea');
-  textarea.style.position = 'absolute';
-  textarea.style.left = '-32000px';
-  textarea.style.top = '-32000px';
-  textarea.style.width = '0px';
-  textarea.style.height = '0px';
-  textarea.style.opacity = '0';
-  textarea.style.backgroundColor = 'transparent';
-  textarea.style.borderStyle = 'none';
-  textarea.style.outlineStyle = 'none';
-  textarea.autocapitalize = 'none';
-  textarea.autocorrect = 'off';
-
-  document.getElementsByTagName('body')[0].appendChild(textarea);
-
-  Terminal._textarea = textarea;
-
-  setTimeout(function() {
-    textarea.focus();
-  }, 1000);
-
-  if (this.isAndroid) {
-    on(textarea, 'change', function() {
-      var value = textarea.textContent || textarea.value;
-      textarea.value = '';
-      textarea.textContent = '';
-      self.send(value + '\r');
-    });
-  }
-};
-
-/**
- * Insert a default style
- */
-
-Terminal.insertStyle = function(document, bg, fg) {
-  var style = document.getElementById('term-style');
-  if (style) return;
-
-  var head = document.getElementsByTagName('head')[0];
-  if (!head) return;
-
-  var style = document.createElement('style');
-  style.id = 'term-style';
-
-  // textContent doesn't work well with IE for <style> elements.
-  style.innerHTML = ''
-    + '.terminal {\n'
-    + '  float: left;\n'
-    + '  border: ' + bg + ' solid 5px;\n'
-    + '  font-family: "DejaVu Sans Mono", "Liberation Mono", monospace;\n'
-    + '  font-size: 11px;\n'
-    + '  color: ' + fg + ';\n'
-    + '  background: ' + bg + ';\n'
-    + '}\n'
-    + '\n'
-    + '.terminal-cursor {\n'
-    + '  color: ' + bg + ';\n'
-    + '  background: ' + fg + ';\n'
-    + '}\n';
-
-  // var out = '';
-  // each(Terminal.colors, function(color, i) {
-  //   if (i === 256) {
-  //     out += '\n.term-bg-color-default { background-color: ' + color + '; }';
-  //   }
-  //   if (i === 257) {
-  //     out += '\n.term-fg-color-default { color: ' + color + '; }';
-  //   }
-  //   out += '\n.term-bg-color-' + i + ' { background-color: ' + color + '; }';
-  //   out += '\n.term-fg-color-' + i + ' { color: ' + color + '; }';
-  // });
-  // style.innerHTML += out + '\n';
-
-  head.insertBefore(style, head.firstChild);
-};
-
-/**
- * Open Terminal
- */
-
-Terminal.prototype.open = function(parent) {
-  var self = this
-    , i = 0
-    , div;
-
-  this.parent = parent || this.parent;
-
-  if (!this.parent) {
-    throw new Error('Terminal requires a parent element.');
-  }
-
-  // Grab global elements.
-  this.context = this.parent.ownerDocument.defaultView;
-  this.document = this.parent.ownerDocument;
-  this.body = this.document.getElementsByTagName('body')[0];
-
-  // Parse user-agent strings.
-  if (this.context.navigator && this.context.navigator.userAgent) {
-    this.isMac = !!~this.context.navigator.userAgent.indexOf('Mac');
-    this.isIpad = !!~this.context.navigator.userAgent.indexOf('iPad');
-    this.isIphone = !!~this.context.navigator.userAgent.indexOf('iPhone');
-    this.isAndroid = !!~this.context.navigator.userAgent.indexOf('Android');
-    this.isMobile = this.isIpad || this.isIphone || this.isAndroid;
-    this.isMSIE = !!~this.context.navigator.userAgent.indexOf('MSIE');
-  }
-
-  // Create our main terminal element.
-  this.element = this.document.createElement('div');
-  this.element.className = 'terminal';
-  this.element.style.outline = 'none';
-  this.element.setAttribute('tabindex', 0);
-  this.element.setAttribute('spellcheck', 'false');
-  this.element.style.backgroundColor = this.colors[256];
-  this.element.style.color = this.colors[257];
-
-  // Create the lines for our terminal.
-  this.children = [];
-  for (; i < this.rows; i++) {
-    div = this.document.createElement('div');
-    this.element.appendChild(div);
-    this.children.push(div);
-  }
-  this.parent.appendChild(this.element);
-
-  // Draw the screen.
-  this.refresh(0, this.rows - 1);
-
-  if (!('useEvents' in this.options) || this.options.useEvents) {
-    // Initialize global actions that
-    // need to be taken on the document.
-    this.initGlobal();
-  }
-
-  if (!('useFocus' in this.options) || this.options.useFocus) {
-    // Ensure there is a Terminal.focus.
-    this.focus();
-
-    // Start blinking the cursor.
-    this.startBlink();
-
-    // Bind to DOM events related
-    // to focus and paste behavior.
-    on(this.element, 'focus', function() {
-      self.focus();
-      if (self.isMobile) {
-        Terminal._textarea.focus();
-      }
-    });
-
-    // This causes slightly funky behavior.
-    // on(this.element, 'blur', function() {
-    //   self.blur();
-    // });
-
-    on(this.element, 'mousedown', function() {
-      self.focus();
-    });
-
-    // Clickable paste workaround, using contentEditable.
-    // This probably shouldn't work,
-    // ... but it does. Firefox's paste
-    // event seems to only work for textareas?
-    on(this.element, 'mousedown', function(ev) {
-      var button = ev.button != null
-        ? +ev.button
-        : ev.which != null
-          ? ev.which - 1
-          : null;
-
-      // Does IE9 do this?
-      if (self.isMSIE) {
-        button = button === 1 ? 0 : button === 4 ? 1 : button;
-      }
-
-      if (button !== 2) return;
-
-      self.element.contentEditable = 'true';
-      setTimeout(function() {
-        self.element.contentEditable = 'inherit'; // 'false';
-      }, 1);
-    }, true);
-  }
-
-  if (!('useMouse' in this.options) || this.options.useMouse) {
-    // Listen for mouse events and translate
-    // them into terminal mouse protocols.
-    this.bindMouse();
-  }
-
-  // this.emit('open');
-
-  if (!('useFocus' in this.options) || this.options.useFocus) {
-      // This can be useful for pasting,
-      // as well as the iPad fix.
-      setTimeout(function() {
-        self.element.focus();
-      }, 100);
-  }
-
-  // Figure out whether boldness affects
-  // the character width of monospace fonts.
-  if (Terminal.brokenBold == null) {
-    Terminal.brokenBold = isBoldBroken(this.document);
-  }
-
-  this.emit('open');
-};
-
-Terminal.prototype.setRawMode = function(value) {
-  this.isRaw = !!value;
-};
-
-// XTerm mouse events
-// http://invisible-island.net/xterm/ctlseqs/ctlseqs.html#Mouse%20Tracking
-// To better understand these
-// the xterm code is very helpful:
-// Relevant files:
-//   button.c, charproc.c, misc.c
-// Relevant functions in xterm/button.c:
-//   BtnCode, EmitButtonCode, EditorButton, SendMousePosition
-Terminal.prototype.bindMouse = function() {
-  var el = this.element
-    , self = this
-    , pressed = 32;
-
-  var wheelEvent = 'onmousewheel' in this.context
-    ? 'mousewheel'
-    : 'DOMMouseScroll';
-
-  // mouseup, mousedown, mousewheel
-  // left click: ^[[M 3<^[[M#3<
-  // mousewheel up: ^[[M`3>
-  function sendButton(ev) {
-    var button
-      , pos;
-
-    // get the xterm-style button
-    button = getButton(ev);
-
-    // get mouse coordinates
-    pos = getCoords(ev);
-    if (!pos) return;
-
-    sendEvent(button, pos);
-
-    switch (ev.type) {
-      case 'mousedown':
-        pressed = button;
-        break;
-      case 'mouseup':
-        // keep it at the left
-        // button, just in case.
-        pressed = 32;
-        break;
-      case wheelEvent:
-        // nothing. don't
-        // interfere with
-        // `pressed`.
-        break;
-    }
-  }
-
-  // motion example of a left click:
-  // ^[[M 3<^[[M@4<^[[M@5<^[[M@6<^[[M@7<^[[M#7<
-  function sendMove(ev) {
-    var button = pressed
-      , pos;
-
-    pos = getCoords(ev);
-    if (!pos) return;
-
-    // buttons marked as motions
-    // are incremented by 32
-    button += 32;
-
-    sendEvent(button, pos);
-  }
-
-  // encode button and
-  // position to characters
-  function encode(data, ch) {
-    if (!self.utfMouse) {
-      if (ch === 255) return data.push(0);
-      if (ch > 127) ch = 127;
-      data.push(ch);
-    } else {
-      if (ch === 2047) return data.push(0);
-      if (ch < 127) {
-        data.push(ch);
-      } else {
-        if (ch > 2047) ch = 2047;
-        data.push(0xC0 | (ch >> 6));
-        data.push(0x80 | (ch & 0x3F));
-      }
-    }
-  }
-
-  // send a mouse event:
-  // regular/utf8: ^[[M Cb Cx Cy
-  // urxvt: ^[[ Cb ; Cx ; Cy M
-  // sgr: ^[[ Cb ; Cx ; Cy M/m
-  // vt300: ^[[ 24(1/3/5)~ [ Cx , Cy ] \r
-  // locator: CSI P e ; P b ; P r ; P c ; P p & w
-  function sendEvent(button, pos) {
-    // self.emit('mouse', {
-    //   x: pos.x - 32,
-    //   y: pos.x - 32,
-    //   button: button
-    // });
-
-    if (self.vt300Mouse) {
-      // NOTE: Unstable.
-      // http://www.vt100.net/docs/vt3xx-gp/chapter15.html
-      button &= 3;
-      pos.x -= 32;
-      pos.y -= 32;
-      var data = '\x1b[24';
-      if (button === 0) data += '1';
-      else if (button === 1) data += '3';
-      else if (button === 2) data += '5';
-      else if (button === 3) return;
-      else data += '0';
-      data += '~[' + pos.x + ',' + pos.y + ']\r';
-      self.send(data);
-      return;
-    }
-
-    if (self.decLocator) {
-      // NOTE: Unstable.
-      button &= 3;
-      pos.x -= 32;
-      pos.y -= 32;
-      if (button === 0) button = 2;
-      else if (button === 1) button = 4;
-      else if (button === 2) button = 6;
-      else if (button === 3) button = 3;
-      self.send('\x1b['
-        + button
-        + ';'
-        + (button === 3 ? 4 : 0)
-        + ';'
-        + pos.y
-        + ';'
-        + pos.x
-        + ';'
-        + (pos.page || 0)
-        + '&w');
-      return;
-    }
-
-    if (self.urxvtMouse) {
-      pos.x -= 32;
-      pos.y -= 32;
-      pos.x++;
-      pos.y++;
-      self.send('\x1b[' + button + ';' + pos.x + ';' + pos.y + 'M');
-      return;
-    }
-
-    if (self.sgrMouse) {
-      pos.x -= 32;
-      pos.y -= 32;
-      self.send('\x1b[<'
-        + ((button & 3) === 3 ? button & ~3 : button)
-        + ';'
-        + pos.x
-        + ';'
-        + pos.y
-        + ((button & 3) === 3 ? 'm' : 'M'));
-      return;
-    }
-
-    var data = [];
-
-    encode(data, button);
-    encode(data, pos.x);
-    encode(data, pos.y);
-
-    self.send('\x1b[M' + String.fromCharCode.apply(String, data));
-  }
-
-  function getButton(ev) {
-    var button
-      , shift
-      , meta
-      , ctrl
-      , mod;
-
-    // two low bits:
-    // 0 = left
-    // 1 = middle
-    // 2 = right
-    // 3 = release
-    // wheel up/down:
-    // 1, and 2 - with 64 added
-    switch (ev.type) {
-      case 'mousedown':
-        button = ev.button != null
-          ? +ev.button
-          : ev.which != null
-            ? ev.which - 1
-            : null;
-
-        if (self.isMSIE) {
-          button = button === 1 ? 0 : button === 4 ? 1 : button;
-        }
-        break;
-      case 'mouseup':
-        button = 3;
-        break;
-      case 'DOMMouseScroll':
-        button = ev.detail < 0
-          ? 64
-          : 65;
-        break;
-      case 'mousewheel':
-        button = ev.wheelDeltaY > 0
-          ? 64
-          : 65;
-        break;
-    }
-
-    // next three bits are the modifiers:
-    // 4 = shift, 8 = meta, 16 = control
-    shift = ev.shiftKey ? 4 : 0;
-    meta = ev.metaKey ? 8 : 0;
-    ctrl = ev.ctrlKey ? 16 : 0;
-    mod = shift | meta | ctrl;
-
-    // no mods
-    if (self.vt200Mouse) {
-      // ctrl only
-      mod &= ctrl;
-    } else if (!self.normalMouse) {
-      mod = 0;
-    }
-
-    // increment to SP
-    button = (32 + (mod << 2)) + button;
-
-    return button;
-  }
-
-  // mouse coordinates measured in cols/rows
-  function getCoords(ev) {
-    var x, y, w, h, el;
-
-    // ignore browsers without pageX for now
-    if (ev.pageX == null) return;
-
-    x = ev.pageX;
-    y = ev.pageY;
-    el = self.element;
-
-    // should probably check offsetParent
-    // but this is more portable
-    while (el && el !== self.document.documentElement) {
-      x -= el.offsetLeft;
-      y -= el.offsetTop;
-      el = 'offsetParent' in el
-        ? el.offsetParent
-        : el.parentNode;
-    }
-
-    // convert to cols/rows
-    w = self.element.clientWidth;
-    h = self.element.clientHeight;
-    x = Math.round((x / w) * self.cols);
-    y = Math.round((y / h) * self.rows);
-
-    // be sure to avoid sending
-    // bad positions to the program
-    if (x < 0) x = 0;
-    if (x > self.cols) x = self.cols;
-    if (y < 0) y = 0;
-    if (y > self.rows) y = self.rows;
-
-    // xterm sends raw bytes and
-    // starts at 32 (SP) for each.
-    x += 32;
-    y += 32;
-
-    return {
-      x: x,
-      y: y,
-      type: ev.type === wheelEvent
-        ? 'mousewheel'
-        : ev.type
-    };
-  }
-
-  on(el, 'mousedown', function(ev) {
-    if (!self.mouseEvents) return;
-
-    // send the button
-    sendButton(ev);
-
-    // ensure focus
-    self.focus();
-
-    // fix for odd bug
-    //if (self.vt200Mouse && !self.normalMouse) {
-    // XXX This seems to break certain programs.
-    // if (self.vt200Mouse) {
-    //   sendButton({ __proto__: ev, type: 'mouseup' });
-    //   return cancel(ev);
-    // }
-
-    // bind events
-    if (self.normalMouse) on(self.document, 'mousemove', sendMove);
-
-    // x10 compatibility mode can't send button releases
-    if (!self.x10Mouse) {
-      on(self.document, 'mouseup', function up(ev) {
-        sendButton(ev);
-        if (self.normalMouse) off(self.document, 'mousemove', sendMove);
-        off(self.document, 'mouseup', up);
-        return cancel(ev);
-      });
-    }
-
-    return cancel(ev);
-  });
-
-  //if (self.normalMouse) {
-  //  on(self.document, 'mousemove', sendMove);
-  //}
-
-  on(el, wheelEvent, function(ev) {
-    if (!self.mouseEvents) return;
-    if (self.x10Mouse
-        || self.vt300Mouse
-        || self.decLocator) return;
-    sendButton(ev);
-    return cancel(ev);
-  });
-
-  // allow mousewheel scrolling in
-  // the shell for example
-  on(el, wheelEvent, function(ev) {
-    if (self.mouseEvents) return;
-    if (self.applicationKeypad) return;
-    if (ev.type === 'DOMMouseScroll') {
-      self.scrollDisp(ev.detail < 0 ? -5 : 5);
-    } else {
-      self.scrollDisp(ev.wheelDeltaY > 0 ? -5 : 5);
-    }
-    return cancel(ev);
-  });
-};
-
-/**
- * Destroy Terminal
- */
-
-Terminal.prototype.close =
-Terminal.prototype.destroySoon =
-Terminal.prototype.destroy = function() {
-  if (this.destroyed) {
-    return;
-  }
-
-  if (this._blink) {
-    clearInterval(this._blink);
-    delete this._blink;
-  }
-
-  this.readable = false;
-  this.writable = false;
-  this.destroyed = true;
-  this._events = {};
-
-  this.handler = function() {};
-  this.write = function() {};
-  this.end = function() {};
-
-  if (this.element.parentNode) {
-    this.element.parentNode.removeChild(this.element);
-  }
-
-  this.emit('end');
-  this.emit('close');
-  this.emit('finish');
-  this.emit('destroy');
-};
-
-/**
- * Rendering Engine
- */
-
-// In the screen buffer, each character
-// is stored as a an array with a character
-// and a 32-bit integer.
-// First value: a utf-16 character.
-// Second value:
-// Next 9 bits: background color (0-511).
-// Next 9 bits: foreground color (0-511).
-// Next 14 bits: a mask for misc. flags:
-//   1=bold, 2=underline, 4=blink, 8=inverse, 16=invisible
-
-Terminal.prototype.refresh = function(start, end) {
-  var x
-    , y
-    , i
-    , line
-    , out
-    , ch
-    , width
-    , data
-    , attr
-    , bg
-    , fg
-    , flags
-    , row
-    , parent;
-
-  if (end - start >= this.rows / 2) {
-    parent = this.element.parentNode;
-    if (parent) parent.removeChild(this.element);
-  }
-
-  width = this.cols;
-  y = start;
-
-  if (end >= this.lines.length) {
-    this.log('`end` is too large. Most likely a bad CSR.');
-    end = this.lines.length - 1;
-  }
-
-  for (; y <= end; y++) {
-    row = y + this.ydisp;
-
-    line = this.lines[row];
-    out = '';
-
-    if (y === this.y
-        && this.cursorState
-        && (this.ydisp === this.ybase || this.selectMode)
-        && !this.cursorHidden) {
-      x = this.x;
-    } else {
-      x = -1;
-    }
-
-    attr = this.defAttr;
-    i = 0;
-
-    for (; i < width; i++) {
-      data = line[i][0];
-      ch = line[i][1];
-
-      if (i === x) data = -1;
-
-      if (data !== attr) {
-        if (attr !== this.defAttr) {
-          out += '</span>';
-        }
-        if (data !== this.defAttr) {
-          if (data === -1) {
-            out += '<span class="reverse-video terminal-cursor">';
-          } else {
-            out += '<span style="';
-
-            bg = data & 0x1ff;
-            fg = (data >> 9) & 0x1ff;
-            flags = data >> 18;
-
-            // bold
-            if (flags & 1) {
-              if (!Terminal.brokenBold) {
-                out += 'font-weight:bold;';
-              }
-              // See: XTerm*boldColors
-              if (fg < 8) fg += 8;
-            }
-
-            // underline
-            if (flags & 2) {
-              out += 'text-decoration:underline;';
-            }
-
-            // blink
-            if (flags & 4) {
-              if (flags & 2) {
-                out = out.slice(0, -1);
-                out += ' blink;';
-              } else {
-                out += 'text-decoration:blink;';
-              }
-            }
-
-            // inverse
-            if (flags & 8) {
-              bg = (data >> 9) & 0x1ff;
-              fg = data & 0x1ff;
-              // Should inverse just be before the
-              // above boldColors effect instead?
-              if ((flags & 1) && fg < 8) fg += 8;
-            }
-
-            // invisible
-            if (flags & 16) {
-              out += 'visibility:hidden;';
-            }
-
-            // out += '" class="'
-            //   + 'term-bg-color-' + bg
-            //   + ' '
-            //   + 'term-fg-color-' + fg
-            //   + '">';
-
-            if (bg !== 256) {
-              out += 'background-color:'
-                + this.colors[bg]
-                + ';';
-            }
-
-            if (fg !== 257) {
-              out += 'color:'
-                + this.colors[fg]
-                + ';';
-            }
-
-            out += '">';
-          }
-        }
-      }
-
-      switch (ch) {
-        case '&':
-          out += '&amp;';
-          break;
-        case '<':
-          out += '&lt;';
-          break;
-        case '>':
-          out += '&gt;';
-          break;
-        default:
-          if (ch <= ' ') {
-            out += '&nbsp;';
-          } else {
-            if (isWide(ch)) i++;
-            out += ch;
-          }
-          break;
-      }
-
-      attr = data;
-    }
-
-    if (attr !== this.defAttr) {
-      out += '</span>';
-    }
-
-    this.children[y].innerHTML = out;
-  }
-
-  if (parent) parent.appendChild(this.element);
-};
-
-Terminal.prototype._cursorBlink = function() {
-  if (Terminal.focus !== this) return;
-  this.cursorState ^= 1;
-  this.refresh(this.y, this.y);
-};
-
-Terminal.prototype.showCursor = function() {
-  if (!this.cursorState) {
-    this.cursorState = 1;
-    this.refresh(this.y, this.y);
-  } else {
-    // Temporarily disabled:
-    // this.refreshBlink();
-  }
-};
-
-Terminal.prototype.startBlink = function() {
-  if (!this.cursorBlink) return;
-  var self = this;
-  this._blinker = function() {
-    self._cursorBlink();
-  };
-  this._blink = setInterval(this._blinker, 500);
-};
-
-Terminal.prototype.refreshBlink = function() {
-  if (!this.cursorBlink || !this._blink) return;
-  clearInterval(this._blink);
-  this._blink = setInterval(this._blinker, 500);
-};
-
-Terminal.prototype.scroll = function() {
-  var row;
-
-  if (++this.ybase === this.scrollback) {
-    this.ybase = this.ybase / 2 | 0;
-    this.lines = this.lines.slice(-(this.ybase + this.rows) + 1);
-  }
-
-  this.ydisp = this.ybase;
-
-  // last line
-  row = this.ybase + this.rows - 1;
-
-  // subtract the bottom scroll region
-  row -= this.rows - 1 - this.scrollBottom;
-
-  if (row === this.lines.length) {
-    // potential optimization:
-    // pushing is faster than splicing
-    // when they amount to the same
-    // behavior.
-    this.lines.push(this.blankLine());
-  } else {
-    // add our new line
-    this.lines.splice(row, 0, this.blankLine());
-  }
-
-  if (this.scrollTop !== 0) {
-    if (this.ybase !== 0) {
-      this.ybase--;
-      this.ydisp = this.ybase;
-    }
-    this.lines.splice(this.ybase + this.scrollTop, 1);
-  }
-
-  // this.maxRange();
-  this.updateRange(this.scrollTop);
-  this.updateRange(this.scrollBottom);
-};
-
-Terminal.prototype.scrollDisp = function(disp) {
-  this.ydisp += disp;
-
-  if (this.ydisp > this.ybase) {
-    this.ydisp = this.ybase;
-  } else if (this.ydisp < 0) {
-    this.ydisp = 0;
-  }
-
-  this.refresh(0, this.rows - 1);
-};
-
-Terminal.prototype.write = function(data) {
-  var l = data.length
-    , i = 0
-    , j
-    , cs
-    , ch;
-
-  this.refreshStart = this.y;
-  this.refreshEnd = this.y;
-
-  if (this.ybase !== this.ydisp) {
-    this.ydisp = this.ybase;
-    this.maxRange();
-  }
-
-  // this.log(JSON.stringify(data.replace(/\x1b/g, '^[')));
-
-  for (; i < l; i++, this.lch = ch) {
-    ch = data[i];
-    switch (this.state) {
-      case normal:
-        switch (ch) {
-          // '\0'
-          // case '\0':
-          // case '\200':
-          //   break;
-
-          // '\a'
-          case '\x07':
-            this.bell();
-            break;
-
-          // '\n', '\v', '\f'
-          case '\n':
-          case '\x0b':
-          case '\x0c':
-            if (this.convertEol) {
-              this.x = 0;
-            }
-            // TODO: Implement eat_newline_glitch.
-            // if (this.realX >= this.cols) break;
-            // this.realX = 0;
-            this.y++;
-            if (this.y > this.scrollBottom) {
-              this.y--;
-              this.scroll();
-            }
-            break;
-
-          // '\r'
-          case '\r':
-            this.x = 0;
-            break;
-
-          // '\b'
-          case '\x08':
-            if (this.x > 0) {
-              this.x--;
-            }
-            break;
-
-          // '\t'
-          case '\t':
-            this.x = this.nextStop();
-            break;
-
-          // shift out
-          case '\x0e':
-            this.setgLevel(1);
-            break;
-
-          // shift in
-          case '\x0f':
-            this.setgLevel(0);
-            break;
-
-          // '\e'
-          case '\x1b':
-            this.state = escaped;
-            break;
-
-          default:
-            // ' '
-            if (ch >= ' ') {
-              if (this.charset && this.charset[ch]) {
-                ch = this.charset[ch];
-              }
-
-              if (this.x >= this.cols) {
-                this.x = 0;
-                this.y++;
-                if (this.y > this.scrollBottom) {
-                  this.y--;
-                  this.scroll();
-                }
-              }
-
-              this.lines[this.y + this.ybase][this.x] = [this.curAttr, ch];
-              this.x++;
-              this.updateRange(this.y);
-
-              if (isWide(ch)) {
-                j = this.y + this.ybase;
-                if (this.cols < 2 || this.x >= this.cols) {
-                  this.lines[j][this.x - 1] = [this.curAttr, ' '];
-                  break;
-                }
-                this.lines[j][this.x] = [this.curAttr, ' '];
-                this.x++;
-              }
-            }
-            break;
-        }
-        break;
-      case escaped:
-        switch (ch) {
-          // ESC [ Control Sequence Introducer ( CSI is 0x9b).
-          case '[':
-            this.params = [];
-            this.currentParam = 0;
-            this.state = csi;
-            break;
-
-          // ESC ] Operating System Command ( OSC is 0x9d).
-          case ']':
-            this.params = [];
-            this.currentParam = 0;
-            this.state = osc;
-            break;
-
-          // ESC P Device Control String ( DCS is 0x90).
-          case 'P':
-            this.params = [];
-            this.prefix = '';
-            this.currentParam = '';
-            this.state = dcs;
-            break;
-
-          // ESC _ Application Program Command ( APC is 0x9f).
-          case '_':
-            this.state = ignore;
-            break;
-
-          // ESC ^ Privacy Message ( PM is 0x9e).
-          case '^':
-            this.state = ignore;
-            break;
-
-          // ESC c Full Reset (RIS).
-          case 'c':
-            this.reset();
-            break;
-
-          // ESC E Next Line ( NEL is 0x85).
-          // ESC D Index ( IND is 0x84).
-          case 'E':
-            this.x = 0;
-            ;
-          case 'D':
-            this.index();
-            break;
-
-          // ESC M Reverse Index ( RI is 0x8d).
-          case 'M':
-            this.reverseIndex();
-            break;
-
-          // ESC % Select default/utf-8 character set.
-          // @ = default, G = utf-8
-          case '%':
-            //this.charset = null;
-            this.setgLevel(0);
-            this.setgCharset(0, Terminal.charsets.US);
-            this.state = normal;
-            i++;
-            break;
-
-          // ESC (,),*,+,-,. Designate G0-G2 Character Set.
-          case '(': // <-- this seems to get all the attention
-          case ')':
-          case '*':
-          case '+':
-          case '-':
-          case '.':
-            switch (ch) {
-              case '(':
-                this.gcharset = 0;
-                break;
-              case ')':
-                this.gcharset = 1;
-                break;
-              case '*':
-                this.gcharset = 2;
-                break;
-              case '+':
-                this.gcharset = 3;
-                break;
-              case '-':
-                this.gcharset = 1;
-                break;
-              case '.':
-                this.gcharset = 2;
-                break;
-            }
-            this.state = charset;
-            break;
-
-          // Designate G3 Character Set (VT300).
-          // A = ISO Latin-1 Supplemental.
-          // Not implemented.
-          case '/':
-            this.gcharset = 3;
-            this.state = charset;
-            i--;
-            break;
-
-          // ESC N
-          // Single Shift Select of G2 Character Set
-          // ( SS2 is 0x8e). This affects next character only.
-          case 'N':
-            break;
-          // ESC O
-          // Single Shift Select of G3 Character Set
-          // ( SS3 is 0x8f). This affects next character only.
-          case 'O':
-            break;
-          // ESC n
-          // Invoke the G2 Character Set as GL (LS2).
-          case 'n':
-            this.setgLevel(2);
-            break;
-          // ESC o
-          // Invoke the G3 Character Set as GL (LS3).
-          case 'o':
-            this.setgLevel(3);
-            break;
-          // ESC |
-          // Invoke the G3 Character Set as GR (LS3R).
-          case '|':
-            this.setgLevel(3);
-            break;
-          // ESC }
-          // Invoke the G2 Character Set as GR (LS2R).
-          case '}':
-            this.setgLevel(2);
-            break;
-          // ESC ~
-          // Invoke the G1 Character Set as GR (LS1R).
-          case '~':
-            this.setgLevel(1);
-            break;
-
-          // ESC 7 Save Cursor (DECSC).
-          case '7':
-            this.saveCursor();
-            this.state = normal;
-            break;
-
-          // ESC 8 Restore Cursor (DECRC).
-          case '8':
-            this.restoreCursor();
-            this.state = normal;
-            break;
-
-          // ESC # 3 DEC line height/width
-          case '#':
-            this.state = normal;
-            i++;
-            break;
-
-          // ESC H Tab Set (HTS is 0x88).
-          case 'H':
-            this.tabSet();
-            break;
-
-          // ESC = Application Keypad (DECPAM).
-          case '=':
-            this.log('Serial port requested application keypad.');
-            this.applicationKeypad = true;
-            this.state = normal;
-            break;
-
-          // ESC > Normal Keypad (DECPNM).
-          case '>':
-            this.log('Switching back to normal keypad.');
-            this.applicationKeypad = false;
-            this.state = normal;
-            break;
-
-          default:
-            this.state = normal;
-            this.error('Unknown ESC control: %s.', ch);
-            break;
-        }
-        break;
-
-      case charset:
-        switch (ch) {
-          case '0': // DEC Special Character and Line Drawing Set.
-            cs = Terminal.charsets.SCLD;
-            break;
-          case 'A': // UK
-            cs = Terminal.charsets.UK;
-            break;
-          case 'B': // United States (USASCII).
-            cs = Terminal.charsets.US;
-            break;
-          case '4': // Dutch
-            cs = Terminal.charsets.Dutch;
-            break;
-          case 'C': // Finnish
-          case '5':
-            cs = Terminal.charsets.Finnish;
-            break;
-          case 'R': // French
-            cs = Terminal.charsets.French;
-            break;
-          case 'Q': // FrenchCanadian
-            cs = Terminal.charsets.FrenchCanadian;
-            break;
-          case 'K': // German
-            cs = Terminal.charsets.German;
-            break;
-          case 'Y': // Italian
-            cs = Terminal.charsets.Italian;
-            break;
-          case 'E': // NorwegianDanish
-          case '6':
-            cs = Terminal.charsets.NorwegianDanish;
-            break;
-          case 'Z': // Spanish
-            cs = Terminal.charsets.Spanish;
-            break;
-          case 'H': // Swedish
-          case '7':
-            cs = Terminal.charsets.Swedish;
-            break;
-          case '=': // Swiss
-            cs = Terminal.charsets.Swiss;
-            break;
-          case '/': // ISOLatin (actually /A)
-            cs = Terminal.charsets.ISOLatin;
-            i++;
-            break;
-          default: // Default
-            cs = Terminal.charsets.US;
-            break;
-        }
-        this.setgCharset(this.gcharset, cs);
-        this.gcharset = null;
-        this.state = normal;
-        break;
-
-      case osc:
-        // OSC Ps ; Pt ST
-        // OSC Ps ; Pt BEL
-        //   Set Text Parameters.
-        if ((this.lch === '\x1b' && ch === '\\') || ch === '\x07') {
-          if (this.lch === '\x1b') {
-            if (typeof this.currentParam === 'string') {
-              this.currentParam = this.currentParam.slice(0, -1);
-            } else if (typeof this.currentParam == 'number') {
-              this.currentParam = (this.currentParam - ('\x1b'.charCodeAt(0) - 48)) / 10;
-            }
-          }
-
-          this.params.push(this.currentParam);
-
-          switch (this.params[0]) {
-            case 0:
-            case 1:
-            case 2:
-              if (this.params[1]) {
-                this.title = this.params[1];
-                this.handleTitle(this.title);
-              }
-              break;
-            case 3:
-              // set X property
-              break;
-            case 4:
-            case 5:
-              // change dynamic colors
-              break;
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-              // change dynamic ui colors
-              break;
-            case 46:
-              // change log file
-              break;
-            case 50:
-              // dynamic font
-              break;
-            case 51:
-              // emacs shell
-              break;
-            case 52:
-              // manipulate selection data
-              break;
-            case 104:
-            case 105:
-            case 110:
-            case 111:
-            case 112:
-            case 113:
-            case 114:
-            case 115:
-            case 116:
-            case 117:
-            case 118:
-              // reset colors
-              break;
-          }
-
-          this.params = [];
-          this.currentParam = 0;
-          this.state = normal;
-        } else {
-          if (!this.params.length) {
-            if (ch >= '0' && ch <= '9') {
-              this.currentParam =
-                this.currentParam * 10 + ch.charCodeAt(0) - 48;
-            } else if (ch === ';') {
-              this.params.push(this.currentParam);
-              this.currentParam = '';
-            }
-          } else {
-            this.currentParam += ch;
-          }
-        }
-        break;
-
-      case csi:
-        // '?', '>', '!'
-        if (ch === '?' || ch === '>' || ch === '!') {
-          this.prefix = ch;
-          break;
-        }
-
-        // 0 - 9
-        if (ch >= '0' && ch <= '9') {
-          this.currentParam = this.currentParam * 10 + ch.charCodeAt(0) - 48;
-          break;
-        }
-
-        // '$', '"', ' ', '\''
-        if (ch === '$' || ch === '"' || ch === ' ' || ch === '\'') {
-          this.postfix = ch;
-          break;
-        }
-
-        this.params.push(this.currentParam);
-        this.currentParam = 0;
-
-        // ';'
-        if (ch === ';') break;
-
-        this.state = normal;
-
-        switch (ch) {
-          // CSI Ps A
-          // Cursor Up Ps Times (default = 1) (CUU).
-          case 'A':
-            this.cursorUp(this.params);
-            break;
-
-          // CSI Ps B
-          // Cursor Down Ps Times (default = 1) (CUD).
-          case 'B':
-            this.cursorDown(this.params);
-            break;
-
-          // CSI Ps C
-          // Cursor Forward Ps Times (default = 1) (CUF).
-          case 'C':
-            this.cursorForward(this.params);
-            break;
-
-          // CSI Ps D
-          // Cursor Backward Ps Times (default = 1) (CUB).
-          case 'D':
-            this.cursorBackward(this.params);
-            break;
-
-          // CSI Ps ; Ps H
-          // Cursor Position [row;column] (default = [1,1]) (CUP).
-          case 'H':
-            this.cursorPos(this.params);
-            break;
-
-          // CSI Ps J  Erase in Display (ED).
-          case 'J':
-            this.eraseInDisplay(this.params);
-            break;
-
-          // CSI Ps K  Erase in Line (EL).
-          case 'K':
-            this.eraseInLine(this.params);
-            break;
-
-          // CSI Pm m  Character Attributes (SGR).
-          case 'm':
-            if (!this.prefix) {
-              this.charAttributes(this.params);
-            }
-            break;
-
-          // CSI Ps n  Device Status Report (DSR).
-          case 'n':
-            if (!this.prefix) {
-              this.deviceStatus(this.params);
-            }
-            break;
-
-          /**
-           * Additions
-           */
-
-          // CSI Ps @
-          // Insert Ps (Blank) Character(s) (default = 1) (ICH).
-          case '@':
-            this.insertChars(this.params);
-            break;
-
-          // CSI Ps E
-          // Cursor Next Line Ps Times (default = 1) (CNL).
-          case 'E':
-            this.cursorNextLine(this.params);
-            break;
-
-          // CSI Ps F
-          // Cursor Preceding Line Ps Times (default = 1) (CNL).
-          case 'F':
-            this.cursorPrecedingLine(this.params);
-            break;
-
-          // CSI Ps G
-          // Cursor Character Absolute  [column] (default = [row,1]) (CHA).
-          case 'G':
-            this.cursorCharAbsolute(this.params);
-            break;
-
-          // CSI Ps L
-          // Insert Ps Line(s) (default = 1) (IL).
-          case 'L':
-            this.insertLines(this.params);
-            break;
-
-          // CSI Ps M
-          // Delete Ps Line(s) (default = 1) (DL).
-          case 'M':
-            this.deleteLines(this.params);
-            break;
-
-          // CSI Ps P
-          // Delete Ps Character(s) (default = 1) (DCH).
-          case 'P':
-            this.deleteChars(this.params);
-            break;
-
-          // CSI Ps X
-          // Erase Ps Character(s) (default = 1) (ECH).
-          case 'X':
-            this.eraseChars(this.params);
-            break;
-
-          // CSI Pm `  Character Position Absolute
-          //   [column] (default = [row,1]) (HPA).
-          case '`':
-            this.charPosAbsolute(this.params);
-            break;
-
-          // 141 61 a * HPR -
-          // Horizontal Position Relative
-          case 'a':
-            this.HPositionRelative(this.params);
-            break;
-
-          // CSI P s c
-          // Send Device Attributes (Primary DA).
-          // CSI > P s c
-          // Send Device Attributes (Secondary DA)
-          case 'c':
-            this.sendDeviceAttributes(this.params);
-            break;
-
-          // CSI Pm d
-          // Line Position Absolute  [row] (default = [1,column]) (VPA).
-          case 'd':
-            this.linePosAbsolute(this.params);
-            break;
-
-          // 145 65 e * VPR - Vertical Position Relative
-          case 'e':
-            this.VPositionRelative(this.params);
-            break;
-
-          // CSI Ps ; Ps f
-          //   Horizontal and Vertical Position [row;column] (default =
-          //   [1,1]) (HVP).
-          case 'f':
-            this.HVPosition(this.params);
-            break;
-
-          // CSI Pm h  Set Mode (SM).
-          // CSI ? Pm h - mouse escape codes, cursor escape codes
-          case 'h':
-            this.setMode(this.params);
-            break;
-
-          // CSI Pm l  Reset Mode (RM).
-          // CSI ? Pm l
-          case 'l':
-            this.resetMode(this.params);
-            break;
-
-          // CSI Ps ; Ps r
-          //   Set Scrolling Region [top;bottom] (default = full size of win-
-          //   dow) (DECSTBM).
-          // CSI ? Pm r
-          case 'r':
-            this.setScrollRegion(this.params);
-            break;
-
-          // CSI s
-          //   Save cursor (ANSI.SYS).
-          case 's':
-            this.saveCursor(this.params);
-            break;
-
-          // CSI u
-          //   Restore cursor (ANSI.SYS).
-          case 'u':
-            this.restoreCursor(this.params);
-            break;
-
-          /**
-           * Lesser Used
-           */
-
-          // CSI Ps I
-          // Cursor Forward Tabulation Ps tab stops (default = 1) (CHT).
-          case 'I':
-            this.cursorForwardTab(this.params);
-            break;
-
-          // CSI Ps S  Scroll up Ps lines (default = 1) (SU).
-          case 'S':
-            this.scrollUp(this.params);
-            break;
-
-          // CSI Ps T  Scroll down Ps lines (default = 1) (SD).
-          // CSI Ps ; Ps ; Ps ; Ps ; Ps T
-          // CSI > Ps; Ps T
-          case 'T':
-            // if (this.prefix === '>') {
-            //   this.resetTitleModes(this.params);
-            //   break;
-            // }
-            // if (this.params.length > 2) {
-            //   this.initMouseTracking(this.params);
-            //   break;
-            // }
-            if (this.params.length < 2 && !this.prefix) {
-              this.scrollDown(this.params);
-            }
-            break;
-
-          // CSI Ps Z
-          // Cursor Backward Tabulation Ps tab stops (default = 1) (CBT).
-          case 'Z':
-            this.cursorBackwardTab(this.params);
-            break;
-
-          // CSI Ps b  Repeat the preceding graphic character Ps times (REP).
-          case 'b':
-            this.repeatPrecedingCharacter(this.params);
-            break;
-
-          // CSI Ps g  Tab Clear (TBC).
-          case 'g':
-            this.tabClear(this.params);
-            break;
-
-          // CSI Pm i  Media Copy (MC).
-          // CSI ? Pm i
-          // case 'i':
-          //   this.mediaCopy(this.params);
-          //   break;
-
-          // CSI Pm m  Character Attributes (SGR).
-          // CSI > Ps; Ps m
-          // case 'm': // duplicate
-          //   if (this.prefix === '>') {
-          //     this.setResources(this.params);
-          //   } else {
-          //     this.charAttributes(this.params);
-          //   }
-          //   break;
-
-          // CSI Ps n  Device Status Report (DSR).
-          // CSI > Ps n
-          // case 'n': // duplicate
-          //   if (this.prefix === '>') {
-          //     this.disableModifiers(this.params);
-          //   } else {
-          //     this.deviceStatus(this.params);
-          //   }
-          //   break;
-
-          // CSI > Ps p  Set pointer mode.
-          // CSI ! p   Soft terminal reset (DECSTR).
-          // CSI Ps$ p
-          //   Request ANSI mode (DECRQM).
-          // CSI ? Ps$ p
-          //   Request DEC private mode (DECRQM).
-          // CSI Ps ; Ps " p
-          case 'p':
-            switch (this.prefix) {
-              // case '>':
-              //   this.setPointerMode(this.params);
-              //   break;
-              case '!':
-                this.softReset(this.params);
-                break;
-              // case '?':
-              //   if (this.postfix === '$') {
-              //     this.requestPrivateMode(this.params);
-              //   }
-              //   break;
-              // default:
-              //   if (this.postfix === '"') {
-              //     this.setConformanceLevel(this.params);
-              //   } else if (this.postfix === '$') {
-              //     this.requestAnsiMode(this.params);
-              //   }
-              //   break;
-            }
-            break;
-
-          // CSI Ps q  Load LEDs (DECLL).
-          // CSI Ps SP q
-          // CSI Ps " q
-          // case 'q':
-          //   if (this.postfix === ' ') {
-          //     this.setCursorStyle(this.params);
-          //     break;
-          //   }
-          //   if (this.postfix === '"') {
-          //     this.setCharProtectionAttr(this.params);
-          //     break;
-          //   }
-          //   this.loadLEDs(this.params);
-          //   break;
-
-          // CSI Ps ; Ps r
-          //   Set Scrolling Region [top;bottom] (default = full size of win-
-          //   dow) (DECSTBM).
-          // CSI ? Pm r
-          // CSI Pt; Pl; Pb; Pr; Ps$ r
-          // case 'r': // duplicate
-          //   if (this.prefix === '?') {
-          //     this.restorePrivateValues(this.params);
-          //   } else if (this.postfix === '$') {
-          //     this.setAttrInRectangle(this.params);
-          //   } else {
-          //     this.setScrollRegion(this.params);
-          //   }
-          //   break;
-
-          // CSI s     Save cursor (ANSI.SYS).
-          // CSI ? Pm s
-          // case 's': // duplicate
-          //   if (this.prefix === '?') {
-          //     this.savePrivateValues(this.params);
-          //   } else {
-          //     this.saveCursor(this.params);
-          //   }
-          //   break;
-
-          // CSI Ps ; Ps ; Ps t
-          // CSI Pt; Pl; Pb; Pr; Ps$ t
-          // CSI > Ps; Ps t
-          // CSI Ps SP t
-          // case 't':
-          //   if (this.postfix === '$') {
-          //     this.reverseAttrInRectangle(this.params);
-          //   } else if (this.postfix === ' ') {
-          //     this.setWarningBellVolume(this.params);
-          //   } else {
-          //     if (this.prefix === '>') {
-          //       this.setTitleModeFeature(this.params);
-          //     } else {
-          //       this.manipulateWindow(this.params);
-          //     }
-          //   }
-          //   break;
-
-          // CSI u     Restore cursor (ANSI.SYS).
-          // CSI Ps SP u
-          // case 'u': // duplicate
-          //   if (this.postfix === ' ') {
-          //     this.setMarginBellVolume(this.params);
-          //   } else {
-          //     this.restoreCursor(this.params);
-          //   }
-          //   break;
-
-          // CSI Pt; Pl; Pb; Pr; Pp; Pt; Pl; Pp$ v
-          // case 'v':
-          //   if (this.postfix === '$') {
-          //     this.copyRectagle(this.params);
-          //   }
-          //   break;
-
-          // CSI Pt ; Pl ; Pb ; Pr ' w
-          // case 'w':
-          //   if (this.postfix === '\'') {
-          //     this.enableFilterRectangle(this.params);
-          //   }
-          //   break;
-
-          // CSI Ps x  Request Terminal Parameters (DECREQTPARM).
-          // CSI Ps x  Select Attribute Change Extent (DECSACE).
-          // CSI Pc; Pt; Pl; Pb; Pr$ x
-          // case 'x':
-          //   if (this.postfix === '$') {
-          //     this.fillRectangle(this.params);
-          //   } else {
-          //     this.requestParameters(this.params);
-          //     //this.__(this.params);
-          //   }
-          //   break;
-
-          // CSI Ps ; Pu ' z
-          // CSI Pt; Pl; Pb; Pr$ z
-          // case 'z':
-          //   if (this.postfix === '\'') {
-          //     this.enableLocatorReporting(this.params);
-          //   } else if (this.postfix === '$') {
-          //     this.eraseRectangle(this.params);
-          //   }
-          //   break;
-
-          // CSI Pm ' {
-          // CSI Pt; Pl; Pb; Pr$ {
-          // case '{':
-          //   if (this.postfix === '\'') {
-          //     this.setLocatorEvents(this.params);
-          //   } else if (this.postfix === '$') {
-          //     this.selectiveEraseRectangle(this.params);
-          //   }
-          //   break;
-
-          // CSI Ps ' |
-          // case '|':
-          //   if (this.postfix === '\'') {
-          //     this.requestLocatorPosition(this.params);
-          //   }
-          //   break;
-
-          // CSI P m SP }
-          // Insert P s Column(s) (default = 1) (DECIC), VT420 and up.
-          // case '}':
-          //   if (this.postfix === ' ') {
-          //     this.insertColumns(this.params);
-          //   }
-          //   break;
-
-          // CSI P m SP ~
-          // Delete P s Column(s) (default = 1) (DECDC), VT420 and up
-          // case '~':
-          //   if (this.postfix === ' ') {
-          //     this.deleteColumns(this.params);
-          //   }
-          //   break;
-
-          default:
-            this.error('Unknown CSI code: %s.', ch);
-            break;
-        }
-
-        this.prefix = '';
-        this.postfix = '';
-        break;
-
-      case dcs:
-        if ((this.lch === '\x1b' && ch === '\\') || ch === '\x07') {
-          // Workarounds:
-          if (this.prefix === 'tmux;\x1b') {
-            // `DCS tmux; Pt ST` may contain a Pt with an ST
-            // XXX Does tmux work this way?
-            // if (this.lch === '\x1b' & data[i + 1] === '\x1b' && data[i + 2] === '\\') {
-            //   this.currentParam += ch;
-            //   continue;
-            // }
-            // Tmux only accepts ST, not BEL:
-            if (ch === '\x07') {
-              this.currentParam += ch;
-              continue;
-            }
-          }
-
-          if (this.lch === '\x1b') {
-            if (typeof this.currentParam === 'string') {
-              this.currentParam = this.currentParam.slice(0, -1);
-            } else if (typeof this.currentParam == 'number') {
-              this.currentParam = (this.currentParam - ('\x1b'.charCodeAt(0) - 48)) / 10;
-            }
-          }
-
-          this.params.push(this.currentParam);
-
-          var pt = this.params[this.params.length - 1];
-
-          switch (this.prefix) {
-            // User-Defined Keys (DECUDK).
-            // DCS Ps; Ps| Pt ST
-            case UDK:
-              this.emit('udk', {
-                clearAll: this.params[0] === 0,
-                eraseBelow: this.params[0] === 1,
-                lockKeys: this.params[1] === 0,
-                dontLockKeys: this.params[1] === 1,
-                keyList: (this.params[2] + '').split(';').map(function(part) {
-                  part = part.split('/');
-                  return {
-                    keyCode: part[0],
-                    hexKeyValue: part[1]
-                  };
-                })
-              });
-              break;
-
-            // Request Status String (DECRQSS).
-            // DCS $ q Pt ST
-            // test: echo -e '\eP$q"p\e\\'
-            case '$q':
-              var valid = 0;
-
-              switch (pt) {
-                // DECSCA
-                // CSI Ps " q
-                case '"q':
-                  pt = '0"q';
-                  valid = 1;
-                  break;
-
-                // DECSCL
-                // CSI Ps ; Ps " p
-                case '"p':
-                  pt = '61;0"p';
-                  valid = 1;
-                  break;
-
-                // DECSTBM
-                // CSI Ps ; Ps r
-                case 'r':
-                  pt = ''
-                    + (this.scrollTop + 1)
-                    + ';'
-                    + (this.scrollBottom + 1)
-                    + 'r';
-                  valid = 1;
-                  break;
-
-                // SGR
-                // CSI Pm m
-                case 'm':
-                  // TODO: Parse this.curAttr here.
-                  // pt = '0m';
-                  // valid = 1;
-                  valid = 0; // Not implemented.
-                  break;
-
-                default:
-                  this.error('Unknown DCS Pt: %s.', pt);
-                  valid = 0; // unimplemented
-                  break;
-              }
-
-              this.send('\x1bP' + valid + '$r' + pt + '\x1b\\');
-              break;
-
-            // Set Termcap/Terminfo Data (xterm, experimental).
-            // DCS + p Pt ST
-            case '+p':
-              this.emit('set terminfo', {
-                name: this.params[0]
-              });
-              break;
-
-            // Request Termcap/Terminfo String (xterm, experimental)
-            // Regular xterm does not even respond to this sequence.
-            // This can cause a small glitch in vim.
-            // DCS + q Pt ST
-            // test: echo -ne '\eP+q6b64\e\\'
-            case '+q':
-              var valid = false;
-              this.send('\x1bP' + +valid + '+r' + pt + '\x1b\\');
-              break;
-
-            // Implement tmux sequence forwarding is
-            // someone uses term.js for a multiplexer.
-            // DCS tmux; ESC Pt ST
-            case 'tmux;\x1b':
-              this.emit('passthrough', pt);
-              break;
-
-            default:
-              this.error('Unknown DCS prefix: %s.', pt);
-              break;
-          }
-
-          this.currentParam = 0;
-          this.prefix = '';
-          this.state = normal;
-        } else {
-          this.currentParam += ch;
-          if (!this.prefix) {
-            if (/^\d*;\d*\|/.test(this.currentParam)) {
-              this.prefix = UDK;
-              this.params = this.currentParam.split(/[;|]/).map(function(n) {
-                if (!n.length) return 0;
-                return +n;
-              }).slice(0, -1);
-              this.currentParam = '';
-            } else if (/^[$+][a-zA-Z]/.test(this.currentParam)
-                || /^\w+;\x1b/.test(this.currentParam)) {
-              this.prefix = this.currentParam;
-              this.currentParam = '';
-            }
-          }
-        }
-        break;
-
-      case ignore:
-        // For PM and APC.
-        if ((this.lch === '\x1b' && ch === '\\') || ch === '\x07') {
-          this.state = normal;
-        }
-        break;
-    }
-  }
-
-  this.updateRange(this.y);
-  this.refresh(this.refreshStart, this.refreshEnd);
-
-  return true;
-};
-
-Terminal.prototype.writeln = function(data) {
-  return this.write(data + '\r\n');
-};
-
-Terminal.prototype.end = function(data) {
-  var ret = true;
-  if (data) {
-    ret = this.write(data);
-  }
-  this.destroySoon();
-  return ret;
-};
-
-Terminal.prototype.resume = function() {
-  ;
-};
-
-Terminal.prototype.pause = function() {
-  ;
-};
-
-// Key Resources:
-// https://developer.mozilla.org/en-US/docs/DOM/KeyboardEvent
-Terminal.prototype.keyDown = function(ev) {
-  var self = this
-    , key;
-
-  switch (ev.keyCode) {
-    // backspace
-    case 8:
-      if (ev.altKey) {
-        key = '\x17';
-        break;
-      }
-      if (ev.shiftKey) {
-        key = '\x08'; // ^H
-        break;
-      }
-      key = '\x7f'; // ^?
-      break;
-    // tab
-    case 9:
-      if (ev.shiftKey) {
-        key = '\x1b[Z';
-        break;
-      }
-      key = '\t';
-      break;
-    // return/enter
-    case 13:
-      key = '\r';
-      break;
-    // escape
-    case 27:
-      key = '\x1b';
-      break;
-    // left-arrow
-    case 37:
-      if (this.applicationCursor) {
-        key = '\x1bOD'; // SS3 as ^[O for 7-bit
-        //key = '\x8fD'; // SS3 as 0x8f for 8-bit
-        break;
-      }
-      if (ev.ctrlKey) {
-        key = '\x1b[5D';
-        break;
-      }
-      key = '\x1b[D';
-      break;
-    // right-arrow
-    case 39:
-      if (this.applicationCursor) {
-        key = '\x1bOC';
-        break;
-      }
-      if (ev.ctrlKey) {
-        key = '\x1b[5C';
-        break;
-      }
-      key = '\x1b[C';
-      break;
-    // up-arrow
-    case 38:
-      if (this.applicationCursor) {
-        key = '\x1bOA';
-        break;
-      }
-      if (ev.ctrlKey) {
-        this.scrollDisp(-1);
-        return cancel(ev);
-      } else {
-        key = '\x1b[A';
-      }
-      break;
-    // down-arrow
-    case 40:
-      if (this.applicationCursor) {
-        key = '\x1bOB';
-        break;
-      }
-      if (ev.ctrlKey) {
-        this.scrollDisp(1);
-        return cancel(ev);
-      } else {
-        key = '\x1b[B';
-      }
-      break;
-    // delete
-    case 46:
-      key = '\x1b[3~';
-      break;
-    // insert
-    case 45:
-      key = '\x1b[2~';
-      break;
-    // home
-    case 36:
-      if (this.applicationKeypad) {
-        key = '\x1bOH';
-        break;
-      }
-      key = '\x1bOH';
-      break;
-    // end
-    case 35:
-      if (this.applicationKeypad) {
-        key = '\x1bOF';
-        break;
-      }
-      key = '\x1bOF';
-      break;
-    // page up
-    case 33:
-      if (ev.shiftKey) {
-        this.scrollDisp(-(this.rows - 1));
-        return cancel(ev);
-      } else {
-        key = '\x1b[5~';
-      }
-      break;
-    // page down
-    case 34:
-      if (ev.shiftKey) {
-        this.scrollDisp(this.rows - 1);
-        return cancel(ev);
-      } else {
-        key = '\x1b[6~';
-      }
-      break;
-    // F1
-    case 112:
-      key = '\x1bOP';
-      break;
-    // F2
-    case 113:
-      key = '\x1bOQ';
-      break;
-    // F3
-    case 114:
-      key = '\x1bOR';
-      break;
-    // F4
-    case 115:
-      key = '\x1bOS';
-      break;
-    // F5
-    case 116:
-      key = '\x1b[15~';
-      break;
-    // F6
-    case 117:
-      key = '\x1b[17~';
-      break;
-    // F7
-    case 118:
-      key = '\x1b[18~';
-      break;
-    // F8
-    case 119:
-      key = '\x1b[19~';
-      break;
-    // F9
-    case 120:
-      key = '\x1b[20~';
-      break;
-    // F10
-    case 121:
-      key = '\x1b[21~';
-      break;
-    // F11
-    case 122:
-      key = '\x1b[23~';
-      break;
-    // F12
-    case 123:
-      key = '\x1b[24~';
-      break;
-    default:
-      // a-z and space
-      if (ev.ctrlKey) {
-        if (ev.keyCode >= 65 && ev.keyCode <= 90) {
-          // Ctrl-A
-          if (this.screenKeys) {
-            if (!this.prefixMode && !this.selectMode && ev.keyCode === 65) {
-              this.enterPrefix();
-              return cancel(ev);
-            }
-          }
-          // Ctrl-V
-          if (this.prefixMode && ev.keyCode === 86) {
-            this.leavePrefix();
-            return;
-          }
-          // Ctrl-C
-          if ((this.prefixMode || this.selectMode) && ev.keyCode === 67) {
-            if (this.visualMode) {
-              setTimeout(function() {
-                self.leaveVisual();
-              }, 1);
-            }
-            return;
-          }
-          key = String.fromCharCode(ev.keyCode - 64);
-        } else if (ev.keyCode === 32) {
-          // NUL
-          key = String.fromCharCode(0);
-        } else if (ev.keyCode >= 51 && ev.keyCode <= 55) {
-          // escape, file sep, group sep, record sep, unit sep
-          key = String.fromCharCode(ev.keyCode - 51 + 27);
-        } else if (ev.keyCode === 56) {
-          // delete
-          key = String.fromCharCode(127);
-        } else if (ev.keyCode === 219) {
-          // ^[ - escape
-          key = String.fromCharCode(27);
-        } else if (ev.keyCode === 221) {
-          // ^] - group sep
-          key = String.fromCharCode(29);
-        }
-      } else if (ev.altKey) {
-        if (ev.keyCode >= 65 && ev.keyCode <= 90) {
-          key = '\x1b' + String.fromCharCode(ev.keyCode + 32);
-        } else if (ev.keyCode === 192) {
-          key = '\x1b`';
-        } else if (ev.keyCode >= 48 && ev.keyCode <= 57) {
-          key = '\x1b' + (ev.keyCode - 48);
-        }
-      }
-      break;
-  }
-
-  if (!key) return true;
-
-  if (this.prefixMode) {
-    this.leavePrefix();
-    return cancel(ev);
-  }
-
-  if (this.selectMode) {
-    this.keySelect(ev, key);
-    return cancel(ev);
-  }
-
-  this.emit('keydown', ev);
-  this.emit('key', key, ev);
-
-  this.showCursor();
-  this.handler(key);
-
-  return cancel(ev);
-};
-
-Terminal.prototype.setgLevel = function(g) {
-  this.glevel = g;
-  this.charset = this.charsets[g];
-};
-
-Terminal.prototype.setgCharset = function(g, charset) {
-  this.charsets[g] = charset;
-  if (this.glevel === g) {
-    this.charset = charset;
-  }
-};
-
-Terminal.prototype.keyPress = function(ev) {
-  var key;
-
-  cancel(ev);
-
-  if (ev.charCode) {
-    key = ev.charCode;
-  } else if (ev.which == null) {
-    key = ev.keyCode;
-  } else if (ev.which !== 0 && ev.charCode !== 0) {
-    key = ev.which;
-  } else {
-    return false;
-  }
-
-  if (!key || ev.ctrlKey || ev.altKey || ev.metaKey) return false;
-
-  key = String.fromCharCode(key);
-
-  if (this.prefixMode) {
-    this.leavePrefix();
-    this.keyPrefix(ev, key);
-    return false;
-  }
-
-  if (this.selectMode) {
-    this.keySelect(ev, key);
-    return false;
-  }
-
-  this.emit('keypress', key, ev);
-  this.emit('key', key, ev);
-
-  this.showCursor();
-  this.handler(key);
-
-  return false;
-};
-
-Terminal.prototype.send = function(data) {
-  var self = this;
-
-  if (!this.queue) {
-    setTimeout(function() {
-      self.handler(self.queue);
-      self.queue = '';
-    }, 1);
-  }
-
-  this.queue += data;
-};
-
-Terminal.prototype.bell = function() {
-  this.emit('bell');
-  if (!this.visualBell) return;
-  var self = this;
-  this.element.style.borderColor = 'white';
-  setTimeout(function() {
-    self.element.style.borderColor = '';
-  }, 10);
-  if (this.popOnBell) this.focus();
-};
-
-Terminal.prototype.log = function() {
-  if (!this.debug) return;
-  if (!this.context.console || !this.context.console.log) return;
-  var args = Array.prototype.slice.call(arguments);
-  this.context.console.log.apply(this.context.console, args);
-};
-
-Terminal.prototype.error = function() {
-  if (!this.debug) return;
-  if (!this.context.console || !this.context.console.error) return;
-  var args = Array.prototype.slice.call(arguments);
-  this.context.console.error.apply(this.context.console, args);
-};
-
-Terminal.prototype.resize = function(x, y) {
-  var line
-    , el
-    , i
-    , j
-    , ch;
-
-  if (x < 1) x = 1;
-  if (y < 1) y = 1;
-
-  // resize cols
-  j = this.cols;
-  if (j < x) {
-    ch = [this.defAttr, ' ']; // does xterm use the default attr?
-    i = this.lines.length;
-    while (i--) {
-      while (this.lines[i].length < x) {
-        this.lines[i].push(ch);
-      }
-    }
-  } else if (j > x) {
-    i = this.lines.length;
-    while (i--) {
-      while (this.lines[i].length > x) {
-        this.lines[i].pop();
-      }
-    }
-  }
-  this.setupStops(j);
-  this.cols = x;
-  this.columns = x;
-
-  // resize rows
-  j = this.rows;
-  if (j < y) {
-    el = this.element;
-    while (j++ < y) {
-      if (this.lines.length < y + this.ybase) {
-        this.lines.push(this.blankLine());
-      }
-      if (this.children.length < y) {
-        line = this.document.createElement('div');
-        el.appendChild(line);
-        this.children.push(line);
-      }
-    }
-  } else if (j > y) {
-    while (j-- > y) {
-      if (this.lines.length > y + this.ybase) {
-        this.lines.pop();
-      }
-      if (this.children.length > y) {
-        el = this.children.pop();
-        if (!el) continue;
-        el.parentNode.removeChild(el);
-      }
-    }
-  }
-  this.rows = y;
-
-  // make sure the cursor stays on screen
-  if (this.y >= y) this.y = y - 1;
-  if (this.x >= x) this.x = x - 1;
-
-  this.scrollTop = 0;
-  this.scrollBottom = y - 1;
-
-  this.refresh(0, this.rows - 1);
-
-  // it's a real nightmare trying
-  // to resize the original
-  // screen buffer. just set it
-  // to null for now.
-  this.normal = null;
-
-  // Act as though we are a node TTY stream:
-  this.emit('resize');
-};
-
-Terminal.prototype.updateRange = function(y) {
-  if (y < this.refreshStart) this.refreshStart = y;
-  if (y > this.refreshEnd) this.refreshEnd = y;
-  // if (y > this.refreshEnd) {
-  //   this.refreshEnd = y;
-  //   if (y > this.rows - 1) {
-  //     this.refreshEnd = this.rows - 1;
-  //   }
-  // }
-};
-
-Terminal.prototype.maxRange = function() {
-  this.refreshStart = 0;
-  this.refreshEnd = this.rows - 1;
-};
-
-Terminal.prototype.setupStops = function(i) {
-  if (i != null) {
-    if (!this.tabs[i]) {
-      i = this.prevStop(i);
-    }
-  } else {
-    this.tabs = {};
-    i = 0;
-  }
-
-  for (; i < this.cols; i += 8) {
-    this.tabs[i] = true;
-  }
-};
-
-Terminal.prototype.prevStop = function(x) {
-  if (x == null) x = this.x;
-  while (!this.tabs[--x] && x > 0);
-  return x >= this.cols
-    ? this.cols - 1
-    : x < 0 ? 0 : x;
-};
-
-Terminal.prototype.nextStop = function(x) {
-  if (x == null) x = this.x;
-  while (!this.tabs[++x] && x < this.cols);
-  return x >= this.cols
-    ? this.cols - 1
-    : x < 0 ? 0 : x;
-};
-
-// back_color_erase feature for xterm.
-Terminal.prototype.eraseAttr = function() {
-  // if (this.is('screen')) return this.defAttr;
-  return (this.defAttr & ~0x1ff) | (this.curAttr & 0x1ff);
-};
-
-Terminal.prototype.eraseRight = function(x, y) {
-  var line = this.lines[this.ybase + y]
-    , ch = [this.eraseAttr(), ' ']; // xterm
-
-
-  for (; x < this.cols; x++) {
-    line[x] = ch;
-  }
-
-  this.updateRange(y);
-};
-
-Terminal.prototype.eraseLeft = function(x, y) {
-  var line = this.lines[this.ybase + y]
-    , ch = [this.eraseAttr(), ' ']; // xterm
-
-  x++;
-  while (x--) line[x] = ch;
-
-  this.updateRange(y);
-};
-
-Terminal.prototype.eraseLine = function(y) {
-  this.eraseRight(0, y);
-};
-
-Terminal.prototype.blankLine = function(cur) {
-  var attr = cur
-    ? this.eraseAttr()
-    : this.defAttr;
-
-  var ch = [attr, ' ']
-    , line = []
-    , i = 0;
-
-  for (; i < this.cols; i++) {
-    line[i] = ch;
-  }
-
-  return line;
-};
-
-Terminal.prototype.ch = function(cur) {
-  return cur
-    ? [this.eraseAttr(), ' ']
-    : [this.defAttr, ' '];
-};
-
-Terminal.prototype.is = function(term) {
-  var name = this.termName;
-  return (name + '').indexOf(term) === 0;
-};
-
-Terminal.prototype.handler = function(data) {
-  this.emit('data', data);
-};
-
-Terminal.prototype.handleTitle = function(title) {
-  this.emit('title', title);
-};
-
-/**
- * ESC
- */
-
-// ESC D Index (IND is 0x84).
-Terminal.prototype.index = function() {
-  this.y++;
-  if (this.y > this.scrollBottom) {
-    this.y--;
-    this.scroll();
-  }
-  this.state = normal;
-};
-
-// ESC M Reverse Index (RI is 0x8d).
-Terminal.prototype.reverseIndex = function() {
-  var j;
-  this.y--;
-  if (this.y < this.scrollTop) {
-    this.y++;
-    // possibly move the code below to term.reverseScroll();
-    // test: echo -ne '\e[1;1H\e[44m\eM\e[0m'
-    // blankLine(true) is xterm/linux behavior
-    this.lines.splice(this.y + this.ybase, 0, this.blankLine(true));
-    j = this.rows - 1 - this.scrollBottom;
-    this.lines.splice(this.rows - 1 + this.ybase - j + 1, 1);
-    // this.maxRange();
-    this.updateRange(this.scrollTop);
-    this.updateRange(this.scrollBottom);
-  }
-  this.state = normal;
-};
-
-// ESC c Full Reset (RIS).
-Terminal.prototype.reset = function() {
-  this.options.rows = this.rows;
-  this.options.cols = this.cols;
-  Terminal.call(this, this.options);
-  this.refresh(0, this.rows - 1);
-};
-
-// ESC H Tab Set (HTS is 0x88).
-Terminal.prototype.tabSet = function() {
-  this.tabs[this.x] = true;
-  this.state = normal;
-};
-
-/**
- * CSI
- */
-
-// CSI Ps A
-// Cursor Up Ps Times (default = 1) (CUU).
-Terminal.prototype.cursorUp = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y -= param;
-  if (this.y < 0) this.y = 0;
-};
-
-// CSI Ps B
-// Cursor Down Ps Times (default = 1) (CUD).
-Terminal.prototype.cursorDown = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y += param;
-  if (this.y >= this.rows) {
-    this.y = this.rows - 1;
-  }
-};
-
-// CSI Ps C
-// Cursor Forward Ps Times (default = 1) (CUF).
-Terminal.prototype.cursorForward = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.x += param;
-  if (this.x >= this.cols) {
-    this.x = this.cols - 1;
-  }
-};
-
-// CSI Ps D
-// Cursor Backward Ps Times (default = 1) (CUB).
-Terminal.prototype.cursorBackward = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.x -= param;
-  if (this.x < 0) this.x = 0;
-};
-
-// CSI Ps ; Ps H
-// Cursor Position [row;column] (default = [1,1]) (CUP).
-Terminal.prototype.cursorPos = function(params) {
-  var row, col;
-
-  row = params[0] - 1;
-
-  if (params.length >= 2) {
-    col = params[1] - 1;
-  } else {
-    col = 0;
-  }
-
-  if (row < 0) {
-    row = 0;
-  } else if (row >= this.rows) {
-    row = this.rows - 1;
-  }
-
-  if (col < 0) {
-    col = 0;
-  } else if (col >= this.cols) {
-    col = this.cols - 1;
-  }
-
-  this.x = col;
-  this.y = row;
-};
-
-// CSI Ps J  Erase in Display (ED).
-//     Ps = 0  -> Erase Below (default).
-//     Ps = 1  -> Erase Above.
-//     Ps = 2  -> Erase All.
-//     Ps = 3  -> Erase Saved Lines (xterm).
-// CSI ? Ps J
-//   Erase in Display (DECSED).
-//     Ps = 0  -> Selective Erase Below (default).
-//     Ps = 1  -> Selective Erase Above.
-//     Ps = 2  -> Selective Erase All.
-Terminal.prototype.eraseInDisplay = function(params) {
-  var j;
-  switch (params[0]) {
-    case 0:
-      this.eraseRight(this.x, this.y);
-      j = this.y + 1;
-      for (; j < this.rows; j++) {
-        this.eraseLine(j);
-      }
-      break;
-    case 1:
-      this.eraseLeft(this.x, this.y);
-      j = this.y;
-      while (j--) {
-        this.eraseLine(j);
-      }
-      break;
-    case 2:
-      j = this.rows;
-      while (j--) this.eraseLine(j);
-      break;
-    case 3:
-      ; // no saved lines
-      break;
-  }
-};
-
-// CSI Ps K  Erase in Line (EL).
-//     Ps = 0  -> Erase to Right (default).
-//     Ps = 1  -> Erase to Left.
-//     Ps = 2  -> Erase All.
-// CSI ? Ps K
-//   Erase in Line (DECSEL).
-//     Ps = 0  -> Selective Erase to Right (default).
-//     Ps = 1  -> Selective Erase to Left.
-//     Ps = 2  -> Selective Erase All.
-Terminal.prototype.eraseInLine = function(params) {
-  switch (params[0]) {
-    case 0:
-      this.eraseRight(this.x, this.y);
-      break;
-    case 1:
-      this.eraseLeft(this.x, this.y);
-      break;
-    case 2:
-      this.eraseLine(this.y);
-      break;
-  }
-};
-
-// CSI Pm m  Character Attributes (SGR).
-//     Ps = 0  -> Normal (default).
-//     Ps = 1  -> Bold.
-//     Ps = 4  -> Underlined.
-//     Ps = 5  -> Blink (appears as Bold).
-//     Ps = 7  -> Inverse.
-//     Ps = 8  -> Invisible, i.e., hidden (VT300).
-//     Ps = 2 2  -> Normal (neither bold nor faint).
-//     Ps = 2 4  -> Not underlined.
-//     Ps = 2 5  -> Steady (not blinking).
-//     Ps = 2 7  -> Positive (not inverse).
-//     Ps = 2 8  -> Visible, i.e., not hidden (VT300).
-//     Ps = 3 0  -> Set foreground color to Black.
-//     Ps = 3 1  -> Set foreground color to Red.
-//     Ps = 3 2  -> Set foreground color to Green.
-//     Ps = 3 3  -> Set foreground color to Yellow.
-//     Ps = 3 4  -> Set foreground color to Blue.
-//     Ps = 3 5  -> Set foreground color to Magenta.
-//     Ps = 3 6  -> Set foreground color to Cyan.
-//     Ps = 3 7  -> Set foreground color to White.
-//     Ps = 3 9  -> Set foreground color to default (original).
-//     Ps = 4 0  -> Set background color to Black.
-//     Ps = 4 1  -> Set background color to Red.
-//     Ps = 4 2  -> Set background color to Green.
-//     Ps = 4 3  -> Set background color to Yellow.
-//     Ps = 4 4  -> Set background color to Blue.
-//     Ps = 4 5  -> Set background color to Magenta.
-//     Ps = 4 6  -> Set background color to Cyan.
-//     Ps = 4 7  -> Set background color to White.
-//     Ps = 4 9  -> Set background color to default (original).
-
-//   If 16-color support is compiled, the following apply.  Assume
-//   that xterm's resources are set so that the ISO color codes are
-//   the first 8 of a set of 16.  Then the aixterm colors are the
-//   bright versions of the ISO colors:
-//     Ps = 9 0  -> Set foreground color to Black.
-//     Ps = 9 1  -> Set foreground color to Red.
-//     Ps = 9 2  -> Set foreground color to Green.
-//     Ps = 9 3  -> Set foreground color to Yellow.
-//     Ps = 9 4  -> Set foreground color to Blue.
-//     Ps = 9 5  -> Set foreground color to Magenta.
-//     Ps = 9 6  -> Set foreground color to Cyan.
-//     Ps = 9 7  -> Set foreground color to White.
-//     Ps = 1 0 0  -> Set background color to Black.
-//     Ps = 1 0 1  -> Set background color to Red.
-//     Ps = 1 0 2  -> Set background color to Green.
-//     Ps = 1 0 3  -> Set background color to Yellow.
-//     Ps = 1 0 4  -> Set background color to Blue.
-//     Ps = 1 0 5  -> Set background color to Magenta.
-//     Ps = 1 0 6  -> Set background color to Cyan.
-//     Ps = 1 0 7  -> Set background color to White.
-
-//   If xterm is compiled with the 16-color support disabled, it
-//   supports the following, from rxvt:
-//     Ps = 1 0 0  -> Set foreground and background color to
-//     default.
-
-//   If 88- or 256-color support is compiled, the following apply.
-//     Ps = 3 8  ; 5  ; Ps -> Set foreground color to the second
-//     Ps.
-//     Ps = 4 8  ; 5  ; Ps -> Set background color to the second
-//     Ps.
-Terminal.prototype.charAttributes = function(params) {
-  // Optimize a single SGR0.
-  if (params.length === 1 && params[0] === 0) {
-    this.curAttr = this.defAttr;
-    return;
-  }
-
-  var l = params.length
-    , i = 0
-    , flags = this.curAttr >> 18
-    , fg = (this.curAttr >> 9) & 0x1ff
-    , bg = this.curAttr & 0x1ff
-    , p;
-
-  for (; i < l; i++) {
-    p = params[i];
-    if (p >= 30 && p <= 37) {
-      // fg color 8
-      fg = p - 30;
-    } else if (p >= 40 && p <= 47) {
-      // bg color 8
-      bg = p - 40;
-    } else if (p >= 90 && p <= 97) {
-      // fg color 16
-      p += 8;
-      fg = p - 90;
-    } else if (p >= 100 && p <= 107) {
-      // bg color 16
-      p += 8;
-      bg = p - 100;
-    } else if (p === 0) {
-      // default
-      flags = this.defAttr >> 18;
-      fg = (this.defAttr >> 9) & 0x1ff;
-      bg = this.defAttr & 0x1ff;
-      // flags = 0;
-      // fg = 0x1ff;
-      // bg = 0x1ff;
-    } else if (p === 1) {
-      // bold text
-      flags |= 1;
-    } else if (p === 4) {
-      // underlined text
-      flags |= 2;
-    } else if (p === 5) {
-      // blink
-      flags |= 4;
-    } else if (p === 7) {
-      // inverse and positive
-      // test with: echo -e '\e[31m\e[42mhello\e[7mworld\e[27mhi\e[m'
-      flags |= 8;
-    } else if (p === 8) {
-      // invisible
-      flags |= 16;
-    } else if (p === 22) {
-      // not bold
-      flags &= ~1;
-    } else if (p === 24) {
-      // not underlined
-      flags &= ~2;
-    } else if (p === 25) {
-      // not blink
-      flags &= ~4;
-    } else if (p === 27) {
-      // not inverse
-      flags &= ~8;
-    } else if (p === 28) {
-      // not invisible
-      flags &= ~16;
-    } else if (p === 39) {
-      // reset fg
-      fg = (this.defAttr >> 9) & 0x1ff;
-    } else if (p === 49) {
-      // reset bg
-      bg = this.defAttr & 0x1ff;
-    } else if (p === 38) {
-      // fg color 256
-      if (params[i + 1] === 2) {
-        i += 2;
-        fg = matchColor(
-          params[i] & 0xff,
-          params[i + 1] & 0xff,
-          params[i + 2] & 0xff);
-        if (fg === -1) fg = 0x1ff;
-        i += 2;
-      } else if (params[i + 1] === 5) {
-        i += 2;
-        p = params[i] & 0xff;
-        fg = p;
-      }
-    } else if (p === 48) {
-      // bg color 256
-      if (params[i + 1] === 2) {
-        i += 2;
-        bg = matchColor(
-          params[i] & 0xff,
-          params[i + 1] & 0xff,
-          params[i + 2] & 0xff);
-        if (bg === -1) bg = 0x1ff;
-        i += 2;
-      } else if (params[i + 1] === 5) {
-        i += 2;
-        p = params[i] & 0xff;
-        bg = p;
-      }
-    } else if (p === 100) {
-      // reset fg/bg
-      fg = (this.defAttr >> 9) & 0x1ff;
-      bg = this.defAttr & 0x1ff;
-    } else {
-      this.error('Unknown SGR attribute: %d.', p);
-    }
-  }
-
-  this.curAttr = (flags << 18) | (fg << 9) | bg;
-};
-
-// CSI Ps n  Device Status Report (DSR).
-//     Ps = 5  -> Status Report.  Result (``OK'') is
-//   CSI 0 n
-//     Ps = 6  -> Report Cursor Position (CPR) [row;column].
-//   Result is
-//   CSI r ; c R
-// CSI ? Ps n
-//   Device Status Report (DSR, DEC-specific).
-//     Ps = 6  -> Report Cursor Position (CPR) [row;column] as CSI
-//     ? r ; c R (assumes page is zero).
-//     Ps = 1 5  -> Report Printer status as CSI ? 1 0  n  (ready).
-//     or CSI ? 1 1  n  (not ready).
-//     Ps = 2 5  -> Report UDK status as CSI ? 2 0  n  (unlocked)
-//     or CSI ? 2 1  n  (locked).
-//     Ps = 2 6  -> Report Keyboard status as
-//   CSI ? 2 7  ;  1  ;  0  ;  0  n  (North American).
-//   The last two parameters apply to VT400 & up, and denote key-
-//   board ready and LK01 respectively.
-//     Ps = 5 3  -> Report Locator status as
-//   CSI ? 5 3  n  Locator available, if compiled-in, or
-//   CSI ? 5 0  n  No Locator, if not.
-Terminal.prototype.deviceStatus = function(params) {
-  if (!this.prefix) {
-    switch (params[0]) {
-      case 5:
-        // status report
-        this.send('\x1b[0n');
-        break;
-      case 6:
-        // cursor position
-        this.send('\x1b['
-          + (this.y + 1)
-          + ';'
-          + (this.x + 1)
-          + 'R');
-        break;
-    }
-  } else if (this.prefix === '?') {
-    // modern xterm doesnt seem to
-    // respond to any of these except ?6, 6, and 5
-    switch (params[0]) {
-      case 6:
-        // cursor position
-        this.send('\x1b[?'
-          + (this.y + 1)
-          + ';'
-          + (this.x + 1)
-          + 'R');
-        break;
-      case 15:
-        // no printer
-        // this.send('\x1b[?11n');
-        break;
-      case 25:
-        // dont support user defined keys
-        // this.send('\x1b[?21n');
-        break;
-      case 26:
-        // north american keyboard
-        // this.send('\x1b[?27;1;0;0n');
-        break;
-      case 53:
-        // no dec locator/mouse
-        // this.send('\x1b[?50n');
-        break;
-    }
-  }
-};
-
-/**
- * Additions
- */
-
-// CSI Ps @
-// Insert Ps (Blank) Character(s) (default = 1) (ICH).
-Terminal.prototype.insertChars = function(params) {
-  var param, row, j, ch;
-
-  param = params[0];
-  if (param < 1) param = 1;
-
-  row = this.y + this.ybase;
-  j = this.x;
-  ch = [this.eraseAttr(), ' ']; // xterm
-
-  while (param-- && j < this.cols) {
-    this.lines[row].splice(j++, 0, ch);
-    this.lines[row].pop();
-  }
-};
-
-// CSI Ps E
-// Cursor Next Line Ps Times (default = 1) (CNL).
-// same as CSI Ps B ?
-Terminal.prototype.cursorNextLine = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y += param;
-  if (this.y >= this.rows) {
-    this.y = this.rows - 1;
-  }
-  this.x = 0;
-};
-
-// CSI Ps F
-// Cursor Preceding Line Ps Times (default = 1) (CNL).
-// reuse CSI Ps A ?
-Terminal.prototype.cursorPrecedingLine = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y -= param;
-  if (this.y < 0) this.y = 0;
-  this.x = 0;
-};
-
-// CSI Ps G
-// Cursor Character Absolute  [column] (default = [row,1]) (CHA).
-Terminal.prototype.cursorCharAbsolute = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.x = param - 1;
-};
-
-// CSI Ps L
-// Insert Ps Line(s) (default = 1) (IL).
-Terminal.prototype.insertLines = function(params) {
-  var param, row, j;
-
-  param = params[0];
-  if (param < 1) param = 1;
-  row = this.y + this.ybase;
-
-  j = this.rows - 1 - this.scrollBottom;
-  j = this.rows - 1 + this.ybase - j + 1;
-
-  while (param--) {
-    // test: echo -e '\e[44m\e[1L\e[0m'
-    // blankLine(true) - xterm/linux behavior
-    this.lines.splice(row, 0, this.blankLine(true));
-    this.lines.splice(j, 1);
-  }
-
-  // this.maxRange();
-  this.updateRange(this.y);
-  this.updateRange(this.scrollBottom);
-};
-
-// CSI Ps M
-// Delete Ps Line(s) (default = 1) (DL).
-Terminal.prototype.deleteLines = function(params) {
-  var param, row, j;
-
-  param = params[0];
-  if (param < 1) param = 1;
-  row = this.y + this.ybase;
-
-  j = this.rows - 1 - this.scrollBottom;
-  j = this.rows - 1 + this.ybase - j;
-
-  while (param--) {
-    // test: echo -e '\e[44m\e[1M\e[0m'
-    // blankLine(true) - xterm/linux behavior
-    this.lines.splice(j + 1, 0, this.blankLine(true));
-    this.lines.splice(row, 1);
-  }
-
-  // this.maxRange();
-  this.updateRange(this.y);
-  this.updateRange(this.scrollBottom);
-};
-
-// CSI Ps P
-// Delete Ps Character(s) (default = 1) (DCH).
-Terminal.prototype.deleteChars = function(params) {
-  var param, row, ch;
-
-  param = params[0];
-  if (param < 1) param = 1;
-
-  row = this.y + this.ybase;
-  ch = [this.eraseAttr(), ' ']; // xterm
-
-  while (param--) {
-    this.lines[row].splice(this.x, 1);
-    this.lines[row].push(ch);
-  }
-};
-
-// CSI Ps X
-// Erase Ps Character(s) (default = 1) (ECH).
-Terminal.prototype.eraseChars = function(params) {
-  var param, row, j, ch;
-
-  param = params[0];
-  if (param < 1) param = 1;
-
-  row = this.y + this.ybase;
-  j = this.x;
-  ch = [this.eraseAttr(), ' ']; // xterm
-
-  while (param-- && j < this.cols) {
-    this.lines[row][j++] = ch;
-  }
-};
-
-// CSI Pm `  Character Position Absolute
-//   [column] (default = [row,1]) (HPA).
-Terminal.prototype.charPosAbsolute = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.x = param - 1;
-  if (this.x >= this.cols) {
-    this.x = this.cols - 1;
-  }
-};
-
-// 141 61 a * HPR -
-// Horizontal Position Relative
-// reuse CSI Ps C ?
-Terminal.prototype.HPositionRelative = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.x += param;
-  if (this.x >= this.cols) {
-    this.x = this.cols - 1;
-  }
-};
-
-// CSI Ps c  Send Device Attributes (Primary DA).
-//     Ps = 0  or omitted -> request attributes from terminal.  The
-//     response depends on the decTerminalID resource setting.
-//     -> CSI ? 1 ; 2 c  (``VT100 with Advanced Video Option'')
-//     -> CSI ? 1 ; 0 c  (``VT101 with No Options'')
-//     -> CSI ? 6 c  (``VT102'')
-//     -> CSI ? 6 0 ; 1 ; 2 ; 6 ; 8 ; 9 ; 1 5 ; c  (``VT220'')
-//   The VT100-style response parameters do not mean anything by
-//   themselves.  VT220 parameters do, telling the host what fea-
-//   tures the terminal supports:
-//     Ps = 1  -> 132-columns.
-//     Ps = 2  -> Printer.
-//     Ps = 6  -> Selective erase.
-//     Ps = 8  -> User-defined keys.
-//     Ps = 9  -> National replacement character sets.
-//     Ps = 1 5  -> Technical characters.
-//     Ps = 2 2  -> ANSI color, e.g., VT525.
-//     Ps = 2 9  -> ANSI text locator (i.e., DEC Locator mode).
-// CSI > Ps c
-//   Send Device Attributes (Secondary DA).
-//     Ps = 0  or omitted -> request the terminal's identification
-//     code.  The response depends on the decTerminalID resource set-
-//     ting.  It should apply only to VT220 and up, but xterm extends
-//     this to VT100.
-//     -> CSI  > Pp ; Pv ; Pc c
-//   where Pp denotes the terminal type
-//     Pp = 0  -> ``VT100''.
-//     Pp = 1  -> ``VT220''.
-//   and Pv is the firmware version (for xterm, this was originally
-//   the XFree86 patch number, starting with 95).  In a DEC termi-
-//   nal, Pc indicates the ROM cartridge registration number and is
-//   always zero.
-// More information:
-//   xterm/charproc.c - line 2012, for more information.
-//   vim responds with ^[[?0c or ^[[?1c after the terminal's response (?)
-Terminal.prototype.sendDeviceAttributes = function(params) {
-  if (params[0] > 0) return;
-
-  if (!this.prefix) {
-    if (this.is('xterm')
-        || this.is('rxvt-unicode')
-        || this.is('screen')) {
-      this.send('\x1b[?1;2c');
-    } else if (this.is('linux')) {
-      this.send('\x1b[?6c');
-    }
-  } else if (this.prefix === '>') {
-    // xterm and urxvt
-    // seem to spit this
-    // out around ~370 times (?).
-    if (this.is('xterm')) {
-      this.send('\x1b[>0;276;0c');
-    } else if (this.is('rxvt-unicode')) {
-      this.send('\x1b[>85;95;0c');
-    } else if (this.is('linux')) {
-      // not supported by linux console.
-      // linux console echoes parameters.
-      this.send(params[0] + 'c');
-    } else if (this.is('screen')) {
-      this.send('\x1b[>83;40003;0c');
-    }
-  }
-};
-
-// CSI Pm d
-// Line Position Absolute  [row] (default = [1,column]) (VPA).
-Terminal.prototype.linePosAbsolute = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y = param - 1;
-  if (this.y >= this.rows) {
-    this.y = this.rows - 1;
-  }
-};
-
-// 145 65 e * VPR - Vertical Position Relative
-// reuse CSI Ps B ?
-Terminal.prototype.VPositionRelative = function(params) {
-  var param = params[0];
-  if (param < 1) param = 1;
-  this.y += param;
-  if (this.y >= this.rows) {
-    this.y = this.rows - 1;
-  }
-};
-
-// CSI Ps ; Ps f
-//   Horizontal and Vertical Position [row;column] (default =
-//   [1,1]) (HVP).
-Terminal.prototype.HVPosition = function(params) {
-  if (params[0] < 1) params[0] = 1;
-  if (params[1] < 1) params[1] = 1;
-
-  this.y = params[0] - 1;
-  if (this.y >= this.rows) {
-    this.y = this.rows - 1;
-  }
-
-  this.x = params[1] - 1;
-  if (this.x >= this.cols) {
-    this.x = this.cols - 1;
-  }
-};
-
-// CSI Pm h  Set Mode (SM).
-//     Ps = 2  -> Keyboard Action Mode (AM).
-//     Ps = 4  -> Insert Mode (IRM).
-//     Ps = 1 2  -> Send/receive (SRM).
-//     Ps = 2 0  -> Automatic Newline (LNM).
-// CSI ? Pm h
-//   DEC Private Mode Set (DECSET).
-//     Ps = 1  -> Application Cursor Keys (DECCKM).
-//     Ps = 2  -> Designate USASCII for character sets G0-G3
-//     (DECANM), and set VT100 mode.
-//     Ps = 3  -> 132 Column Mode (DECCOLM).
-//     Ps = 4  -> Smooth (Slow) Scroll (DECSCLM).
-//     Ps = 5  -> Reverse Video (DECSCNM).
-//     Ps = 6  -> Origin Mode (DECOM).
-//     Ps = 7  -> Wraparound Mode (DECAWM).
-//     Ps = 8  -> Auto-repeat Keys (DECARM).
-//     Ps = 9  -> Send Mouse X & Y on button press.  See the sec-
-//     tion Mouse Tracking.
-//     Ps = 1 0  -> Show toolbar (rxvt).
-//     Ps = 1 2  -> Start Blinking Cursor (att610).
-//     Ps = 1 8  -> Print form feed (DECPFF).
-//     Ps = 1 9  -> Set print extent to full screen (DECPEX).
-//     Ps = 2 5  -> Show Cursor (DECTCEM).
-//     Ps = 3 0  -> Show scrollbar (rxvt).
-//     Ps = 3 5  -> Enable font-shifting functions (rxvt).
-//     Ps = 3 8  -> Enter Tektronix Mode (DECTEK).
-//     Ps = 4 0  -> Allow 80 -> 132 Mode.
-//     Ps = 4 1  -> more(1) fix (see curses resource).
-//     Ps = 4 2  -> Enable Nation Replacement Character sets (DECN-
-//     RCM).
-//     Ps = 4 4  -> Turn On Margin Bell.
-//     Ps = 4 5  -> Reverse-wraparound Mode.
-//     Ps = 4 6  -> Start Logging.  This is normally disabled by a
-//     compile-time option.
-//     Ps = 4 7  -> Use Alternate Screen Buffer.  (This may be dis-
-//     abled by the titeInhibit resource).
-//     Ps = 6 6  -> Application keypad (DECNKM).
-//     Ps = 6 7  -> Backarrow key sends backspace (DECBKM).
-//     Ps = 1 0 0 0  -> Send Mouse X & Y on button press and
-//     release.  See the section Mouse Tracking.
-//     Ps = 1 0 0 1  -> Use Hilite Mouse Tracking.
-//     Ps = 1 0 0 2  -> Use Cell Motion Mouse Tracking.
-//     Ps = 1 0 0 3  -> Use All Motion Mouse Tracking.
-//     Ps = 1 0 0 4  -> Send FocusIn/FocusOut events.
-//     Ps = 1 0 0 5  -> Enable Extended Mouse Mode.
-//     Ps = 1 0 1 0  -> Scroll to bottom on tty output (rxvt).
-//     Ps = 1 0 1 1  -> Scroll to bottom on key press (rxvt).
-//     Ps = 1 0 3 4  -> Interpret "meta" key, sets eighth bit.
-//     (enables the eightBitInput resource).
-//     Ps = 1 0 3 5  -> Enable special modifiers for Alt and Num-
-//     Lock keys.  (This enables the numLock resource).
-//     Ps = 1 0 3 6  -> Send ESC   when Meta modifies a key.  (This
-//     enables the metaSendsEscape resource).
-//     Ps = 1 0 3 7  -> Send DEL from the editing-keypad Delete
-//     key.
-//     Ps = 1 0 3 9  -> Send ESC  when Alt modifies a key.  (This
-//     enables the altSendsEscape resource).
-//     Ps = 1 0 4 0  -> Keep selection even if not highlighted.
-//     (This enables the keepSelection resource).
-//     Ps = 1 0 4 1  -> Use the CLIPBOARD selection.  (This enables
-//     the selectToClipboard resource).
-//     Ps = 1 0 4 2  -> Enable Urgency window manager hint when
-//     Control-G is received.  (This enables the bellIsUrgent
-//     resource).
-//     Ps = 1 0 4 3  -> Enable raising of the window when Control-G
-//     is received.  (enables the popOnBell resource).
-//     Ps = 1 0 4 7  -> Use Alternate Screen Buffer.  (This may be
-//     disabled by the titeInhibit resource).
-//     Ps = 1 0 4 8  -> Save cursor as in DECSC.  (This may be dis-
-//     abled by the titeInhibit resource).
-//     Ps = 1 0 4 9  -> Save cursor as in DECSC and use Alternate
-//     Screen Buffer, clearing it first.  (This may be disabled by
-//     the titeInhibit resource).  This combines the effects of the 1
-//     0 4 7  and 1 0 4 8  modes.  Use this with terminfo-based
-//     applications rather than the 4 7  mode.
-//     Ps = 1 0 5 0  -> Set terminfo/termcap function-key mode.
-//     Ps = 1 0 5 1  -> Set Sun function-key mode.
-//     Ps = 1 0 5 2  -> Set HP function-key mode.
-//     Ps = 1 0 5 3  -> Set SCO function-key mode.
-//     Ps = 1 0 6 0  -> Set legacy keyboard emulation (X11R6).
-//     Ps = 1 0 6 1  -> Set VT220 keyboard emulation.
-//     Ps = 2 0 0 4  -> Set bracketed paste mode.
-// Modes:
-//   http://vt100.net/docs/vt220-rm/chapter4.html
-Terminal.prototype.setMode = function(params) {
-  if (typeof params === 'object') {
-    var l = params.length
-      , i = 0;
-
-    for (; i < l; i++) {
-      this.setMode(params[i]);
-    }
-
-    return;
-  }
-
-  if (!this.prefix) {
-    switch (params) {
-      case 4:
-        this.insertMode = true;
-        break;
-      case 20:
-        //this.convertEol = true;
-        break;
-    }
-  } else if (this.prefix === '?') {
-    switch (params) {
-      case 1:
-        this.applicationCursor = true;
-        break;
-      case 2:
-        this.setgCharset(0, Terminal.charsets.US);
-        this.setgCharset(1, Terminal.charsets.US);
-        this.setgCharset(2, Terminal.charsets.US);
-        this.setgCharset(3, Terminal.charsets.US);
-        // set VT100 mode here
-        break;
-      case 3: // 132 col mode
-        this.savedCols = this.cols;
-        this.resize(132, this.rows);
-        break;
-      case 6:
-        this.originMode = true;
-        break;
-      case 7:
-        this.wraparoundMode = true;
-        break;
-      case 12:
-        // this.cursorBlink = true;
-        break;
-      case 66:
-        this.log('Serial port requested application keypad.');
-        this.applicationKeypad = true;
-        break;
-      case 9: // X10 Mouse
-        // no release, no motion, no wheel, no modifiers.
-      case 1000: // vt200 mouse
-        // no motion.
-        // no modifiers, except control on the wheel.
-      case 1002: // button event mouse
-      case 1003: // any event mouse
-        // any event - sends motion events,
-        // even if there is no button held down.
-        this.x10Mouse = params === 9;
-        this.vt200Mouse = params === 1000;
-        this.normalMouse = params > 1000;
-        this.mouseEvents = true;
-        this.element.style.cursor = 'default';
-        this.log('Binding to mouse events.');
-        break;
-      case 1004: // send focusin/focusout events
-        // focusin: ^[[I
-        // focusout: ^[[O
-        this.sendFocus = true;
-        break;
-      case 1005: // utf8 ext mode mouse
-        this.utfMouse = true;
-        // for wide terminals
-        // simply encodes large values as utf8 characters
-        break;
-      case 1006: // sgr ext mode mouse
-        this.sgrMouse = true;
-        // for wide terminals
-        // does not add 32 to fields
-        // press: ^[[<b;x;yM
-        // release: ^[[<b;x;ym
-        break;
-      case 1015: // urxvt ext mode mouse
-        this.urxvtMouse = true;
-        // for wide terminals
-        // numbers for fields
-        // press: ^[[b;x;yM
-        // motion: ^[[b;x;yT
-        break;
-      case 25: // show cursor
-        this.cursorHidden = false;
-        break;
-      case 1049: // alt screen buffer cursor
-        //this.saveCursor();
-        ; // FALL-THROUGH
-      case 47: // alt screen buffer
-      case 1047: // alt screen buffer
-        if (!this.normal) {
-          var normal = {
-            lines: this.lines,
-            ybase: this.ybase,
-            ydisp: this.ydisp,
-            x: this.x,
-            y: this.y,
-            scrollTop: this.scrollTop,
-            scrollBottom: this.scrollBottom,
-            tabs: this.tabs
-            // XXX save charset(s) here?
-            // charset: this.charset,
-            // glevel: this.glevel,
-            // charsets: this.charsets
-          };
-          this.reset();
-          this.normal = normal;
-          this.showCursor();
-        }
-        break;
-    }
-  }
-};
-
-// CSI Pm l  Reset Mode (RM).
-//     Ps = 2  -> Keyboard Action Mode (AM).
-//     Ps = 4  -> Replace Mode (IRM).
-//     Ps = 1 2  -> Send/receive (SRM).
-//     Ps = 2 0  -> Normal Linefeed (LNM).
-// CSI ? Pm l
-//   DEC Private Mode Reset (DECRST).
-//     Ps = 1  -> Normal Cursor Keys (DECCKM).
-//     Ps = 2  -> Designate VT52 mode (DECANM).
-//     Ps = 3  -> 80 Column Mode (DECCOLM).
-//     Ps = 4  -> Jump (Fast) Scroll (DECSCLM).
-//     Ps = 5  -> Normal Video (DECSCNM).
-//     Ps = 6  -> Normal Cursor Mode (DECOM).
-//     Ps = 7  -> No Wraparound Mode (DECAWM).
-//     Ps = 8  -> No Auto-repeat Keys (DECARM).
-//     Ps = 9  -> Don't send Mouse X & Y on button press.
-//     Ps = 1 0  -> Hide toolbar (rxvt).
-//     Ps = 1 2  -> Stop Blinking Cursor (att610).
-//     Ps = 1 8  -> Don't print form feed (DECPFF).
-//     Ps = 1 9  -> Limit print to scrolling region (DECPEX).
-//     Ps = 2 5  -> Hide Cursor (DECTCEM).
-//     Ps = 3 0  -> Don't show scrollbar (rxvt).
-//     Ps = 3 5  -> Disable font-shifting functions (rxvt).
-//     Ps = 4 0  -> Disallow 80 -> 132 Mode.
-//     Ps = 4 1  -> No more(1) fix (see curses resource).
-//     Ps = 4 2  -> Disable Nation Replacement Character sets (DEC-
-//     NRCM).
-//     Ps = 4 4  -> Turn Off Margin Bell.
-//     Ps = 4 5  -> No Reverse-wraparound Mode.
-//     Ps = 4 6  -> Stop Logging.  (This is normally disabled by a
-//     compile-time option).
-//     Ps = 4 7  -> Use Normal Screen Buffer.
-//     Ps = 6 6  -> Numeric keypad (DECNKM).
-//     Ps = 6 7  -> Backarrow key sends delete (DECBKM).
-//     Ps = 1 0 0 0  -> Don't send Mouse X & Y on button press and
-//     release.  See the section Mouse Tracking.
-//     Ps = 1 0 0 1  -> Don't use Hilite Mouse Tracking.
-//     Ps = 1 0 0 2  -> Don't use Cell Motion Mouse Tracking.
-//     Ps = 1 0 0 3  -> Don't use All Motion Mouse Tracking.
-//     Ps = 1 0 0 4  -> Don't send FocusIn/FocusOut events.
-//     Ps = 1 0 0 5  -> Disable Extended Mouse Mode.
-//     Ps = 1 0 1 0  -> Don't scroll to bottom on tty output
-//     (rxvt).
-//     Ps = 1 0 1 1  -> Don't scroll to bottom on key press (rxvt).
-//     Ps = 1 0 3 4  -> Don't interpret "meta" key.  (This disables
-//     the eightBitInput resource).
-//     Ps = 1 0 3 5  -> Disable special modifiers for Alt and Num-
-//     Lock keys.  (This disables the numLock resource).
-//     Ps = 1 0 3 6  -> Don't send ESC  when Meta modifies a key.
-//     (This disables the metaSendsEscape resource).
-//     Ps = 1 0 3 7  -> Send VT220 Remove from the editing-keypad
-//     Delete key.
-//     Ps = 1 0 3 9  -> Don't send ESC  when Alt modifies a key.
-//     (This disables the altSendsEscape resource).
-//     Ps = 1 0 4 0  -> Do not keep selection when not highlighted.
-//     (This disables the keepSelection resource).
-//     Ps = 1 0 4 1  -> Use the PRIMARY selection.  (This disables
-//     the selectToClipboard resource).
-//     Ps = 1 0 4 2  -> Disable Urgency window manager hint when
-//     Control-G is received.  (This disables the bellIsUrgent
-//     resource).
-//     Ps = 1 0 4 3  -> Disable raising of the window when Control-
-//     G is received.  (This disables the popOnBell resource).
-//     Ps = 1 0 4 7  -> Use Normal Screen Buffer, clearing screen
-//     first if in the Alternate Screen.  (This may be disabled by
-//     the titeInhibit resource).
-//     Ps = 1 0 4 8  -> Restore cursor as in DECRC.  (This may be
-//     disabled by the titeInhibit resource).
-//     Ps = 1 0 4 9  -> Use Normal Screen Buffer and restore cursor
-//     as in DECRC.  (This may be disabled by the titeInhibit
-//     resource).  This combines the effects of the 1 0 4 7  and 1 0
-//     4 8  modes.  Use this with terminfo-based applications rather
-//     than the 4 7  mode.
-//     Ps = 1 0 5 0  -> Reset terminfo/termcap function-key mode.
-//     Ps = 1 0 5 1  -> Reset Sun function-key mode.
-//     Ps = 1 0 5 2  -> Reset HP function-key mode.
-//     Ps = 1 0 5 3  -> Reset SCO function-key mode.
-//     Ps = 1 0 6 0  -> Reset legacy keyboard emulation (X11R6).
-//     Ps = 1 0 6 1  -> Reset keyboard emulation to Sun/PC style.
-//     Ps = 2 0 0 4  -> Reset bracketed paste mode.
-Terminal.prototype.resetMode = function(params) {
-  if (typeof params === 'object') {
-    var l = params.length
-      , i = 0;
-
-    for (; i < l; i++) {
-      this.resetMode(params[i]);
-    }
-
-    return;
-  }
-
-  if (!this.prefix) {
-    switch (params) {
-      case 4:
-        this.insertMode = false;
-        break;
-      case 20:
-        //this.convertEol = false;
-        break;
-    }
-  } else if (this.prefix === '?') {
-    switch (params) {
-      case 1:
-        this.applicationCursor = false;
-        break;
-      case 3:
-        if (this.cols === 132 && this.savedCols) {
-          this.resize(this.savedCols, this.rows);
-        }
-        delete this.savedCols;
-        break;
-      case 6:
-        this.originMode = false;
-        break;
-      case 7:
-        this.wraparoundMode = false;
-        break;
-      case 12:
-        // this.cursorBlink = false;
-        break;
-      case 66:
-        this.log('Switching back to normal keypad.');
-        this.applicationKeypad = false;
-        break;
-      case 9: // X10 Mouse
-      case 1000: // vt200 mouse
-      case 1002: // button event mouse
-      case 1003: // any event mouse
-        this.x10Mouse = false;
-        this.vt200Mouse = false;
-        this.normalMouse = false;
-        this.mouseEvents = false;
-        this.element.style.cursor = '';
-        break;
-      case 1004: // send focusin/focusout events
-        this.sendFocus = false;
-        break;
-      case 1005: // utf8 ext mode mouse
-        this.utfMouse = false;
-        break;
-      case 1006: // sgr ext mode mouse
-        this.sgrMouse = false;
-        break;
-      case 1015: // urxvt ext mode mouse
-        this.urxvtMouse = false;
-        break;
-      case 25: // hide cursor
-        this.cursorHidden = true;
-        break;
-      case 1049: // alt screen buffer cursor
-        ; // FALL-THROUGH
-      case 47: // normal screen buffer
-      case 1047: // normal screen buffer - clearing it first
-        if (this.normal) {
-          this.lines = this.normal.lines;
-          this.ybase = this.normal.ybase;
-          this.ydisp = this.normal.ydisp;
-          this.x = this.normal.x;
-          this.y = this.normal.y;
-          this.scrollTop = this.normal.scrollTop;
-          this.scrollBottom = this.normal.scrollBottom;
-          this.tabs = this.normal.tabs;
-          this.normal = null;
-          // if (params === 1049) {
-          //   this.x = this.savedX;
-          //   this.y = this.savedY;
-          // }
-          this.refresh(0, this.rows - 1);
-          this.showCursor();
-        }
-        break;
-    }
-  }
-};
-
-// CSI Ps ; Ps r
-//   Set Scrolling Region [top;bottom] (default = full size of win-
-//   dow) (DECSTBM).
-// CSI ? Pm r
-Terminal.prototype.setScrollRegion = function(params) {
-  if (this.prefix) return;
-  this.scrollTop = (params[0] || 1) - 1;
-  this.scrollBottom = (params[1] || this.rows) - 1;
-  this.x = 0;
-  this.y = 0;
-};
-
-// CSI s
-//   Save cursor (ANSI.SYS).
-Terminal.prototype.saveCursor = function(params) {
-  this.savedX = this.x;
-  this.savedY = this.y;
-};
-
-// CSI u
-//   Restore cursor (ANSI.SYS).
-Terminal.prototype.restoreCursor = function(params) {
-  this.x = this.savedX || 0;
-  this.y = this.savedY || 0;
-};
-
-/**
- * Lesser Used
- */
-
-// CSI Ps I
-//   Cursor Forward Tabulation Ps tab stops (default = 1) (CHT).
-Terminal.prototype.cursorForwardTab = function(params) {
-  var param = params[0] || 1;
-  while (param--) {
-    this.x = this.nextStop();
-  }
-};
-
-// CSI Ps S  Scroll up Ps lines (default = 1) (SU).
-Terminal.prototype.scrollUp = function(params) {
-  var param = params[0] || 1;
-  while (param--) {
-    this.lines.splice(this.ybase + this.scrollTop, 1);
-    this.lines.splice(this.ybase + this.scrollBottom, 0, this.blankLine());
-  }
-  // this.maxRange();
-  this.updateRange(this.scrollTop);
-  this.updateRange(this.scrollBottom);
-};
-
-// CSI Ps T  Scroll down Ps lines (default = 1) (SD).
-Terminal.prototype.scrollDown = function(params) {
-  var param = params[0] || 1;
-  while (param--) {
-    this.lines.splice(this.ybase + this.scrollBottom, 1);
-    this.lines.splice(this.ybase + this.scrollTop, 0, this.blankLine());
-  }
-  // this.maxRange();
-  this.updateRange(this.scrollTop);
-  this.updateRange(this.scrollBottom);
-};
-
-// CSI Ps ; Ps ; Ps ; Ps ; Ps T
-//   Initiate highlight mouse tracking.  Parameters are
-//   [func;startx;starty;firstrow;lastrow].  See the section Mouse
-//   Tracking.
-Terminal.prototype.initMouseTracking = function(params) {
-  // Relevant: DECSET 1001
-};
-
-// CSI > Ps; Ps T
-//   Reset one or more features of the title modes to the default
-//   value.  Normally, "reset" disables the feature.  It is possi-
-//   ble to disable the ability to reset features by compiling a
-//   different default for the title modes into xterm.
-//     Ps = 0  -> Do not set window/icon labels using hexadecimal.
-//     Ps = 1  -> Do not query window/icon labels using hexadeci-
-//     mal.
-//     Ps = 2  -> Do not set window/icon labels using UTF-8.
-//     Ps = 3  -> Do not query window/icon labels using UTF-8.
-//   (See discussion of "Title Modes").
-Terminal.prototype.resetTitleModes = function(params) {
-  ;
-};
-
-// CSI Ps Z  Cursor Backward Tabulation Ps tab stops (default = 1) (CBT).
-Terminal.prototype.cursorBackwardTab = function(params) {
-  var param = params[0] || 1;
-  while (param--) {
-    this.x = this.prevStop();
-  }
-};
-
-// CSI Ps b  Repeat the preceding graphic character Ps times (REP).
-Terminal.prototype.repeatPrecedingCharacter = function(params) {
-  var param = params[0] || 1
-    , line = this.lines[this.ybase + this.y]
-    , ch = line[this.x - 1] || [this.defAttr, ' '];
-
-  while (param--) line[this.x++] = ch;
-};
-
-// CSI Ps g  Tab Clear (TBC).
-//     Ps = 0  -> Clear Current Column (default).
-//     Ps = 3  -> Clear All.
-// Potentially:
-//   Ps = 2  -> Clear Stops on Line.
-//   http://vt100.net/annarbor/aaa-ug/section6.html
-Terminal.prototype.tabClear = function(params) {
-  var param = params[0];
-  if (param <= 0) {
-    delete this.tabs[this.x];
-  } else if (param === 3) {
-    this.tabs = {};
-  }
-};
-
-// CSI Pm i  Media Copy (MC).
-//     Ps = 0  -> Print screen (default).
-//     Ps = 4  -> Turn off printer controller mode.
-//     Ps = 5  -> Turn on printer controller mode.
-// CSI ? Pm i
-//   Media Copy (MC, DEC-specific).
-//     Ps = 1  -> Print line containing cursor.
-//     Ps = 4  -> Turn off autoprint mode.
-//     Ps = 5  -> Turn on autoprint mode.
-//     Ps = 1  0  -> Print composed display, ignores DECPEX.
-//     Ps = 1  1  -> Print all pages.
-Terminal.prototype.mediaCopy = function(params) {
-  ;
-};
-
-// CSI > Ps; Ps m
-//   Set or reset resource-values used by xterm to decide whether
-//   to construct escape sequences holding information about the
-//   modifiers pressed with a given key.  The first parameter iden-
-//   tifies the resource to set/reset.  The second parameter is the
-//   value to assign to the resource.  If the second parameter is
-//   omitted, the resource is reset to its initial value.
-//     Ps = 1  -> modifyCursorKeys.
-//     Ps = 2  -> modifyFunctionKeys.
-//     Ps = 4  -> modifyOtherKeys.
-//   If no parameters are given, all resources are reset to their
-//   initial values.
-Terminal.prototype.setResources = function(params) {
-  ;
-};
-
-// CSI > Ps n
-//   Disable modifiers which may be enabled via the CSI > Ps; Ps m
-//   sequence.  This corresponds to a resource value of "-1", which
-//   cannot be set with the other sequence.  The parameter identi-
-//   fies the resource to be disabled:
-//     Ps = 1  -> modifyCursorKeys.
-//     Ps = 2  -> modifyFunctionKeys.
-//     Ps = 4  -> modifyOtherKeys.
-//   If the parameter is omitted, modifyFunctionKeys is disabled.
-//   When modifyFunctionKeys is disabled, xterm uses the modifier
-//   keys to make an extended sequence of functions rather than
-//   adding a parameter to each function key to denote the modi-
-//   fiers.
-Terminal.prototype.disableModifiers = function(params) {
-  ;
-};
-
-// CSI > Ps p
-//   Set resource value pointerMode.  This is used by xterm to
-//   decide whether to hide the pointer cursor as the user types.
-//   Valid values for the parameter:
-//     Ps = 0  -> never hide the pointer.
-//     Ps = 1  -> hide if the mouse tracking mode is not enabled.
-//     Ps = 2  -> always hide the pointer.  If no parameter is
-//     given, xterm uses the default, which is 1 .
-Terminal.prototype.setPointerMode = function(params) {
-  ;
-};
-
-// CSI ! p   Soft terminal reset (DECSTR).
-// http://vt100.net/docs/vt220-rm/table4-10.html
-Terminal.prototype.softReset = function(params) {
-  this.cursorHidden = false;
-  this.insertMode = false;
-  this.originMode = false;
-  this.wraparoundMode = false; // autowrap
-  this.applicationKeypad = false; // ?
-  this.applicationCursor = false;
-  this.scrollTop = 0;
-  this.scrollBottom = this.rows - 1;
-  this.curAttr = this.defAttr;
-  this.x = this.y = 0; // ?
-  this.charset = null;
-  this.glevel = 0; // ??
-  this.charsets = [null]; // ??
-};
-
-// CSI Ps$ p
-//   Request ANSI mode (DECRQM).  For VT300 and up, reply is
-//     CSI Ps; Pm$ y
-//   where Ps is the mode number as in RM, and Pm is the mode
-//   value:
-//     0 - not recognized
-//     1 - set
-//     2 - reset
-//     3 - permanently set
-//     4 - permanently reset
-Terminal.prototype.requestAnsiMode = function(params) {
-  ;
-};
-
-// CSI ? Ps$ p
-//   Request DEC private mode (DECRQM).  For VT300 and up, reply is
-//     CSI ? Ps; Pm$ p
-//   where Ps is the mode number as in DECSET, Pm is the mode value
-//   as in the ANSI DECRQM.
-Terminal.prototype.requestPrivateMode = function(params) {
-  ;
-};
-
-// CSI Ps ; Ps " p
-//   Set conformance level (DECSCL).  Valid values for the first
-//   parameter:
-//     Ps = 6 1  -> VT100.
-//     Ps = 6 2  -> VT200.
-//     Ps = 6 3  -> VT300.
-//   Valid values for the second parameter:
-//     Ps = 0  -> 8-bit controls.
-//     Ps = 1  -> 7-bit controls (always set for VT100).
-//     Ps = 2  -> 8-bit controls.
-Terminal.prototype.setConformanceLevel = function(params) {
-  ;
-};
-
-// CSI Ps q  Load LEDs (DECLL).
-//     Ps = 0  -> Clear all LEDS (default).
-//     Ps = 1  -> Light Num Lock.
-//     Ps = 2  -> Light Caps Lock.
-//     Ps = 3  -> Light Scroll Lock.
-//     Ps = 2  1  -> Extinguish Num Lock.
-//     Ps = 2  2  -> Extinguish Caps Lock.
-//     Ps = 2  3  -> Extinguish Scroll Lock.
-Terminal.prototype.loadLEDs = function(params) {
-  ;
-};
-
-// CSI Ps SP q
-//   Set cursor style (DECSCUSR, VT520).
-//     Ps = 0  -> blinking block.
-//     Ps = 1  -> blinking block (default).
-//     Ps = 2  -> steady block.
-//     Ps = 3  -> blinking underline.
-//     Ps = 4  -> steady underline.
-Terminal.prototype.setCursorStyle = function(params) {
-  ;
-};
-
-// CSI Ps " q
-//   Select character protection attribute (DECSCA).  Valid values
-//   for the parameter:
-//     Ps = 0  -> DECSED and DECSEL can erase (default).
-//     Ps = 1  -> DECSED and DECSEL cannot erase.
-//     Ps = 2  -> DECSED and DECSEL can erase.
-Terminal.prototype.setCharProtectionAttr = function(params) {
-  ;
-};
-
-// CSI ? Pm r
-//   Restore DEC Private Mode Values.  The value of Ps previously
-//   saved is restored.  Ps values are the same as for DECSET.
-Terminal.prototype.restorePrivateValues = function(params) {
-  ;
-};
-
-// CSI Pt; Pl; Pb; Pr; Ps$ r
-//   Change Attributes in Rectangular Area (DECCARA), VT400 and up.
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-//     Ps denotes the SGR attributes to change: 0, 1, 4, 5, 7.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.setAttrInRectangle = function(params) {
-  var t = params[0]
-    , l = params[1]
-    , b = params[2]
-    , r = params[3]
-    , attr = params[4];
-
-  var line
-    , i;
-
-  for (; t < b + 1; t++) {
-    line = this.lines[this.ybase + t];
-    for (i = l; i < r; i++) {
-      line[i] = [attr, line[i][1]];
-    }
-  }
-
-  // this.maxRange();
-  this.updateRange(params[0]);
-  this.updateRange(params[2]);
-};
-
-// CSI ? Pm s
-//   Save DEC Private Mode Values.  Ps values are the same as for
-//   DECSET.
-Terminal.prototype.savePrivateValues = function(params) {
-  ;
-};
-
-// CSI Ps ; Ps ; Ps t
-//   Window manipulation (from dtterm, as well as extensions).
-//   These controls may be disabled using the allowWindowOps
-//   resource.  Valid values for the first (and any additional
-//   parameters) are:
-//     Ps = 1  -> De-iconify window.
-//     Ps = 2  -> Iconify window.
-//     Ps = 3  ;  x ;  y -> Move window to [x, y].
-//     Ps = 4  ;  height ;  width -> Resize the xterm window to
-//     height and width in pixels.
-//     Ps = 5  -> Raise the xterm window to the front of the stack-
-//     ing order.
-//     Ps = 6  -> Lower the xterm window to the bottom of the
-//     stacking order.
-//     Ps = 7  -> Refresh the xterm window.
-//     Ps = 8  ;  height ;  width -> Resize the text area to
-//     [height;width] in characters.
-//     Ps = 9  ;  0  -> Restore maximized window.
-//     Ps = 9  ;  1  -> Maximize window (i.e., resize to screen
-//     size).
-//     Ps = 1 0  ;  0  -> Undo full-screen mode.
-//     Ps = 1 0  ;  1  -> Change to full-screen.
-//     Ps = 1 1  -> Report xterm window state.  If the xterm window
-//     is open (non-iconified), it returns CSI 1 t .  If the xterm
-//     window is iconified, it returns CSI 2 t .
-//     Ps = 1 3  -> Report xterm window position.  Result is CSI 3
-//     ; x ; y t
-//     Ps = 1 4  -> Report xterm window in pixels.  Result is CSI
-//     4  ;  height ;  width t
-//     Ps = 1 8  -> Report the size of the text area in characters.
-//     Result is CSI  8  ;  height ;  width t
-//     Ps = 1 9  -> Report the size of the screen in characters.
-//     Result is CSI  9  ;  height ;  width t
-//     Ps = 2 0  -> Report xterm window's icon label.  Result is
-//     OSC  L  label ST
-//     Ps = 2 1  -> Report xterm window's title.  Result is OSC  l
-//     label ST
-//     Ps = 2 2  ;  0  -> Save xterm icon and window title on
-//     stack.
-//     Ps = 2 2  ;  1  -> Save xterm icon title on stack.
-//     Ps = 2 2  ;  2  -> Save xterm window title on stack.
-//     Ps = 2 3  ;  0  -> Restore xterm icon and window title from
-//     stack.
-//     Ps = 2 3  ;  1  -> Restore xterm icon title from stack.
-//     Ps = 2 3  ;  2  -> Restore xterm window title from stack.
-//     Ps >= 2 4  -> Resize to Ps lines (DECSLPP).
-Terminal.prototype.manipulateWindow = function(params) {
-  ;
-};
-
-// CSI Pt; Pl; Pb; Pr; Ps$ t
-//   Reverse Attributes in Rectangular Area (DECRARA), VT400 and
-//   up.
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-//     Ps denotes the attributes to reverse, i.e.,  1, 4, 5, 7.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.reverseAttrInRectangle = function(params) {
-  ;
-};
-
-// CSI > Ps; Ps t
-//   Set one or more features of the title modes.  Each parameter
-//   enables a single feature.
-//     Ps = 0  -> Set window/icon labels using hexadecimal.
-//     Ps = 1  -> Query window/icon labels using hexadecimal.
-//     Ps = 2  -> Set window/icon labels using UTF-8.
-//     Ps = 3  -> Query window/icon labels using UTF-8.  (See dis-
-//     cussion of "Title Modes")
-Terminal.prototype.setTitleModeFeature = function(params) {
-  ;
-};
-
-// CSI Ps SP t
-//   Set warning-bell volume (DECSWBV, VT520).
-//     Ps = 0  or 1  -> off.
-//     Ps = 2 , 3  or 4  -> low.
-//     Ps = 5 , 6 , 7 , or 8  -> high.
-Terminal.prototype.setWarningBellVolume = function(params) {
-  ;
-};
-
-// CSI Ps SP u
-//   Set margin-bell volume (DECSMBV, VT520).
-//     Ps = 1  -> off.
-//     Ps = 2 , 3  or 4  -> low.
-//     Ps = 0 , 5 , 6 , 7 , or 8  -> high.
-Terminal.prototype.setMarginBellVolume = function(params) {
-  ;
-};
-
-// CSI Pt; Pl; Pb; Pr; Pp; Pt; Pl; Pp$ v
-//   Copy Rectangular Area (DECCRA, VT400 and up).
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-//     Pp denotes the source page.
-//     Pt; Pl denotes the target location.
-//     Pp denotes the target page.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.copyRectangle = function(params) {
-  ;
-};
-
-// CSI Pt ; Pl ; Pb ; Pr ' w
-//   Enable Filter Rectangle (DECEFR), VT420 and up.
-//   Parameters are [top;left;bottom;right].
-//   Defines the coordinates of a filter rectangle and activates
-//   it.  Anytime the locator is detected outside of the filter
-//   rectangle, an outside rectangle event is generated and the
-//   rectangle is disabled.  Filter rectangles are always treated
-//   as "one-shot" events.  Any parameters that are omitted default
-//   to the current locator position.  If all parameters are omit-
-//   ted, any locator motion will be reported.  DECELR always can-
-//   cels any prevous rectangle definition.
-Terminal.prototype.enableFilterRectangle = function(params) {
-  ;
-};
-
-// CSI Ps x  Request Terminal Parameters (DECREQTPARM).
-//   if Ps is a "0" (default) or "1", and xterm is emulating VT100,
-//   the control sequence elicits a response of the same form whose
-//   parameters describe the terminal:
-//     Ps -> the given Ps incremented by 2.
-//     Pn = 1  <- no parity.
-//     Pn = 1  <- eight bits.
-//     Pn = 1  <- 2  8  transmit 38.4k baud.
-//     Pn = 1  <- 2  8  receive 38.4k baud.
-//     Pn = 1  <- clock multiplier.
-//     Pn = 0  <- STP flags.
-Terminal.prototype.requestParameters = function(params) {
-  ;
-};
-
-// CSI Ps x  Select Attribute Change Extent (DECSACE).
-//     Ps = 0  -> from start to end position, wrapped.
-//     Ps = 1  -> from start to end position, wrapped.
-//     Ps = 2  -> rectangle (exact).
-Terminal.prototype.selectChangeExtent = function(params) {
-  ;
-};
-
-// CSI Pc; Pt; Pl; Pb; Pr$ x
-//   Fill Rectangular Area (DECFRA), VT420 and up.
-//     Pc is the character to use.
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.fillRectangle = function(params) {
-  var ch = params[0]
-    , t = params[1]
-    , l = params[2]
-    , b = params[3]
-    , r = params[4];
-
-  var line
-    , i;
-
-  for (; t < b + 1; t++) {
-    line = this.lines[this.ybase + t];
-    for (i = l; i < r; i++) {
-      line[i] = [line[i][0], String.fromCharCode(ch)];
-    }
-  }
-
-  // this.maxRange();
-  this.updateRange(params[1]);
-  this.updateRange(params[3]);
-};
-
-// CSI Ps ; Pu ' z
-//   Enable Locator Reporting (DECELR).
-//   Valid values for the first parameter:
-//     Ps = 0  -> Locator disabled (default).
-//     Ps = 1  -> Locator enabled.
-//     Ps = 2  -> Locator enabled for one report, then disabled.
-//   The second parameter specifies the coordinate unit for locator
-//   reports.
-//   Valid values for the second parameter:
-//     Pu = 0  <- or omitted -> default to character cells.
-//     Pu = 1  <- device physical pixels.
-//     Pu = 2  <- character cells.
-Terminal.prototype.enableLocatorReporting = function(params) {
-  var val = params[0] > 0;
-  //this.mouseEvents = val;
-  //this.decLocator = val;
-};
-
-// CSI Pt; Pl; Pb; Pr$ z
-//   Erase Rectangular Area (DECERA), VT400 and up.
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.eraseRectangle = function(params) {
-  var t = params[0]
-    , l = params[1]
-    , b = params[2]
-    , r = params[3];
-
-  var line
-    , i
-    , ch;
-
-  ch = [this.eraseAttr(), ' ']; // xterm?
-
-  for (; t < b + 1; t++) {
-    line = this.lines[this.ybase + t];
-    for (i = l; i < r; i++) {
-      line[i] = ch;
-    }
-  }
-
-  // this.maxRange();
-  this.updateRange(params[0]);
-  this.updateRange(params[2]);
-};
-
-// CSI Pm ' {
-//   Select Locator Events (DECSLE).
-//   Valid values for the first (and any additional parameters)
-//   are:
-//     Ps = 0  -> only respond to explicit host requests (DECRQLP).
-//                (This is default).  It also cancels any filter
-//   rectangle.
-//     Ps = 1  -> report button down transitions.
-//     Ps = 2  -> do not report button down transitions.
-//     Ps = 3  -> report button up transitions.
-//     Ps = 4  -> do not report button up transitions.
-Terminal.prototype.setLocatorEvents = function(params) {
-  ;
-};
-
-// CSI Pt; Pl; Pb; Pr$ {
-//   Selective Erase Rectangular Area (DECSERA), VT400 and up.
-//     Pt; Pl; Pb; Pr denotes the rectangle.
-Terminal.prototype.selectiveEraseRectangle = function(params) {
-  ;
-};
-
-// CSI Ps ' |
-//   Request Locator Position (DECRQLP).
-//   Valid values for the parameter are:
-//     Ps = 0 , 1 or omitted -> transmit a single DECLRP locator
-//     report.
-
-//   If Locator Reporting has been enabled by a DECELR, xterm will
-//   respond with a DECLRP Locator Report.  This report is also
-//   generated on button up and down events if they have been
-//   enabled with a DECSLE, or when the locator is detected outside
-//   of a filter rectangle, if filter rectangles have been enabled
-//   with a DECEFR.
-
-//     -> CSI Pe ; Pb ; Pr ; Pc ; Pp &  w
-
-//   Parameters are [event;button;row;column;page].
-//   Valid values for the event:
-//     Pe = 0  -> locator unavailable - no other parameters sent.
-//     Pe = 1  -> request - xterm received a DECRQLP.
-//     Pe = 2  -> left button down.
-//     Pe = 3  -> left button up.
-//     Pe = 4  -> middle button down.
-//     Pe = 5  -> middle button up.
-//     Pe = 6  -> right button down.
-//     Pe = 7  -> right button up.
-//     Pe = 8  -> M4 button down.
-//     Pe = 9  -> M4 button up.
-//     Pe = 1 0  -> locator outside filter rectangle.
-//   ``button'' parameter is a bitmask indicating which buttons are
-//     pressed:
-//     Pb = 0  <- no buttons down.
-//     Pb & 1  <- right button down.
-//     Pb & 2  <- middle button down.
-//     Pb & 4  <- left button down.
-//     Pb & 8  <- M4 button down.
-//   ``row'' and ``column'' parameters are the coordinates of the
-//     locator position in the xterm window, encoded as ASCII deci-
-//     mal.
-//   The ``page'' parameter is not used by xterm, and will be omit-
-//   ted.
-Terminal.prototype.requestLocatorPosition = function(params) {
-  ;
-};
-
-// CSI P m SP }
-// Insert P s Column(s) (default = 1) (DECIC), VT420 and up.
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.insertColumns = function() {
-  var param = params[0]
-    , l = this.ybase + this.rows
-    , ch = [this.eraseAttr(), ' '] // xterm?
-    , i;
-
-  while (param--) {
-    for (i = this.ybase; i < l; i++) {
-      this.lines[i].splice(this.x + 1, 0, ch);
-      this.lines[i].pop();
-    }
-  }
-
-  this.maxRange();
-};
-
-// CSI P m SP ~
-// Delete P s Column(s) (default = 1) (DECDC), VT420 and up
-// NOTE: xterm doesn't enable this code by default.
-Terminal.prototype.deleteColumns = function() {
-  var param = params[0]
-    , l = this.ybase + this.rows
-    , ch = [this.eraseAttr(), ' '] // xterm?
-    , i;
-
-  while (param--) {
-    for (i = this.ybase; i < l; i++) {
-      this.lines[i].splice(this.x, 1);
-      this.lines[i].push(ch);
-    }
-  }
-
-  this.maxRange();
-};
-
-/**
- * Prefix/Select/Visual/Search Modes
- */
-
-Terminal.prototype.enterPrefix = function() {
-  this.prefixMode = true;
-};
-
-Terminal.prototype.leavePrefix = function() {
-  this.prefixMode = false;
-};
-
-Terminal.prototype.enterSelect = function() {
-  this._real = {
-    x: this.x,
-    y: this.y,
-    ydisp: this.ydisp,
-    ybase: this.ybase,
-    cursorHidden: this.cursorHidden,
-    lines: this.copyBuffer(this.lines),
-    write: this.write
-  };
-  this.write = function() {};
-  this.selectMode = true;
-  this.visualMode = false;
-  this.cursorHidden = false;
-  this.refresh(this.y, this.y);
-};
-
-Terminal.prototype.leaveSelect = function() {
-  this.x = this._real.x;
-  this.y = this._real.y;
-  this.ydisp = this._real.ydisp;
-  this.ybase = this._real.ybase;
-  this.cursorHidden = this._real.cursorHidden;
-  this.lines = this._real.lines;
-  this.write = this._real.write;
-  delete this._real;
-  this.selectMode = false;
-  this.visualMode = false;
-  this.refresh(0, this.rows - 1);
-};
-
-Terminal.prototype.enterVisual = function() {
-  this._real.preVisual = this.copyBuffer(this.lines);
-  this.selectText(this.x, this.x, this.ydisp + this.y, this.ydisp + this.y);
-  this.visualMode = true;
-};
-
-Terminal.prototype.leaveVisual = function() {
-  this.lines = this._real.preVisual;
-  delete this._real.preVisual;
-  delete this._selected;
-  this.visualMode = false;
-  this.refresh(0, this.rows - 1);
-};
-
-Terminal.prototype.enterSearch = function(down) {
-  this.entry = '';
-  this.searchMode = true;
-  this.searchDown = down;
-  this._real.preSearch = this.copyBuffer(this.lines);
-  this._real.preSearchX = this.x;
-  this._real.preSearchY = this.y;
-
-  var bottom = this.ydisp + this.rows - 1;
-  for (var i = 0; i < this.entryPrefix.length; i++) {
-    //this.lines[bottom][i][0] = (this.defAttr & ~0x1ff) | 4;
-    //this.lines[bottom][i][1] = this.entryPrefix[i];
-    this.lines[bottom][i] = [
-      (this.defAttr & ~0x1ff) | 4,
-      this.entryPrefix[i]
-    ];
-  }
-
-  this.y = this.rows - 1;
-  this.x = this.entryPrefix.length;
-
-  this.refresh(this.rows - 1, this.rows - 1);
-};
-
-Terminal.prototype.leaveSearch = function() {
-  this.searchMode = false;
-
-  if (this._real.preSearch) {
-    this.lines = this._real.preSearch;
-    this.x = this._real.preSearchX;
-    this.y = this._real.preSearchY;
-    delete this._real.preSearch;
-    delete this._real.preSearchX;
-    delete this._real.preSearchY;
-  }
-
-  this.refresh(this.rows - 1, this.rows - 1);
-};
-
-Terminal.prototype.copyBuffer = function(lines) {
-  var lines = lines || this.lines
-    , out = [];
-
-  for (var y = 0; y < lines.length; y++) {
-    out[y] = [];
-    for (var x = 0; x < lines[y].length; x++) {
-      out[y][x] = [lines[y][x][0], lines[y][x][1]];
-    }
-  }
-
-  return out;
-};
-
-Terminal.prototype.getCopyTextarea = function(text) {
-  var textarea = this._copyTextarea
-    , document = this.document;
-
-  if (!textarea) {
-    textarea = document.createElement('textarea');
-    textarea.style.position = 'absolute';
-    textarea.style.left = '-32000px';
-    textarea.style.top = '-32000px';
-    textarea.style.width = '0px';
-    textarea.style.height = '0px';
-    textarea.style.opacity = '0';
-    textarea.style.backgroundColor = 'transparent';
-    textarea.style.borderStyle = 'none';
-    textarea.style.outlineStyle = 'none';
-
-    document.getElementsByTagName('body')[0].appendChild(textarea);
-
-    this._copyTextarea = textarea;
-  }
-
-  return textarea;
-};
-
-// NOTE: Only works for primary selection on X11.
-// Non-X11 users should use Ctrl-C instead.
-Terminal.prototype.copyText = function(text) {
-  var self = this
-    , textarea = this.getCopyTextarea();
-
-  this.emit('copy', text);
-
-  textarea.focus();
-  textarea.textContent = text;
-  textarea.value = text;
-  textarea.setSelectionRange(0, text.length);
-
-  setTimeout(function() {
-    self.element.focus();
-    self.focus();
-  }, 1);
-};
-
-Terminal.prototype.selectText = function(x1, x2, y1, y2) {
-  var ox1
-    , ox2
-    , oy1
-    , oy2
-    , tmp
-    , x
-    , y
-    , xl
-    , attr;
-
-  if (this._selected) {
-    ox1 = this._selected.x1;
-    ox2 = this._selected.x2;
-    oy1 = this._selected.y1;
-    oy2 = this._selected.y2;
-
-    if (oy2 < oy1) {
-      tmp = ox2;
-      ox2 = ox1;
-      ox1 = tmp;
-      tmp = oy2;
-      oy2 = oy1;
-      oy1 = tmp;
-    }
-
-    if (ox2 < ox1 && oy1 === oy2) {
-      tmp = ox2;
-      ox2 = ox1;
-      ox1 = tmp;
-    }
-
-    for (y = oy1; y <= oy2; y++) {
-      x = 0;
-      xl = this.cols - 1;
-      if (y === oy1) {
-        x = ox1;
-      }
-      if (y === oy2) {
-        xl = ox2;
-      }
-      for (; x <= xl; x++) {
-        if (this.lines[y][x].old != null) {
-          //this.lines[y][x][0] = this.lines[y][x].old;
-          //delete this.lines[y][x].old;
-          attr = this.lines[y][x].old;
-          delete this.lines[y][x].old;
-          this.lines[y][x] = [attr, this.lines[y][x][1]];
-        }
-      }
-    }
-
-    y1 = this._selected.y1;
-    x1 = this._selected.x1;
-  }
-
-  y1 = Math.max(y1, 0);
-  y1 = Math.min(y1, this.ydisp + this.rows - 1);
-
-  y2 = Math.max(y2, 0);
-  y2 = Math.min(y2, this.ydisp + this.rows - 1);
-
-  this._selected = { x1: x1, x2: x2, y1: y1, y2: y2 };
-
-  if (y2 < y1) {
-    tmp = x2;
-    x2 = x1;
-    x1 = tmp;
-    tmp = y2;
-    y2 = y1;
-    y1 = tmp;
-  }
-
-  if (x2 < x1 && y1 === y2) {
-    tmp = x2;
-    x2 = x1;
-    x1 = tmp;
-  }
-
-  for (y = y1; y <= y2; y++) {
-    x = 0;
-    xl = this.cols - 1;
-    if (y === y1) {
-      x = x1;
-    }
-    if (y === y2) {
-      xl = x2;
-    }
-    for (; x <= xl; x++) {
-      //this.lines[y][x].old = this.lines[y][x][0];
-      //this.lines[y][x][0] &= ~0x1ff;
-      //this.lines[y][x][0] |= (0x1ff << 9) | 4;
-      attr = this.lines[y][x][0];
-      this.lines[y][x] = [
-        (attr & ~0x1ff) | ((0x1ff << 9) | 4),
-        this.lines[y][x][1]
-      ];
-      this.lines[y][x].old = attr;
-    }
-  }
-
-  y1 = y1 - this.ydisp;
-  y2 = y2 - this.ydisp;
-
-  y1 = Math.max(y1, 0);
-  y1 = Math.min(y1, this.rows - 1);
-
-  y2 = Math.max(y2, 0);
-  y2 = Math.min(y2, this.rows - 1);
-
-  //this.refresh(y1, y2);
-  this.refresh(0, this.rows - 1);
-};
-
-Terminal.prototype.grabText = function(x1, x2, y1, y2) {
-  var out = ''
-    , buf = ''
-    , ch
-    , x
-    , y
-    , xl
-    , tmp;
-
-  if (y2 < y1) {
-    tmp = x2;
-    x2 = x1;
-    x1 = tmp;
-    tmp = y2;
-    y2 = y1;
-    y1 = tmp;
-  }
-
-  if (x2 < x1 && y1 === y2) {
-    tmp = x2;
-    x2 = x1;
-    x1 = tmp;
-  }
-
-  for (y = y1; y <= y2; y++) {
-    x = 0;
-    xl = this.cols - 1;
-    if (y === y1) {
-      x = x1;
-    }
-    if (y === y2) {
-      xl = x2;
-    }
-    for (; x <= xl; x++) {
-      ch = this.lines[y][x][1];
-      if (ch === ' ') {
-        buf += ch;
-        continue;
-      }
-      if (buf) {
-        out += buf;
-        buf = '';
-      }
-      out += ch;
-      if (isWide(ch)) x++;
-    }
-    buf = '';
-    out += '\n';
-  }
-
-  // If we're not at the end of the
-  // line, don't add a newline.
-  for (x = x2, y = y2; x < this.cols; x++) {
-    if (this.lines[y][x][1] !== ' ') {
-      out = out.slice(0, -1);
-      break;
-    }
-  }
-
-  return out;
-};
-
-Terminal.prototype.keyPrefix = function(ev, key) {
-  if (key === 'k' || key === '&') {
-    this.destroy();
-  } else if (key === 'p' || key === ']') {
-    this.emit('request paste');
-  } else if (key === 'c') {
-    this.emit('request create');
-  } else if (key >= '0' && key <= '9') {
-    key = +key - 1;
-    if (!~key) key = 9;
-    this.emit('request term', key);
-  } else if (key === 'n') {
-    this.emit('request term next');
-  } else if (key === 'P') {
-    this.emit('request term previous');
-  } else if (key === ':') {
-    this.emit('request command mode');
-  } else if (key === '[') {
-    this.enterSelect();
-  }
-};
-
-Terminal.prototype.keySelect = function(ev, key) {
-  this.showCursor();
-
-  if (this.searchMode || key === 'n' || key === 'N') {
-    return this.keySearch(ev, key);
-  }
-
-  if (key === '\x04') { // ctrl-d
-    var y = this.ydisp + this.y;
-    if (this.ydisp === this.ybase) {
-      // Mimic vim behavior
-      this.y = Math.min(this.y + (this.rows - 1) / 2 | 0, this.rows - 1);
-      this.refresh(0, this.rows - 1);
-    } else {
-      this.scrollDisp((this.rows - 1) / 2 | 0);
-    }
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === '\x15') { // ctrl-u
-    var y = this.ydisp + this.y;
-    if (this.ydisp === 0) {
-      // Mimic vim behavior
-      this.y = Math.max(this.y - (this.rows - 1) / 2 | 0, 0);
-      this.refresh(0, this.rows - 1);
-    } else {
-      this.scrollDisp(-(this.rows - 1) / 2 | 0);
-    }
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === '\x06') { // ctrl-f
-    var y = this.ydisp + this.y;
-    this.scrollDisp(this.rows - 1);
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === '\x02') { // ctrl-b
-    var y = this.ydisp + this.y;
-    this.scrollDisp(-(this.rows - 1));
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === 'k' || key === '\x1b[A') {
-    var y = this.ydisp + this.y;
-    this.y--;
-    if (this.y < 0) {
-      this.y = 0;
-      this.scrollDisp(-1);
-    }
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y, this.y + 1);
-    }
-    return;
-  }
-
-  if (key === 'j' || key === '\x1b[B') {
-    var y = this.ydisp + this.y;
-    this.y++;
-    if (this.y >= this.rows) {
-      this.y = this.rows - 1;
-      this.scrollDisp(1);
-    }
-    if (this.visualMode) {
-      this.selectText(this.x, this.x, y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y - 1, this.y);
-    }
-    return;
-  }
-
-  if (key === 'h' || key === '\x1b[D') {
-    var x = this.x;
-    this.x--;
-    if (this.x < 0) {
-      this.x = 0;
-    }
-    if (this.visualMode) {
-      this.selectText(x, this.x, this.ydisp + this.y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y, this.y);
-    }
-    return;
-  }
-
-  if (key === 'l' || key === '\x1b[C') {
-    var x = this.x;
-    this.x++;
-    if (this.x >= this.cols) {
-      this.x = this.cols - 1;
-    }
-    if (this.visualMode) {
-      this.selectText(x, this.x, this.ydisp + this.y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y, this.y);
-    }
-    return;
-  }
-
-  if (key === 'v' || key === ' ') {
-    if (!this.visualMode) {
-      this.enterVisual();
-    } else {
-      this.leaveVisual();
-    }
-    return;
-  }
-
-  if (key === 'y') {
-    if (this.visualMode) {
-      var text = this.grabText(
-        this._selected.x1, this._selected.x2,
-        this._selected.y1, this._selected.y2);
-      this.copyText(text);
-      this.leaveVisual();
-      // this.leaveSelect();
-    }
-    return;
-  }
-
-  if (key === 'q' || key === '\x1b') {
-    if (this.visualMode) {
-      this.leaveVisual();
-    } else {
-      this.leaveSelect();
-    }
-    return;
-  }
-
-  if (key === 'w' || key === 'W') {
-    var ox = this.x;
-    var oy = this.y;
-    var oyd = this.ydisp;
-
-    var x = this.x;
-    var y = this.y;
-    var yb = this.ydisp;
-    var saw_space = false;
-
-    for (;;) {
-      var line = this.lines[yb + y];
-      while (x < this.cols) {
-        if (line[x][1] <= ' ') {
-          saw_space = true;
-        } else if (saw_space) {
-          break;
-        }
-        x++;
-      }
-      if (x >= this.cols) x = this.cols - 1;
-      if (x === this.cols - 1 && line[x][1] <= ' ') {
-        x = 0;
-        if (++y >= this.rows) {
-          y--;
-          if (++yb > this.ybase) {
-            yb = this.ybase;
-            x = this.x;
-            break;
-          }
-        }
-        continue;
-      }
-      break;
-    }
-
-    this.x = x, this.y = y;
-    this.scrollDisp(-this.ydisp + yb);
-
-    if (this.visualMode) {
-      this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === 'b' || key === 'B') {
-    var ox = this.x;
-    var oy = this.y;
-    var oyd = this.ydisp;
-
-    var x = this.x;
-    var y = this.y;
-    var yb = this.ydisp;
-
-    for (;;) {
-      var line = this.lines[yb + y];
-      var saw_space = x > 0 && line[x][1] > ' ' && line[x - 1][1] > ' ';
-      while (x >= 0) {
-        if (line[x][1] <= ' ') {
-          if (saw_space && (x + 1 < this.cols && line[x + 1][1] > ' ')) {
-            x++;
-            break;
-          } else {
-            saw_space = true;
-          }
-        }
-        x--;
-      }
-      if (x < 0) x = 0;
-      if (x === 0 && (line[x][1] <= ' ' || !saw_space)) {
-        x = this.cols - 1;
-        if (--y < 0) {
-          y++;
-          if (--yb < 0) {
-            yb++;
-            x = 0;
-            break;
-          }
-        }
-        continue;
-      }
-      break;
-    }
-
-    this.x = x, this.y = y;
-    this.scrollDisp(-this.ydisp + yb);
-
-    if (this.visualMode) {
-      this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === 'e' || key === 'E') {
-    var x = this.x + 1;
-    var y = this.y;
-    var yb = this.ydisp;
-    if (x >= this.cols) x--;
-
-    for (;;) {
-      var line = this.lines[yb + y];
-      while (x < this.cols) {
-        if (line[x][1] <= ' ') {
-          x++;
-        } else {
-          break;
-        }
-      }
-      while (x < this.cols) {
-        if (line[x][1] <= ' ') {
-          if (x - 1 >= 0 && line[x - 1][1] > ' ') {
-            x--;
-            break;
-          }
-        }
-        x++;
-      }
-      if (x >= this.cols) x = this.cols - 1;
-      if (x === this.cols - 1 && line[x][1] <= ' ') {
-        x = 0;
-        if (++y >= this.rows) {
-          y--;
-          if (++yb > this.ybase) {
-            yb = this.ybase;
-            break;
-          }
-        }
-        continue;
-      }
-      break;
-    }
-
-    this.x = x, this.y = y;
-    this.scrollDisp(-this.ydisp + yb);
-
-    if (this.visualMode) {
-      this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === '^' || key === '0') {
-    var ox = this.x;
-
-    if (key === '0') {
-      this.x = 0;
-    } else if (key === '^') {
-      var line = this.lines[this.ydisp + this.y];
-      var x = 0;
-      while (x < this.cols) {
-        if (line[x][1] > ' ') {
-          break;
-        }
-        x++;
-      }
-      if (x >= this.cols) x = this.cols - 1;
-      this.x = x;
-    }
-
-    if (this.visualMode) {
-      this.selectText(ox, this.x, this.ydisp + this.y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y, this.y);
-    }
-    return;
-  }
-
-  if (key === '$') {
-    var ox = this.x;
-    var line = this.lines[this.ydisp + this.y];
-    var x = this.cols - 1;
-    while (x >= 0) {
-      if (line[x][1] > ' ') {
-        if (this.visualMode && x < this.cols - 1) x++;
-        break;
-      }
-      x--;
-    }
-    if (x < 0) x = 0;
-    this.x = x;
-    if (this.visualMode) {
-      this.selectText(ox, this.x, this.ydisp + this.y, this.ydisp + this.y);
-    } else {
-      this.refresh(this.y, this.y);
-    }
-    return;
-  }
-
-  if (key === 'g' || key === 'G') {
-    var ox = this.x;
-    var oy = this.y;
-    var oyd = this.ydisp;
-    if (key === 'g') {
-      this.x = 0, this.y = 0;
-      this.scrollDisp(-this.ydisp);
-    } else if (key === 'G') {
-      this.x = 0, this.y = this.rows - 1;
-      this.scrollDisp(this.ybase);
-    }
-    if (this.visualMode) {
-      this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === 'H' || key === 'M' || key === 'L') {
-    var ox = this.x;
-    var oy = this.y;
-    if (key === 'H') {
-      this.x = 0, this.y = 0;
-    } else if (key === 'M') {
-      this.x = 0, this.y = this.rows / 2 | 0;
-    } else if (key === 'L') {
-      this.x = 0, this.y = this.rows - 1;
-    }
-    if (this.visualMode) {
-      this.selectText(ox, this.x, this.ydisp + oy, this.ydisp + this.y);
-    } else {
-      this.refresh(oy, oy);
-      this.refresh(this.y, this.y);
-    }
-    return;
-  }
-
-  if (key === '{' || key === '}') {
-    var ox = this.x;
-    var oy = this.y;
-    var oyd = this.ydisp;
-
-    var line;
-    var saw_full = false;
-    var found = false;
-    var first_is_space = -1;
-    var y = this.y + (key === '{' ? -1 : 1);
-    var yb = this.ydisp;
-    var i;
-
-    if (key === '{') {
-      if (y < 0) {
-        y++;
-        if (yb > 0) yb--;
-      }
-    } else if (key === '}') {
-      if (y >= this.rows) {
-        y--;
-        if (yb < this.ybase) yb++;
-      }
-    }
-
-    for (;;) {
-      line = this.lines[yb + y];
-
-      for (i = 0; i < this.cols; i++) {
-        if (line[i][1] > ' ') {
-          if (first_is_space === -1) {
-            first_is_space = 0;
-          }
-          saw_full = true;
-          break;
-        } else if (i === this.cols - 1) {
-          if (first_is_space === -1) {
-            first_is_space = 1;
-          } else if (first_is_space === 0) {
-            found = true;
-          } else if (first_is_space === 1) {
-            if (saw_full) found = true;
-          }
-          break;
-        }
-      }
-
-      if (found) break;
-
-      if (key === '{') {
-        y--;
-        if (y < 0) {
-          y++;
-          if (yb > 0) yb--;
-          else break;
-        }
-      } else if (key === '}') {
-        y++;
-        if (y >= this.rows) {
-          y--;
-          if (yb < this.ybase) yb++;
-          else break;
-        }
-      }
-    }
-
-    if (!found) {
-      if (key === '{') {
-        y = 0;
-        yb = 0;
-      } else if (key === '}') {
-        y = this.rows - 1;
-        yb = this.ybase;
-      }
-    }
-
-    this.x = 0, this.y = y;
-    this.scrollDisp(-this.ydisp + yb);
-
-    if (this.visualMode) {
-      this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-    }
-    return;
-  }
-
-  if (key === '/' || key === '?') {
-    if (!this.visualMode) {
-      this.enterSearch(key === '/');
-    }
-    return;
-  }
-
-  return false;
-};
-
-Terminal.prototype.keySearch = function(ev, key) {
-  if (key === '\x1b') {
-    this.leaveSearch();
-    return;
-  }
-
-  if (key === '\r' || (!this.searchMode && (key === 'n' || key === 'N'))) {
-    this.leaveSearch();
-
-    var entry = this.entry;
-
-    if (!entry) {
-      this.refresh(0, this.rows - 1);
-      return;
-    }
-
-    var ox = this.x;
-    var oy = this.y;
-    var oyd = this.ydisp;
-
-    var line;
-    var found = false;
-    var wrapped = false;
-    var x = this.x + 1;
-    var y = this.ydisp + this.y;
-    var yb, i;
-    var up = key === 'N'
-      ? this.searchDown
-      : !this.searchDown;
-
-    for (;;) {
-      line = this.lines[y];
-
-      while (x < this.cols) {
-        for (i = 0; i < entry.length; i++) {
-          if (x + i >= this.cols) break;
-          if (line[x + i][1] !== entry[i]) {
-            break;
-          } else if (line[x + i][1] === entry[i] && i === entry.length - 1) {
-            found = true;
-            break;
-          }
-        }
-        if (found) break;
-        x += i + 1;
-      }
-      if (found) break;
-
-      x = 0;
-
-      if (!up) {
-        y++;
-        if (y > this.ybase + this.rows - 1) {
-          if (wrapped) break;
-          // this.setMessage('Search wrapped. Continuing at TOP.');
-          wrapped = true;
-          y = 0;
-        }
-      } else {
-        y--;
-        if (y < 0) {
-          if (wrapped) break;
-          // this.setMessage('Search wrapped. Continuing at BOTTOM.');
-          wrapped = true;
-          y = this.ybase + this.rows - 1;
-        }
-      }
-    }
-
-    if (found) {
-      if (y - this.ybase < 0) {
-        yb = y;
-        y = 0;
-        if (yb > this.ybase) {
-          y = yb - this.ybase;
-          yb = this.ybase;
-        }
-      } else {
-        yb = this.ybase;
-        y -= this.ybase;
-      }
-
-      this.x = x, this.y = y;
-      this.scrollDisp(-this.ydisp + yb);
-
-      if (this.visualMode) {
-        this.selectText(ox, this.x, oy + oyd, this.ydisp + this.y);
-      }
-      return;
-    }
-
-    // this.setMessage("No matches found.");
-    this.refresh(0, this.rows - 1);
-
-    return;
-  }
-
-  if (key === '\b' || key === '\x7f') {
-    if (this.entry.length === 0) return;
-    var bottom = this.ydisp + this.rows - 1;
-    this.entry = this.entry.slice(0, -1);
-    var i = this.entryPrefix.length + this.entry.length;
-    //this.lines[bottom][i][1] = ' ';
-    this.lines[bottom][i] = [
-      this.lines[bottom][i][0],
-      ' '
-    ];
-    this.x--;
-    this.refresh(this.rows - 1, this.rows - 1);
-    this.refresh(this.y, this.y);
-    return;
-  }
-
-  if (key.length === 1 && key >= ' ' && key <= '~') {
-    var bottom = this.ydisp + this.rows - 1;
-    this.entry += key;
-    var i = this.entryPrefix.length + this.entry.length - 1;
-    //this.lines[bottom][i][0] = (this.defAttr & ~0x1ff) | 4;
-    //this.lines[bottom][i][1] = key;
-    this.lines[bottom][i] = [
-      (this.defAttr & ~0x1ff) | 4,
-      key
-    ];
-    this.x++;
-    this.refresh(this.rows - 1, this.rows - 1);
-    this.refresh(this.y, this.y);
-    return;
-  }
-
-  return false;
-};
-
-/**
- * Character Sets
- */
-
-Terminal.charsets = {};
-
-// DEC Special Character and Line Drawing Set.
-// http://vt100.net/docs/vt102-ug/table5-13.html
-// A lot of curses apps use this if they see TERM=xterm.
-// testing: echo -e '\e(0a\e(B'
-// The xterm output sometimes seems to conflict with the
-// reference above. xterm seems in line with the reference
-// when running vttest however.
-// The table below now uses xterm's output from vttest.
-Terminal.charsets.SCLD = { // (0
-  '`': '\u25c6', // '◆'
-  'a': '\u2592', // '▒'
-  'b': '\u0009', // '\t'
-  'c': '\u000c', // '\f'
-  'd': '\u000d', // '\r'
-  'e': '\u000a', // '\n'
-  'f': '\u00b0', // '°'
-  'g': '\u00b1', // '±'
-  'h': '\u2424', // '\u2424' (NL)
-  'i': '\u000b', // '\v'
-  'j': '\u2518', // '┘'
-  'k': '\u2510', // '┐'
-  'l': '\u250c', // '┌'
-  'm': '\u2514', // '└'
-  'n': '\u253c', // '┼'
-  'o': '\u23ba', // '⎺'
-  'p': '\u23bb', // '⎻'
-  'q': '\u2500', // '─'
-  'r': '\u23bc', // '⎼'
-  's': '\u23bd', // '⎽'
-  't': '\u251c', // '├'
-  'u': '\u2524', // '┤'
-  'v': '\u2534', // '┴'
-  'w': '\u252c', // '┬'
-  'x': '\u2502', // '│'
-  'y': '\u2264', // '≤'
-  'z': '\u2265', // '≥'
-  '{': '\u03c0', // 'π'
-  '|': '\u2260', // '≠'
-  '}': '\u00a3', // '£'
-  '~': '\u00b7'  // '·'
-};
-
-Terminal.charsets.UK = null; // (A
-Terminal.charsets.US = null; // (B (USASCII)
-Terminal.charsets.Dutch = null; // (4
-Terminal.charsets.Finnish = null; // (C or (5
-Terminal.charsets.French = null; // (R
-Terminal.charsets.FrenchCanadian = null; // (Q
-Terminal.charsets.German = null; // (K
-Terminal.charsets.Italian = null; // (Y
-Terminal.charsets.NorwegianDanish = null; // (E or (6
-Terminal.charsets.Spanish = null; // (Z
-Terminal.charsets.Swedish = null; // (H or (7
-Terminal.charsets.Swiss = null; // (=
-Terminal.charsets.ISOLatin = null; // /A
-
-/**
- * Helpers
- */
-
-function on(el, type, handler, capture) {
-  el.addEventListener(type, handler, capture || false);
-}
-
-function off(el, type, handler, capture) {
-  el.removeEventListener(type, handler, capture || false);
-}
-
-function cancel(ev) {
-  if (ev.preventDefault) ev.preventDefault();
-  ev.returnValue = false;
-  if (ev.stopPropagation) ev.stopPropagation();
-  ev.cancelBubble = true;
-  return false;
-}
-
-function inherits(child, parent) {
-  function f() {
-    this.constructor = child;
-  }
-  f.prototype = parent.prototype;
-  child.prototype = new f;
-}
-
-// if bold is broken, we can't
-// use it in the terminal.
-function isBoldBroken(document) {
-  var body = document.getElementsByTagName('body')[0];
-  var terminal = document.createElement('div');
-  terminal.className = 'terminal';
-  var line = document.createElement('div');
-  var el = document.createElement('span');
-  el.innerHTML = 'hello world';
-  line.appendChild(el);
-  terminal.appendChild(line);
-  body.appendChild(terminal);
-  var w1 = el.scrollWidth;
-  el.style.fontWeight = 'bold';
-  var w2 = el.scrollWidth;
-  body.removeChild(terminal);
-  return w1 !== w2;
-}
-
-var String = this.String;
-var setTimeout = this.setTimeout;
-var setInterval = this.setInterval;
-
-function indexOf(obj, el) {
-  var i = obj.length;
-  while (i--) {
-    if (obj[i] === el) return i;
-  }
-  return -1;
-}
-
-function isWide(ch) {
-  if (ch <= '\uff00') return false;
-  return (ch >= '\uff01' && ch <= '\uffbe')
-      || (ch >= '\uffc2' && ch <= '\uffc7')
-      || (ch >= '\uffca' && ch <= '\uffcf')
-      || (ch >= '\uffd2' && ch <= '\uffd7')
-      || (ch >= '\uffda' && ch <= '\uffdc')
-      || (ch >= '\uffe0' && ch <= '\uffe6')
-      || (ch >= '\uffe8' && ch <= '\uffee');
-}
-
-function matchColor(r1, g1, b1) {
-  var hash = (r1 << 16) | (g1 << 8) | b1;
-
-  if (matchColor._cache[hash] != null) {
-    return matchColor._cache[hash];
-  }
-
-  var ldiff = Infinity
-    , li = -1
-    , i = 0
-    , c
-    , r2
-    , g2
-    , b2
-    , diff;
-
-  for (; i < Terminal.vcolors.length; i++) {
-    c = Terminal.vcolors[i];
-    r2 = c[0];
-    g2 = c[1];
-    b2 = c[2];
-
-    diff = matchColor.distance(r1, g1, b1, r2, g2, b2);
-
-    if (diff === 0) {
-      li = i;
-      break;
-    }
-
-    if (diff < ldiff) {
-      ldiff = diff;
-      li = i;
-    }
-  }
-
-  return matchColor._cache[hash] = li;
-}
-
-matchColor._cache = {};
-
-// http://stackoverflow.com/questions/1633828
-matchColor.distance = function(r1, g1, b1, r2, g2, b2) {
-  return Math.pow(30 * (r1 - r2), 2)
-    + Math.pow(59 * (g1 - g2), 2)
-    + Math.pow(11 * (b1 - b2), 2);
-};
-
-function each(obj, iter, con) {
-  if (obj.forEach) return obj.forEach(iter, con);
-  for (var i = 0; i < obj.length; i++) {
-    iter.call(con, obj[i], i, obj);
-  }
-}
-
-function keys(obj) {
-  if (Object.keys) return Object.keys(obj);
-  var key, keys = [];
-  for (key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      keys.push(key);
-    }
-  }
-  return keys;
-}
-
-/**
- * Expose
- */
-
-Terminal.EventEmitter = EventEmitter;
-Terminal.Stream = Stream;
-Terminal.inherits = inherits;
-Terminal.on = on;
-Terminal.off = off;
-Terminal.cancel = cancel;
-
-if (typeof module !== 'undefined') {
-  module.exports = Terminal;
-} else {
-  this.Terminal = Terminal;
-}
-
-}).call(function() {
-  return this || (typeof window !== 'undefined' ? window : global);
-}());
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],241:[function(require,module,exports){
+},{"buffer":25}],230:[function(require,module,exports){
 (function (process){
 var Transform = require('readable-stream/transform')
   , inherits  = require('util').inherits
@@ -67481,7 +59832,7 @@ module.exports.obj = through2(function (options, transform, flush) {
 })
 
 }).call(this,require('_process'))
-},{"_process":205,"readable-stream/transform":220,"util":248,"xtend":252}],242:[function(require,module,exports){
+},{"_process":205,"readable-stream/transform":216,"util":235,"xtend":238}],231:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -67496,759 +59847,7 @@ function toArray(list, index) {
     return array
 }
 
-},{}],243:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-'use strict';
-
-var punycode = require('punycode');
-var util = require('./util');
-
-exports.parse = urlParse;
-exports.resolve = urlResolve;
-exports.resolveObject = urlResolveObject;
-exports.format = urlFormat;
-
-exports.Url = Url;
-
-function Url() {
-  this.protocol = null;
-  this.slashes = null;
-  this.auth = null;
-  this.host = null;
-  this.port = null;
-  this.hostname = null;
-  this.hash = null;
-  this.search = null;
-  this.query = null;
-  this.pathname = null;
-  this.path = null;
-  this.href = null;
-}
-
-// Reference: RFC 3986, RFC 1808, RFC 2396
-
-// define these here so at least they only have to be
-// compiled once on the first module load.
-var protocolPattern = /^([a-z0-9.+-]+:)/i,
-    portPattern = /:[0-9]*$/,
-
-    // Special case for a simple path URL
-    simplePathPattern = /^(\/\/?(?!\/)[^\?\s]*)(\?[^\s]*)?$/,
-
-    // RFC 2396: characters reserved for delimiting URLs.
-    // We actually just auto-escape these.
-    delims = ['<', '>', '"', '`', ' ', '\r', '\n', '\t'],
-
-    // RFC 2396: characters not allowed for various reasons.
-    unwise = ['{', '}', '|', '\\', '^', '`'].concat(delims),
-
-    // Allowed by RFCs, but cause of XSS attacks.  Always escape these.
-    autoEscape = ['\''].concat(unwise),
-    // Characters that are never ever allowed in a hostname.
-    // Note that any invalid chars are also handled, but these
-    // are the ones that are *expected* to be seen, so we fast-path
-    // them.
-    nonHostChars = ['%', '/', '?', ';', '#'].concat(autoEscape),
-    hostEndingChars = ['/', '?', '#'],
-    hostnameMaxLen = 255,
-    hostnamePartPattern = /^[+a-z0-9A-Z_-]{0,63}$/,
-    hostnamePartStart = /^([+a-z0-9A-Z_-]{0,63})(.*)$/,
-    // protocols that can allow "unsafe" and "unwise" chars.
-    unsafeProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that never have a hostname.
-    hostlessProtocol = {
-      'javascript': true,
-      'javascript:': true
-    },
-    // protocols that always contain a // bit.
-    slashedProtocol = {
-      'http': true,
-      'https': true,
-      'ftp': true,
-      'gopher': true,
-      'file': true,
-      'http:': true,
-      'https:': true,
-      'ftp:': true,
-      'gopher:': true,
-      'file:': true
-    },
-    querystring = require('querystring');
-
-function urlParse(url, parseQueryString, slashesDenoteHost) {
-  if (url && util.isObject(url) && url instanceof Url) return url;
-
-  var u = new Url;
-  u.parse(url, parseQueryString, slashesDenoteHost);
-  return u;
-}
-
-Url.prototype.parse = function(url, parseQueryString, slashesDenoteHost) {
-  if (!util.isString(url)) {
-    throw new TypeError("Parameter 'url' must be a string, not " + typeof url);
-  }
-
-  // Copy chrome, IE, opera backslash-handling behavior.
-  // Back slashes before the query string get converted to forward slashes
-  // See: https://code.google.com/p/chromium/issues/detail?id=25916
-  var queryIndex = url.indexOf('?'),
-      splitter =
-          (queryIndex !== -1 && queryIndex < url.indexOf('#')) ? '?' : '#',
-      uSplit = url.split(splitter),
-      slashRegex = /\\/g;
-  uSplit[0] = uSplit[0].replace(slashRegex, '/');
-  url = uSplit.join(splitter);
-
-  var rest = url;
-
-  // trim before proceeding.
-  // This is to support parse stuff like "  http://foo.com  \n"
-  rest = rest.trim();
-
-  if (!slashesDenoteHost && url.split('#').length === 1) {
-    // Try fast path regexp
-    var simplePath = simplePathPattern.exec(rest);
-    if (simplePath) {
-      this.path = rest;
-      this.href = rest;
-      this.pathname = simplePath[1];
-      if (simplePath[2]) {
-        this.search = simplePath[2];
-        if (parseQueryString) {
-          this.query = querystring.parse(this.search.substr(1));
-        } else {
-          this.query = this.search.substr(1);
-        }
-      } else if (parseQueryString) {
-        this.search = '';
-        this.query = {};
-      }
-      return this;
-    }
-  }
-
-  var proto = protocolPattern.exec(rest);
-  if (proto) {
-    proto = proto[0];
-    var lowerProto = proto.toLowerCase();
-    this.protocol = lowerProto;
-    rest = rest.substr(proto.length);
-  }
-
-  // figure out if it's got a host
-  // user@server is *always* interpreted as a hostname, and url
-  // resolution will treat //foo/bar as host=foo,path=bar because that's
-  // how the browser resolves relative URLs.
-  if (slashesDenoteHost || proto || rest.match(/^\/\/[^@\/]+@[^@\/]+/)) {
-    var slashes = rest.substr(0, 2) === '//';
-    if (slashes && !(proto && hostlessProtocol[proto])) {
-      rest = rest.substr(2);
-      this.slashes = true;
-    }
-  }
-
-  if (!hostlessProtocol[proto] &&
-      (slashes || (proto && !slashedProtocol[proto]))) {
-
-    // there's a hostname.
-    // the first instance of /, ?, ;, or # ends the host.
-    //
-    // If there is an @ in the hostname, then non-host chars *are* allowed
-    // to the left of the last @ sign, unless some host-ending character
-    // comes *before* the @-sign.
-    // URLs are obnoxious.
-    //
-    // ex:
-    // http://a@b@c/ => user:a@b host:c
-    // http://a@b?@c => user:a host:c path:/?@c
-
-    // v0.12 TODO(isaacs): This is not quite how Chrome does things.
-    // Review our test case against browsers more comprehensively.
-
-    // find the first instance of any hostEndingChars
-    var hostEnd = -1;
-    for (var i = 0; i < hostEndingChars.length; i++) {
-      var hec = rest.indexOf(hostEndingChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-
-    // at this point, either we have an explicit point where the
-    // auth portion cannot go past, or the last @ char is the decider.
-    var auth, atSign;
-    if (hostEnd === -1) {
-      // atSign can be anywhere.
-      atSign = rest.lastIndexOf('@');
-    } else {
-      // atSign must be in auth portion.
-      // http://a@b/c@d => host:b auth:a path:/c@d
-      atSign = rest.lastIndexOf('@', hostEnd);
-    }
-
-    // Now we have a portion which is definitely the auth.
-    // Pull that off.
-    if (atSign !== -1) {
-      auth = rest.slice(0, atSign);
-      rest = rest.slice(atSign + 1);
-      this.auth = decodeURIComponent(auth);
-    }
-
-    // the host is the remaining to the left of the first non-host char
-    hostEnd = -1;
-    for (var i = 0; i < nonHostChars.length; i++) {
-      var hec = rest.indexOf(nonHostChars[i]);
-      if (hec !== -1 && (hostEnd === -1 || hec < hostEnd))
-        hostEnd = hec;
-    }
-    // if we still have not hit it, then the entire thing is a host.
-    if (hostEnd === -1)
-      hostEnd = rest.length;
-
-    this.host = rest.slice(0, hostEnd);
-    rest = rest.slice(hostEnd);
-
-    // pull out port.
-    this.parseHost();
-
-    // we've indicated that there is a hostname,
-    // so even if it's empty, it has to be present.
-    this.hostname = this.hostname || '';
-
-    // if hostname begins with [ and ends with ]
-    // assume that it's an IPv6 address.
-    var ipv6Hostname = this.hostname[0] === '[' &&
-        this.hostname[this.hostname.length - 1] === ']';
-
-    // validate a little.
-    if (!ipv6Hostname) {
-      var hostparts = this.hostname.split(/\./);
-      for (var i = 0, l = hostparts.length; i < l; i++) {
-        var part = hostparts[i];
-        if (!part) continue;
-        if (!part.match(hostnamePartPattern)) {
-          var newpart = '';
-          for (var j = 0, k = part.length; j < k; j++) {
-            if (part.charCodeAt(j) > 127) {
-              // we replace non-ASCII char with a temporary placeholder
-              // we need this to make sure size of hostname is not
-              // broken by replacing non-ASCII by nothing
-              newpart += 'x';
-            } else {
-              newpart += part[j];
-            }
-          }
-          // we test again with ASCII char only
-          if (!newpart.match(hostnamePartPattern)) {
-            var validParts = hostparts.slice(0, i);
-            var notHost = hostparts.slice(i + 1);
-            var bit = part.match(hostnamePartStart);
-            if (bit) {
-              validParts.push(bit[1]);
-              notHost.unshift(bit[2]);
-            }
-            if (notHost.length) {
-              rest = '/' + notHost.join('.') + rest;
-            }
-            this.hostname = validParts.join('.');
-            break;
-          }
-        }
-      }
-    }
-
-    if (this.hostname.length > hostnameMaxLen) {
-      this.hostname = '';
-    } else {
-      // hostnames are always lower case.
-      this.hostname = this.hostname.toLowerCase();
-    }
-
-    if (!ipv6Hostname) {
-      // IDNA Support: Returns a punycoded representation of "domain".
-      // It only converts parts of the domain name that
-      // have non-ASCII characters, i.e. it doesn't matter if
-      // you call it with a domain that already is ASCII-only.
-      this.hostname = punycode.toASCII(this.hostname);
-    }
-
-    var p = this.port ? ':' + this.port : '';
-    var h = this.hostname || '';
-    this.host = h + p;
-    this.href += this.host;
-
-    // strip [ and ] from the hostname
-    // the host field still retains them, though
-    if (ipv6Hostname) {
-      this.hostname = this.hostname.substr(1, this.hostname.length - 2);
-      if (rest[0] !== '/') {
-        rest = '/' + rest;
-      }
-    }
-  }
-
-  // now rest is set to the post-host stuff.
-  // chop off any delim chars.
-  if (!unsafeProtocol[lowerProto]) {
-
-    // First, make 100% sure that any "autoEscape" chars get
-    // escaped, even if encodeURIComponent doesn't think they
-    // need to be.
-    for (var i = 0, l = autoEscape.length; i < l; i++) {
-      var ae = autoEscape[i];
-      if (rest.indexOf(ae) === -1)
-        continue;
-      var esc = encodeURIComponent(ae);
-      if (esc === ae) {
-        esc = escape(ae);
-      }
-      rest = rest.split(ae).join(esc);
-    }
-  }
-
-
-  // chop off from the tail first.
-  var hash = rest.indexOf('#');
-  if (hash !== -1) {
-    // got a fragment string.
-    this.hash = rest.substr(hash);
-    rest = rest.slice(0, hash);
-  }
-  var qm = rest.indexOf('?');
-  if (qm !== -1) {
-    this.search = rest.substr(qm);
-    this.query = rest.substr(qm + 1);
-    if (parseQueryString) {
-      this.query = querystring.parse(this.query);
-    }
-    rest = rest.slice(0, qm);
-  } else if (parseQueryString) {
-    // no query string, but parseQueryString still requested
-    this.search = '';
-    this.query = {};
-  }
-  if (rest) this.pathname = rest;
-  if (slashedProtocol[lowerProto] &&
-      this.hostname && !this.pathname) {
-    this.pathname = '/';
-  }
-
-  //to support http.request
-  if (this.pathname || this.search) {
-    var p = this.pathname || '';
-    var s = this.search || '';
-    this.path = p + s;
-  }
-
-  // finally, reconstruct the href based on what has been validated.
-  this.href = this.format();
-  return this;
-};
-
-// format a parsed object into a url string
-function urlFormat(obj) {
-  // ensure it's an object, and not a string url.
-  // If it's an obj, this is a no-op.
-  // this way, you can call url_format() on strings
-  // to clean up potentially wonky urls.
-  if (util.isString(obj)) obj = urlParse(obj);
-  if (!(obj instanceof Url)) return Url.prototype.format.call(obj);
-  return obj.format();
-}
-
-Url.prototype.format = function() {
-  var auth = this.auth || '';
-  if (auth) {
-    auth = encodeURIComponent(auth);
-    auth = auth.replace(/%3A/i, ':');
-    auth += '@';
-  }
-
-  var protocol = this.protocol || '',
-      pathname = this.pathname || '',
-      hash = this.hash || '',
-      host = false,
-      query = '';
-
-  if (this.host) {
-    host = auth + this.host;
-  } else if (this.hostname) {
-    host = auth + (this.hostname.indexOf(':') === -1 ?
-        this.hostname :
-        '[' + this.hostname + ']');
-    if (this.port) {
-      host += ':' + this.port;
-    }
-  }
-
-  if (this.query &&
-      util.isObject(this.query) &&
-      Object.keys(this.query).length) {
-    query = querystring.stringify(this.query);
-  }
-
-  var search = this.search || (query && ('?' + query)) || '';
-
-  if (protocol && protocol.substr(-1) !== ':') protocol += ':';
-
-  // only the slashedProtocols get the //.  Not mailto:, xmpp:, etc.
-  // unless they had them to begin with.
-  if (this.slashes ||
-      (!protocol || slashedProtocol[protocol]) && host !== false) {
-    host = '//' + (host || '');
-    if (pathname && pathname.charAt(0) !== '/') pathname = '/' + pathname;
-  } else if (!host) {
-    host = '';
-  }
-
-  if (hash && hash.charAt(0) !== '#') hash = '#' + hash;
-  if (search && search.charAt(0) !== '?') search = '?' + search;
-
-  pathname = pathname.replace(/[?#]/g, function(match) {
-    return encodeURIComponent(match);
-  });
-  search = search.replace('#', '%23');
-
-  return protocol + host + pathname + search + hash;
-};
-
-function urlResolve(source, relative) {
-  return urlParse(source, false, true).resolve(relative);
-}
-
-Url.prototype.resolve = function(relative) {
-  return this.resolveObject(urlParse(relative, false, true)).format();
-};
-
-function urlResolveObject(source, relative) {
-  if (!source) return relative;
-  return urlParse(source, false, true).resolveObject(relative);
-}
-
-Url.prototype.resolveObject = function(relative) {
-  if (util.isString(relative)) {
-    var rel = new Url();
-    rel.parse(relative, false, true);
-    relative = rel;
-  }
-
-  var result = new Url();
-  var tkeys = Object.keys(this);
-  for (var tk = 0; tk < tkeys.length; tk++) {
-    var tkey = tkeys[tk];
-    result[tkey] = this[tkey];
-  }
-
-  // hash is always overridden, no matter what.
-  // even href="" will remove it.
-  result.hash = relative.hash;
-
-  // if the relative url is empty, then there's nothing left to do here.
-  if (relative.href === '') {
-    result.href = result.format();
-    return result;
-  }
-
-  // hrefs like //foo/bar always cut to the protocol.
-  if (relative.slashes && !relative.protocol) {
-    // take everything except the protocol from relative
-    var rkeys = Object.keys(relative);
-    for (var rk = 0; rk < rkeys.length; rk++) {
-      var rkey = rkeys[rk];
-      if (rkey !== 'protocol')
-        result[rkey] = relative[rkey];
-    }
-
-    //urlParse appends trailing / to urls like http://www.example.com
-    if (slashedProtocol[result.protocol] &&
-        result.hostname && !result.pathname) {
-      result.path = result.pathname = '/';
-    }
-
-    result.href = result.format();
-    return result;
-  }
-
-  if (relative.protocol && relative.protocol !== result.protocol) {
-    // if it's a known url protocol, then changing
-    // the protocol does weird things
-    // first, if it's not file:, then we MUST have a host,
-    // and if there was a path
-    // to begin with, then we MUST have a path.
-    // if it is file:, then the host is dropped,
-    // because that's known to be hostless.
-    // anything else is assumed to be absolute.
-    if (!slashedProtocol[relative.protocol]) {
-      var keys = Object.keys(relative);
-      for (var v = 0; v < keys.length; v++) {
-        var k = keys[v];
-        result[k] = relative[k];
-      }
-      result.href = result.format();
-      return result;
-    }
-
-    result.protocol = relative.protocol;
-    if (!relative.host && !hostlessProtocol[relative.protocol]) {
-      var relPath = (relative.pathname || '').split('/');
-      while (relPath.length && !(relative.host = relPath.shift()));
-      if (!relative.host) relative.host = '';
-      if (!relative.hostname) relative.hostname = '';
-      if (relPath[0] !== '') relPath.unshift('');
-      if (relPath.length < 2) relPath.unshift('');
-      result.pathname = relPath.join('/');
-    } else {
-      result.pathname = relative.pathname;
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    result.host = relative.host || '';
-    result.auth = relative.auth;
-    result.hostname = relative.hostname || relative.host;
-    result.port = relative.port;
-    // to support http.request
-    if (result.pathname || result.search) {
-      var p = result.pathname || '';
-      var s = result.search || '';
-      result.path = p + s;
-    }
-    result.slashes = result.slashes || relative.slashes;
-    result.href = result.format();
-    return result;
-  }
-
-  var isSourceAbs = (result.pathname && result.pathname.charAt(0) === '/'),
-      isRelAbs = (
-          relative.host ||
-          relative.pathname && relative.pathname.charAt(0) === '/'
-      ),
-      mustEndAbs = (isRelAbs || isSourceAbs ||
-                    (result.host && relative.pathname)),
-      removeAllDots = mustEndAbs,
-      srcPath = result.pathname && result.pathname.split('/') || [],
-      relPath = relative.pathname && relative.pathname.split('/') || [],
-      psychotic = result.protocol && !slashedProtocol[result.protocol];
-
-  // if the url is a non-slashed url, then relative
-  // links like ../.. should be able
-  // to crawl up to the hostname, as well.  This is strange.
-  // result.protocol has already been set by now.
-  // Later on, put the first path part into the host field.
-  if (psychotic) {
-    result.hostname = '';
-    result.port = null;
-    if (result.host) {
-      if (srcPath[0] === '') srcPath[0] = result.host;
-      else srcPath.unshift(result.host);
-    }
-    result.host = '';
-    if (relative.protocol) {
-      relative.hostname = null;
-      relative.port = null;
-      if (relative.host) {
-        if (relPath[0] === '') relPath[0] = relative.host;
-        else relPath.unshift(relative.host);
-      }
-      relative.host = null;
-    }
-    mustEndAbs = mustEndAbs && (relPath[0] === '' || srcPath[0] === '');
-  }
-
-  if (isRelAbs) {
-    // it's absolute.
-    result.host = (relative.host || relative.host === '') ?
-                  relative.host : result.host;
-    result.hostname = (relative.hostname || relative.hostname === '') ?
-                      relative.hostname : result.hostname;
-    result.search = relative.search;
-    result.query = relative.query;
-    srcPath = relPath;
-    // fall through to the dot-handling below.
-  } else if (relPath.length) {
-    // it's relative
-    // throw away the existing file, and take the new path instead.
-    if (!srcPath) srcPath = [];
-    srcPath.pop();
-    srcPath = srcPath.concat(relPath);
-    result.search = relative.search;
-    result.query = relative.query;
-  } else if (!util.isNullOrUndefined(relative.search)) {
-    // just pull out the search.
-    // like href='?foo'.
-    // Put this after the other two cases because it simplifies the booleans
-    if (psychotic) {
-      result.hostname = result.host = srcPath.shift();
-      //occationaly the auth can get stuck only in host
-      //this especially happens in cases like
-      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-      var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                       result.host.split('@') : false;
-      if (authInHost) {
-        result.auth = authInHost.shift();
-        result.host = result.hostname = authInHost.shift();
-      }
-    }
-    result.search = relative.search;
-    result.query = relative.query;
-    //to support http.request
-    if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-      result.path = (result.pathname ? result.pathname : '') +
-                    (result.search ? result.search : '');
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  if (!srcPath.length) {
-    // no path at all.  easy.
-    // we've already handled the other stuff above.
-    result.pathname = null;
-    //to support http.request
-    if (result.search) {
-      result.path = '/' + result.search;
-    } else {
-      result.path = null;
-    }
-    result.href = result.format();
-    return result;
-  }
-
-  // if a url ENDs in . or .., then it must get a trailing slash.
-  // however, if it ends in anything else non-slashy,
-  // then it must NOT get a trailing slash.
-  var last = srcPath.slice(-1)[0];
-  var hasTrailingSlash = (
-      (result.host || relative.host || srcPath.length > 1) &&
-      (last === '.' || last === '..') || last === '');
-
-  // strip single dots, resolve double dots to parent dir
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = srcPath.length; i >= 0; i--) {
-    last = srcPath[i];
-    if (last === '.') {
-      srcPath.splice(i, 1);
-    } else if (last === '..') {
-      srcPath.splice(i, 1);
-      up++;
-    } else if (up) {
-      srcPath.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (!mustEndAbs && !removeAllDots) {
-    for (; up--; up) {
-      srcPath.unshift('..');
-    }
-  }
-
-  if (mustEndAbs && srcPath[0] !== '' &&
-      (!srcPath[0] || srcPath[0].charAt(0) !== '/')) {
-    srcPath.unshift('');
-  }
-
-  if (hasTrailingSlash && (srcPath.join('/').substr(-1) !== '/')) {
-    srcPath.push('');
-  }
-
-  var isAbsolute = srcPath[0] === '' ||
-      (srcPath[0] && srcPath[0].charAt(0) === '/');
-
-  // put the host back
-  if (psychotic) {
-    result.hostname = result.host = isAbsolute ? '' :
-                                    srcPath.length ? srcPath.shift() : '';
-    //occationaly the auth can get stuck only in host
-    //this especially happens in cases like
-    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
-    var authInHost = result.host && result.host.indexOf('@') > 0 ?
-                     result.host.split('@') : false;
-    if (authInHost) {
-      result.auth = authInHost.shift();
-      result.host = result.hostname = authInHost.shift();
-    }
-  }
-
-  mustEndAbs = mustEndAbs || (result.host && srcPath.length);
-
-  if (mustEndAbs && !isAbsolute) {
-    srcPath.unshift('');
-  }
-
-  if (!srcPath.length) {
-    result.pathname = null;
-    result.path = null;
-  } else {
-    result.pathname = srcPath.join('/');
-  }
-
-  //to support request.http
-  if (!util.isNull(result.pathname) || !util.isNull(result.search)) {
-    result.path = (result.pathname ? result.pathname : '') +
-                  (result.search ? result.search : '');
-  }
-  result.auth = relative.auth || result.auth;
-  result.slashes = result.slashes || relative.slashes;
-  result.href = result.format();
-  return result;
-};
-
-Url.prototype.parseHost = function() {
-  var host = this.host;
-  var port = portPattern.exec(host);
-  if (port) {
-    port = port[0];
-    if (port !== ':') {
-      this.port = port.substr(1);
-    }
-    host = host.substr(0, host.length - port.length);
-  }
-  if (host) this.hostname = host;
-};
-
-},{"./util":244,"punycode":206,"querystring":209}],244:[function(require,module,exports){
-'use strict';
-
-module.exports = {
-  isString: function(arg) {
-    return typeof(arg) === 'string';
-  },
-  isObject: function(arg) {
-    return typeof(arg) === 'object' && arg !== null;
-  },
-  isNull: function(arg) {
-    return arg === null;
-  },
-  isNullOrUndefined: function(arg) {
-    return arg == null;
-  }
-};
-
-},{}],245:[function(require,module,exports){
+},{}],232:[function(require,module,exports){
 (function (global){
 
 /**
@@ -68319,16 +59918,16 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],246:[function(require,module,exports){
+},{}],233:[function(require,module,exports){
 arguments[4][52][0].apply(exports,arguments)
-},{"dup":52}],247:[function(require,module,exports){
+},{"dup":52}],234:[function(require,module,exports){
 module.exports = function isBuffer(arg) {
   return arg && typeof arg === 'object'
     && typeof arg.copy === 'function'
     && typeof arg.fill === 'function'
     && typeof arg.readUInt8 === 'function';
 }
-},{}],248:[function(require,module,exports){
+},{}],235:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -68918,7 +60517,7 @@ function hasOwnProperty(obj, prop) {
 }
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./support/isBuffer":247,"_process":205,"inherits":246}],249:[function(require,module,exports){
+},{"./support/isBuffer":234,"_process":205,"inherits":233}],236:[function(require,module,exports){
 (function (global){
 module.exports = get_blob()
 
@@ -68950,7 +60549,7 @@ function get_blob() {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],250:[function(require,module,exports){
+},{}],237:[function(require,module,exports){
 // Returns a wrapper function that returns a wrapped callback
 // The wrapper function should do some stuff, and return a
 // presumably different callback function.
@@ -68985,245 +60584,7 @@ function wrappy (fn, cb) {
   }
 }
 
-},{}],251:[function(require,module,exports){
-(function (global){
-/*! https://mths.be/wtf8 v1.0.0 by @mathias */
-;(function(root) {
-
-	// Detect free variables `exports`
-	var freeExports = typeof exports == 'object' && exports;
-
-	// Detect free variable `module`
-	var freeModule = typeof module == 'object' && module &&
-		module.exports == freeExports && module;
-
-	// Detect free variable `global`, from Node.js or Browserified code,
-	// and use it as `root`
-	var freeGlobal = typeof global == 'object' && global;
-	if (freeGlobal.global === freeGlobal || freeGlobal.window === freeGlobal) {
-		root = freeGlobal;
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	var stringFromCharCode = String.fromCharCode;
-
-	// Taken from https://mths.be/punycode
-	function ucs2decode(string) {
-		var output = [];
-		var counter = 0;
-		var length = string.length;
-		var value;
-		var extra;
-		while (counter < length) {
-			value = string.charCodeAt(counter++);
-			if (value >= 0xD800 && value <= 0xDBFF && counter < length) {
-				// high surrogate, and there is a next character
-				extra = string.charCodeAt(counter++);
-				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
-					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
-				} else {
-					// unmatched surrogate; only append this code unit, in case the next
-					// code unit is the high surrogate of a surrogate pair
-					output.push(value);
-					counter--;
-				}
-			} else {
-				output.push(value);
-			}
-		}
-		return output;
-	}
-
-	// Taken from https://mths.be/punycode
-	function ucs2encode(array) {
-		var length = array.length;
-		var index = -1;
-		var value;
-		var output = '';
-		while (++index < length) {
-			value = array[index];
-			if (value > 0xFFFF) {
-				value -= 0x10000;
-				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
-				value = 0xDC00 | value & 0x3FF;
-			}
-			output += stringFromCharCode(value);
-		}
-		return output;
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	function createByte(codePoint, shift) {
-		return stringFromCharCode(((codePoint >> shift) & 0x3F) | 0x80);
-	}
-
-	function encodeCodePoint(codePoint) {
-		if ((codePoint & 0xFFFFFF80) == 0) { // 1-byte sequence
-			return stringFromCharCode(codePoint);
-		}
-		var symbol = '';
-		if ((codePoint & 0xFFFFF800) == 0) { // 2-byte sequence
-			symbol = stringFromCharCode(((codePoint >> 6) & 0x1F) | 0xC0);
-		}
-		else if ((codePoint & 0xFFFF0000) == 0) { // 3-byte sequence
-			symbol = stringFromCharCode(((codePoint >> 12) & 0x0F) | 0xE0);
-			symbol += createByte(codePoint, 6);
-		}
-		else if ((codePoint & 0xFFE00000) == 0) { // 4-byte sequence
-			symbol = stringFromCharCode(((codePoint >> 18) & 0x07) | 0xF0);
-			symbol += createByte(codePoint, 12);
-			symbol += createByte(codePoint, 6);
-		}
-		symbol += stringFromCharCode((codePoint & 0x3F) | 0x80);
-		return symbol;
-	}
-
-	function wtf8encode(string) {
-		var codePoints = ucs2decode(string);
-		var length = codePoints.length;
-		var index = -1;
-		var codePoint;
-		var byteString = '';
-		while (++index < length) {
-			codePoint = codePoints[index];
-			byteString += encodeCodePoint(codePoint);
-		}
-		return byteString;
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	function readContinuationByte() {
-		if (byteIndex >= byteCount) {
-			throw Error('Invalid byte index');
-		}
-
-		var continuationByte = byteArray[byteIndex] & 0xFF;
-		byteIndex++;
-
-		if ((continuationByte & 0xC0) == 0x80) {
-			return continuationByte & 0x3F;
-		}
-
-		// If we end up here, it’s not a continuation byte.
-		throw Error('Invalid continuation byte');
-	}
-
-	function decodeSymbol() {
-		var byte1;
-		var byte2;
-		var byte3;
-		var byte4;
-		var codePoint;
-
-		if (byteIndex > byteCount) {
-			throw Error('Invalid byte index');
-		}
-
-		if (byteIndex == byteCount) {
-			return false;
-		}
-
-		// Read the first byte.
-		byte1 = byteArray[byteIndex] & 0xFF;
-		byteIndex++;
-
-		// 1-byte sequence (no continuation bytes)
-		if ((byte1 & 0x80) == 0) {
-			return byte1;
-		}
-
-		// 2-byte sequence
-		if ((byte1 & 0xE0) == 0xC0) {
-			var byte2 = readContinuationByte();
-			codePoint = ((byte1 & 0x1F) << 6) | byte2;
-			if (codePoint >= 0x80) {
-				return codePoint;
-			} else {
-				throw Error('Invalid continuation byte');
-			}
-		}
-
-		// 3-byte sequence (may include unpaired surrogates)
-		if ((byte1 & 0xF0) == 0xE0) {
-			byte2 = readContinuationByte();
-			byte3 = readContinuationByte();
-			codePoint = ((byte1 & 0x0F) << 12) | (byte2 << 6) | byte3;
-			if (codePoint >= 0x0800) {
-				return codePoint;
-			} else {
-				throw Error('Invalid continuation byte');
-			}
-		}
-
-		// 4-byte sequence
-		if ((byte1 & 0xF8) == 0xF0) {
-			byte2 = readContinuationByte();
-			byte3 = readContinuationByte();
-			byte4 = readContinuationByte();
-			codePoint = ((byte1 & 0x0F) << 0x12) | (byte2 << 0x0C) |
-				(byte3 << 0x06) | byte4;
-			if (codePoint >= 0x010000 && codePoint <= 0x10FFFF) {
-				return codePoint;
-			}
-		}
-
-		throw Error('Invalid WTF-8 detected');
-	}
-
-	var byteArray;
-	var byteCount;
-	var byteIndex;
-	function wtf8decode(byteString) {
-		byteArray = ucs2decode(byteString);
-		byteCount = byteArray.length;
-		byteIndex = 0;
-		var codePoints = [];
-		var tmp;
-		while ((tmp = decodeSymbol()) !== false) {
-			codePoints.push(tmp);
-		}
-		return ucs2encode(codePoints);
-	}
-
-	/*--------------------------------------------------------------------------*/
-
-	var wtf8 = {
-		'version': '1.0.0',
-		'encode': wtf8encode,
-		'decode': wtf8decode
-	};
-
-	// Some AMD build optimizers, like r.js, check for specific condition patterns
-	// like the following:
-	if (
-		typeof define == 'function' &&
-		typeof define.amd == 'object' &&
-		define.amd
-	) {
-		define(function() {
-			return wtf8;
-		});
-	}	else if (freeExports && !freeExports.nodeType) {
-		if (freeModule) { // in Node.js or RingoJS v0.8.0+
-			freeModule.exports = wtf8;
-		} else { // in Narwhal or RingoJS v0.7.0-
-			var object = {};
-			var hasOwnProperty = object.hasOwnProperty;
-			for (var key in wtf8) {
-				hasOwnProperty.call(wtf8, key) && (freeExports[key] = wtf8[key]);
-			}
-		}
-	} else { // in Rhino or a web browser
-		root.wtf8 = wtf8;
-	}
-
-}(this));
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],252:[function(require,module,exports){
+},{}],238:[function(require,module,exports){
 module.exports = extend
 
 var hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -69244,7 +60605,5136 @@ function extend() {
     return target
 }
 
+},{}],239:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CircularList_1 = require("./utils/CircularList");
+var Buffer = (function () {
+    function Buffer(_terminal) {
+        this._terminal = _terminal;
+        this.clear();
+    }
+    Object.defineProperty(Buffer.prototype, "lines", {
+        get: function () {
+            return this._lines;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Buffer.prototype.fillViewportRows = function () {
+        if (this._lines.length === 0) {
+            var i = this._terminal.rows;
+            while (i--) {
+                this.lines.push(this._terminal.blankLine());
+            }
+        }
+    };
+    Buffer.prototype.clear = function () {
+        this.ydisp = 0;
+        this.ybase = 0;
+        this.y = 0;
+        this.x = 0;
+        this.scrollBottom = 0;
+        this.scrollTop = 0;
+        this.tabs = {};
+        this._lines = new CircularList_1.CircularList(this._terminal.scrollback);
+        this.scrollBottom = this._terminal.rows - 1;
+    };
+    Buffer.prototype.resize = function (newCols, newRows) {
+        if (this._lines.length === 0) {
+            return;
+        }
+        if (this._terminal.cols < newCols) {
+            var ch = [this._terminal.defAttr, ' ', 1];
+            for (var i = 0; i < this._lines.length; i++) {
+                if (this._lines.get(i) === undefined) {
+                    this._lines.set(i, this._terminal.blankLine(undefined, undefined, newCols));
+                }
+                while (this._lines.get(i).length < newCols) {
+                    this._lines.get(i).push(ch);
+                }
+            }
+        }
+        var addToY = 0;
+        if (this._terminal.rows < newRows) {
+            for (var y = this._terminal.rows; y < newRows; y++) {
+                if (this._lines.length < newRows + this.ybase) {
+                    if (this.ybase > 0 && this._lines.length <= this.ybase + this.y + addToY + 1) {
+                        this.ybase--;
+                        addToY++;
+                        if (this.ydisp > 0) {
+                            this.ydisp--;
+                        }
+                    }
+                    else {
+                        this._lines.push(this._terminal.blankLine(undefined, undefined, newCols));
+                    }
+                }
+            }
+        }
+        else {
+            for (var y = this._terminal.rows; y > newRows; y--) {
+                if (this._lines.length > newRows + this.ybase) {
+                    if (this._lines.length > this.ybase + this.y + 1) {
+                        this._lines.pop();
+                    }
+                    else {
+                        this.ybase++;
+                        this.ydisp++;
+                    }
+                }
+            }
+        }
+        if (this.y >= newRows) {
+            this.y = newRows - 1;
+        }
+        if (addToY) {
+            this.y += addToY;
+        }
+        if (this.x >= newCols) {
+            this.x = newCols - 1;
+        }
+        this.scrollTop = 0;
+        this.scrollBottom = newRows - 1;
+    };
+    return Buffer;
+}());
+exports.Buffer = Buffer;
+
+
+
+},{"./utils/CircularList":256}],240:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Buffer_1 = require("./Buffer");
+var EventEmitter_1 = require("./EventEmitter");
+var BufferSet = (function (_super) {
+    __extends(BufferSet, _super);
+    function BufferSet(_terminal) {
+        var _this = _super.call(this) || this;
+        _this._terminal = _terminal;
+        _this._normal = new Buffer_1.Buffer(_this._terminal);
+        _this._normal.fillViewportRows();
+        _this._alt = new Buffer_1.Buffer(_this._terminal);
+        _this._activeBuffer = _this._normal;
+        return _this;
+    }
+    Object.defineProperty(BufferSet.prototype, "alt", {
+        get: function () {
+            return this._alt;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BufferSet.prototype, "active", {
+        get: function () {
+            return this._activeBuffer;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(BufferSet.prototype, "normal", {
+        get: function () {
+            return this._normal;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    BufferSet.prototype.activateNormalBuffer = function () {
+        this._alt.clear();
+        this._activeBuffer = this._normal;
+        this.emit('activate', this._normal);
+    };
+    BufferSet.prototype.activateAltBuffer = function () {
+        this._alt.fillViewportRows();
+        this._activeBuffer = this._alt;
+        this.emit('activate', this._alt);
+    };
+    BufferSet.prototype.resize = function (newCols, newRows) {
+        this._normal.resize(newCols, newRows);
+        this._alt.resize(newCols, newRows);
+    };
+    return BufferSet;
+}(EventEmitter_1.EventEmitter));
+exports.BufferSet = BufferSet;
+
+
+
+},{"./Buffer":239,"./EventEmitter":244}],241:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.CHARSETS = {};
+exports.DEFAULT_CHARSET = exports.CHARSETS['B'];
+exports.CHARSETS['0'] = {
+    '`': '\u25c6',
+    'a': '\u2592',
+    'b': '\u0009',
+    'c': '\u000c',
+    'd': '\u000d',
+    'e': '\u000a',
+    'f': '\u00b0',
+    'g': '\u00b1',
+    'h': '\u2424',
+    'i': '\u000b',
+    'j': '\u2518',
+    'k': '\u2510',
+    'l': '\u250c',
+    'm': '\u2514',
+    'n': '\u253c',
+    'o': '\u23ba',
+    'p': '\u23bb',
+    'q': '\u2500',
+    'r': '\u23bc',
+    's': '\u23bd',
+    't': '\u251c',
+    'u': '\u2524',
+    'v': '\u2534',
+    'w': '\u252c',
+    'x': '\u2502',
+    'y': '\u2264',
+    'z': '\u2265',
+    '{': '\u03c0',
+    '|': '\u2260',
+    '}': '\u00a3',
+    '~': '\u00b7'
+};
+exports.CHARSETS['A'] = {
+    '#': '£'
+};
+exports.CHARSETS['B'] = null;
+exports.CHARSETS['4'] = {
+    '#': '£',
+    '@': '¾',
+    '[': 'ij',
+    '\\': '½',
+    ']': '|',
+    '{': '¨',
+    '|': 'f',
+    '}': '¼',
+    '~': '´'
+};
+exports.CHARSETS['C'] =
+    exports.CHARSETS['5'] = {
+        '[': 'Ä',
+        '\\': 'Ö',
+        ']': 'Å',
+        '^': 'Ü',
+        '`': 'é',
+        '{': 'ä',
+        '|': 'ö',
+        '}': 'å',
+        '~': 'ü'
+    };
+exports.CHARSETS['R'] = {
+    '#': '£',
+    '@': 'à',
+    '[': '°',
+    '\\': 'ç',
+    ']': '§',
+    '{': 'é',
+    '|': 'ù',
+    '}': 'è',
+    '~': '¨'
+};
+exports.CHARSETS['Q'] = {
+    '@': 'à',
+    '[': 'â',
+    '\\': 'ç',
+    ']': 'ê',
+    '^': 'î',
+    '`': 'ô',
+    '{': 'é',
+    '|': 'ù',
+    '}': 'è',
+    '~': 'û'
+};
+exports.CHARSETS['K'] = {
+    '@': '§',
+    '[': 'Ä',
+    '\\': 'Ö',
+    ']': 'Ü',
+    '{': 'ä',
+    '|': 'ö',
+    '}': 'ü',
+    '~': 'ß'
+};
+exports.CHARSETS['Y'] = {
+    '#': '£',
+    '@': '§',
+    '[': '°',
+    '\\': 'ç',
+    ']': 'é',
+    '`': 'ù',
+    '{': 'à',
+    '|': 'ò',
+    '}': 'è',
+    '~': 'ì'
+};
+exports.CHARSETS['E'] =
+    exports.CHARSETS['6'] = {
+        '@': 'Ä',
+        '[': 'Æ',
+        '\\': 'Ø',
+        ']': 'Å',
+        '^': 'Ü',
+        '`': 'ä',
+        '{': 'æ',
+        '|': 'ø',
+        '}': 'å',
+        '~': 'ü'
+    };
+exports.CHARSETS['Z'] = {
+    '#': '£',
+    '@': '§',
+    '[': '¡',
+    '\\': 'Ñ',
+    ']': '¿',
+    '{': '°',
+    '|': 'ñ',
+    '}': 'ç'
+};
+exports.CHARSETS['H'] =
+    exports.CHARSETS['7'] = {
+        '@': 'É',
+        '[': 'Ä',
+        '\\': 'Ö',
+        ']': 'Å',
+        '^': 'Ü',
+        '`': 'é',
+        '{': 'ä',
+        '|': 'ö',
+        '}': 'å',
+        '~': 'ü'
+    };
+exports.CHARSETS['='] = {
+    '#': 'ù',
+    '@': 'à',
+    '[': 'é',
+    '\\': 'ç',
+    ']': 'ê',
+    '^': 'î',
+    '_': 'è',
+    '`': 'ô',
+    '{': 'ä',
+    '|': 'ö',
+    '}': 'ü',
+    '~': 'û'
+};
+
+
+
+},{}],242:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var CompositionHelper = (function () {
+    function CompositionHelper(textarea, compositionView, terminal) {
+        this.textarea = textarea;
+        this.compositionView = compositionView;
+        this.terminal = terminal;
+        this.isComposing = false;
+        this.isSendingComposition = false;
+        this.compositionPosition = { start: null, end: null };
+    }
+    CompositionHelper.prototype.compositionstart = function () {
+        this.isComposing = true;
+        this.compositionPosition.start = this.textarea.value.length;
+        this.compositionView.textContent = '';
+        this.compositionView.classList.add('active');
+    };
+    CompositionHelper.prototype.compositionupdate = function (ev) {
+        var _this = this;
+        this.compositionView.textContent = ev.data;
+        this.updateCompositionElements();
+        setTimeout(function () {
+            _this.compositionPosition.end = _this.textarea.value.length;
+        }, 0);
+    };
+    CompositionHelper.prototype.compositionend = function () {
+        this.finalizeComposition(true);
+    };
+    CompositionHelper.prototype.keydown = function (ev) {
+        if (this.isComposing || this.isSendingComposition) {
+            if (ev.keyCode === 229) {
+                return false;
+            }
+            else if (ev.keyCode === 16 || ev.keyCode === 17 || ev.keyCode === 18) {
+                return false;
+            }
+            else {
+                this.finalizeComposition(false);
+            }
+        }
+        if (ev.keyCode === 229) {
+            this.handleAnyTextareaChanges();
+            return false;
+        }
+        return true;
+    };
+    CompositionHelper.prototype.finalizeComposition = function (waitForPropogation) {
+        var _this = this;
+        this.compositionView.classList.remove('active');
+        this.isComposing = false;
+        this.clearTextareaPosition();
+        if (!waitForPropogation) {
+            this.isSendingComposition = false;
+            var input = this.textarea.value.substring(this.compositionPosition.start, this.compositionPosition.end);
+            this.terminal.handler(input);
+        }
+        else {
+            var currentCompositionPosition_1 = {
+                start: this.compositionPosition.start,
+                end: this.compositionPosition.end,
+            };
+            this.isSendingComposition = true;
+            setTimeout(function () {
+                if (_this.isSendingComposition) {
+                    _this.isSendingComposition = false;
+                    var input = void 0;
+                    if (_this.isComposing) {
+                        input = _this.textarea.value.substring(currentCompositionPosition_1.start, currentCompositionPosition_1.end);
+                    }
+                    else {
+                        input = _this.textarea.value.substring(currentCompositionPosition_1.start);
+                    }
+                    _this.terminal.handler(input);
+                }
+            }, 0);
+        }
+    };
+    CompositionHelper.prototype.handleAnyTextareaChanges = function () {
+        var _this = this;
+        var oldValue = this.textarea.value;
+        setTimeout(function () {
+            if (!_this.isComposing) {
+                var newValue = _this.textarea.value;
+                var diff = newValue.replace(oldValue, '');
+                if (diff.length > 0) {
+                    _this.terminal.handler(diff);
+                }
+            }
+        }, 0);
+    };
+    CompositionHelper.prototype.updateCompositionElements = function (dontRecurse) {
+        var _this = this;
+        if (!this.isComposing) {
+            return;
+        }
+        var cursor = this.terminal.element.querySelector('.terminal-cursor');
+        if (cursor) {
+            var xtermRows = this.terminal.element.querySelector('.xterm-rows');
+            var cursorTop = xtermRows.offsetTop + cursor.offsetTop;
+            this.compositionView.style.left = cursor.offsetLeft + 'px';
+            this.compositionView.style.top = cursorTop + 'px';
+            this.compositionView.style.height = cursor.offsetHeight + 'px';
+            this.compositionView.style.lineHeight = cursor.offsetHeight + 'px';
+            var compositionViewBounds = this.compositionView.getBoundingClientRect();
+            this.textarea.style.left = cursor.offsetLeft + 'px';
+            this.textarea.style.top = cursorTop + 'px';
+            this.textarea.style.width = compositionViewBounds.width + 'px';
+            this.textarea.style.height = compositionViewBounds.height + 'px';
+            this.textarea.style.lineHeight = compositionViewBounds.height + 'px';
+        }
+        if (!dontRecurse) {
+            setTimeout(function () { return _this.updateCompositionElements(true); }, 0);
+        }
+    };
+    ;
+    CompositionHelper.prototype.clearTextareaPosition = function () {
+        this.textarea.style.left = '';
+        this.textarea.style.top = '';
+    };
+    ;
+    return CompositionHelper;
+}());
+exports.CompositionHelper = CompositionHelper;
+
+
+
+},{}],243:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var C0;
+(function (C0) {
+    C0.NUL = '\x00';
+    C0.SOH = '\x01';
+    C0.STX = '\x02';
+    C0.ETX = '\x03';
+    C0.EOT = '\x04';
+    C0.ENQ = '\x05';
+    C0.ACK = '\x06';
+    C0.BEL = '\x07';
+    C0.BS = '\x08';
+    C0.HT = '\x09';
+    C0.LF = '\x0a';
+    C0.VT = '\x0b';
+    C0.FF = '\x0c';
+    C0.CR = '\x0d';
+    C0.SO = '\x0e';
+    C0.SI = '\x0f';
+    C0.DLE = '\x10';
+    C0.DC1 = '\x11';
+    C0.DC2 = '\x12';
+    C0.DC3 = '\x13';
+    C0.DC4 = '\x14';
+    C0.NAK = '\x15';
+    C0.SYN = '\x16';
+    C0.ETB = '\x17';
+    C0.CAN = '\x18';
+    C0.EM = '\x19';
+    C0.SUB = '\x1a';
+    C0.ESC = '\x1b';
+    C0.FS = '\x1c';
+    C0.GS = '\x1d';
+    C0.RS = '\x1e';
+    C0.US = '\x1f';
+    C0.SP = '\x20';
+    C0.DEL = '\x7f';
+})(C0 = exports.C0 || (exports.C0 = {}));
+;
+
+
+
+},{}],244:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+;
+var EventEmitter = (function () {
+    function EventEmitter() {
+        this._events = this._events || {};
+    }
+    EventEmitter.prototype.on = function (type, listener) {
+        this._events[type] = this._events[type] || [];
+        this._events[type].push(listener);
+    };
+    EventEmitter.prototype.off = function (type, listener) {
+        if (!this._events[type]) {
+            return;
+        }
+        var obj = this._events[type];
+        var i = obj.length;
+        while (i--) {
+            if (obj[i] === listener || obj[i].listener === listener) {
+                obj.splice(i, 1);
+                return;
+            }
+        }
+    };
+    EventEmitter.prototype.removeAllListeners = function (type) {
+        if (this._events[type]) {
+            delete this._events[type];
+        }
+    };
+    EventEmitter.prototype.once = function (type, listener) {
+        function on() {
+            var args = Array.prototype.slice.call(arguments);
+            this.off(type, on);
+            return listener.apply(this, args);
+        }
+        on.listener = listener;
+        return this.on(type, on);
+    };
+    EventEmitter.prototype.emit = function (type) {
+        var args = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            args[_i - 1] = arguments[_i];
+        }
+        if (!this._events[type]) {
+            return;
+        }
+        var obj = this._events[type];
+        for (var i = 0; i < obj.length; i++) {
+            obj[i].apply(this, args);
+        }
+    };
+    EventEmitter.prototype.listeners = function (type) {
+        return this._events[type] || [];
+    };
+    return EventEmitter;
+}());
+exports.EventEmitter = EventEmitter;
+
+
+
+},{}],245:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EscapeSequences_1 = require("./EscapeSequences");
+var Charsets_1 = require("./Charsets");
+var InputHandler = (function () {
+    function InputHandler(_terminal) {
+        this._terminal = _terminal;
+    }
+    InputHandler.prototype.addChar = function (char, code) {
+        if (char >= ' ') {
+            var ch_width = exports.wcwidth(code);
+            if (this._terminal.charset && this._terminal.charset[char]) {
+                char = this._terminal.charset[char];
+            }
+            var row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+            if (!ch_width && this._terminal.buffer.x) {
+                if (this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 1]) {
+                    if (!this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 1][2]) {
+                        if (this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 2])
+                            this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 2][1] += char;
+                    }
+                    else {
+                        this._terminal.buffer.lines.get(row)[this._terminal.buffer.x - 1][1] += char;
+                    }
+                    this._terminal.updateRange(this._terminal.buffer.y);
+                }
+                return;
+            }
+            if (this._terminal.buffer.x + ch_width - 1 >= this._terminal.cols) {
+                if (this._terminal.wraparoundMode) {
+                    this._terminal.buffer.x = 0;
+                    this._terminal.buffer.y++;
+                    if (this._terminal.buffer.y > this._terminal.buffer.scrollBottom) {
+                        this._terminal.buffer.y--;
+                        this._terminal.scroll(true);
+                    }
+                    else {
+                        this._terminal.buffer.lines.get(this._terminal.buffer.y).isWrapped = true;
+                    }
+                }
+                else {
+                    if (ch_width === 2)
+                        return;
+                }
+            }
+            row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+            if (this._terminal.insertMode) {
+                for (var moves = 0; moves < ch_width; ++moves) {
+                    var removed = this._terminal.buffer.lines.get(this._terminal.buffer.y + this._terminal.buffer.ybase).pop();
+                    if (removed[2] === 0
+                        && this._terminal.buffer.lines.get(row)[this._terminal.cols - 2]
+                        && this._terminal.buffer.lines.get(row)[this._terminal.cols - 2][2] === 2) {
+                        this._terminal.buffer.lines.get(row)[this._terminal.cols - 2] = [this._terminal.curAttr, ' ', 1];
+                    }
+                    this._terminal.buffer.lines.get(row).splice(this._terminal.buffer.x, 0, [this._terminal.curAttr, ' ', 1]);
+                }
+            }
+            this._terminal.buffer.lines.get(row)[this._terminal.buffer.x] = [this._terminal.curAttr, char, ch_width];
+            this._terminal.buffer.x++;
+            this._terminal.updateRange(this._terminal.buffer.y);
+            if (ch_width === 2) {
+                this._terminal.buffer.lines.get(row)[this._terminal.buffer.x] = [this._terminal.curAttr, '', 0];
+                this._terminal.buffer.x++;
+            }
+        }
+    };
+    InputHandler.prototype.bell = function () {
+        var _this = this;
+        if (!this._terminal.visualBell) {
+            return;
+        }
+        this._terminal.element.style.borderColor = 'white';
+        setTimeout(function () { return _this._terminal.element.style.borderColor = ''; }, 10);
+        if (this._terminal.popOnBell) {
+            this._terminal.focus();
+        }
+    };
+    InputHandler.prototype.lineFeed = function () {
+        if (this._terminal.convertEol) {
+            this._terminal.buffer.x = 0;
+        }
+        this._terminal.buffer.y++;
+        if (this._terminal.buffer.y > this._terminal.buffer.scrollBottom) {
+            this._terminal.buffer.y--;
+            this._terminal.scroll();
+        }
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x--;
+        }
+        this._terminal.emit('lineFeed');
+    };
+    InputHandler.prototype.carriageReturn = function () {
+        this._terminal.buffer.x = 0;
+    };
+    InputHandler.prototype.backspace = function () {
+        if (this._terminal.buffer.x > 0) {
+            this._terminal.buffer.x--;
+        }
+    };
+    InputHandler.prototype.tab = function () {
+        this._terminal.buffer.x = this._terminal.nextStop();
+    };
+    InputHandler.prototype.shiftOut = function () {
+        this._terminal.setgLevel(1);
+    };
+    InputHandler.prototype.shiftIn = function () {
+        this._terminal.setgLevel(0);
+    };
+    InputHandler.prototype.insertChars = function (params) {
+        var param, row, j, ch;
+        param = params[0];
+        if (param < 1)
+            param = 1;
+        row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+        j = this._terminal.buffer.x;
+        ch = [this._terminal.eraseAttr(), ' ', 1];
+        while (param-- && j < this._terminal.cols) {
+            this._terminal.buffer.lines.get(row).splice(j++, 0, ch);
+            this._terminal.buffer.lines.get(row).pop();
+        }
+    };
+    InputHandler.prototype.cursorUp = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y -= param;
+        if (this._terminal.buffer.y < 0) {
+            this._terminal.buffer.y = 0;
+        }
+    };
+    InputHandler.prototype.cursorDown = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y += param;
+        if (this._terminal.buffer.y >= this._terminal.rows) {
+            this._terminal.buffer.y = this._terminal.rows - 1;
+        }
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x--;
+        }
+    };
+    InputHandler.prototype.cursorForward = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.x += param;
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x = this._terminal.cols - 1;
+        }
+    };
+    InputHandler.prototype.cursorBackward = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x--;
+        }
+        this._terminal.buffer.x -= param;
+        if (this._terminal.buffer.x < 0) {
+            this._terminal.buffer.x = 0;
+        }
+    };
+    InputHandler.prototype.cursorNextLine = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y += param;
+        if (this._terminal.buffer.y >= this._terminal.rows) {
+            this._terminal.buffer.y = this._terminal.rows - 1;
+        }
+        this._terminal.buffer.x = 0;
+    };
+    InputHandler.prototype.cursorPrecedingLine = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y -= param;
+        if (this._terminal.buffer.y < 0) {
+            this._terminal.buffer.y = 0;
+        }
+        this._terminal.buffer.x = 0;
+    };
+    InputHandler.prototype.cursorCharAbsolute = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.x = param - 1;
+    };
+    InputHandler.prototype.cursorPosition = function (params) {
+        var row, col;
+        row = params[0] - 1;
+        if (params.length >= 2) {
+            col = params[1] - 1;
+        }
+        else {
+            col = 0;
+        }
+        if (row < 0) {
+            row = 0;
+        }
+        else if (row >= this._terminal.rows) {
+            row = this._terminal.rows - 1;
+        }
+        if (col < 0) {
+            col = 0;
+        }
+        else if (col >= this._terminal.cols) {
+            col = this._terminal.cols - 1;
+        }
+        this._terminal.buffer.x = col;
+        this._terminal.buffer.y = row;
+    };
+    InputHandler.prototype.cursorForwardTab = function (params) {
+        var param = params[0] || 1;
+        while (param--) {
+            this._terminal.buffer.x = this._terminal.nextStop();
+        }
+    };
+    InputHandler.prototype.eraseInDisplay = function (params) {
+        var j;
+        switch (params[0]) {
+            case 0:
+                this._terminal.eraseRight(this._terminal.buffer.x, this._terminal.buffer.y);
+                j = this._terminal.buffer.y + 1;
+                for (; j < this._terminal.rows; j++) {
+                    this._terminal.eraseLine(j);
+                }
+                break;
+            case 1:
+                this._terminal.eraseLeft(this._terminal.buffer.x, this._terminal.buffer.y);
+                j = this._terminal.buffer.y;
+                while (j--) {
+                    this._terminal.eraseLine(j);
+                }
+                break;
+            case 2:
+                j = this._terminal.rows;
+                while (j--)
+                    this._terminal.eraseLine(j);
+                break;
+            case 3:
+                var scrollBackSize = this._terminal.buffer.lines.length - this._terminal.rows;
+                if (scrollBackSize > 0) {
+                    this._terminal.buffer.lines.trimStart(scrollBackSize);
+                    this._terminal.buffer.ybase = Math.max(this._terminal.buffer.ybase - scrollBackSize, 0);
+                    this._terminal.buffer.ydisp = Math.max(this._terminal.buffer.ydisp - scrollBackSize, 0);
+                    this._terminal.emit('scroll', 0);
+                }
+                break;
+        }
+    };
+    InputHandler.prototype.eraseInLine = function (params) {
+        switch (params[0]) {
+            case 0:
+                this._terminal.eraseRight(this._terminal.buffer.x, this._terminal.buffer.y);
+                break;
+            case 1:
+                this._terminal.eraseLeft(this._terminal.buffer.x, this._terminal.buffer.y);
+                break;
+            case 2:
+                this._terminal.eraseLine(this._terminal.buffer.y);
+                break;
+        }
+    };
+    InputHandler.prototype.insertLines = function (params) {
+        var param, row, j;
+        param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+        j = this._terminal.rows - 1 - this._terminal.buffer.scrollBottom;
+        j = this._terminal.rows - 1 + this._terminal.buffer.ybase - j + 1;
+        while (param--) {
+            if (this._terminal.buffer.lines.length === this._terminal.buffer.lines.maxLength) {
+                this._terminal.buffer.lines.trimStart(1);
+                this._terminal.buffer.ybase--;
+                this._terminal.buffer.ydisp--;
+                row--;
+                j--;
+            }
+            this._terminal.buffer.lines.splice(row, 0, this._terminal.blankLine(true));
+            this._terminal.buffer.lines.splice(j, 1);
+        }
+        this._terminal.updateRange(this._terminal.buffer.y);
+        this._terminal.updateRange(this._terminal.buffer.scrollBottom);
+    };
+    InputHandler.prototype.deleteLines = function (params) {
+        var param, row, j;
+        param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+        j = this._terminal.rows - 1 - this._terminal.buffer.scrollBottom;
+        j = this._terminal.rows - 1 + this._terminal.buffer.ybase - j;
+        while (param--) {
+            if (this._terminal.buffer.lines.length === this._terminal.buffer.lines.maxLength) {
+                this._terminal.buffer.lines.trimStart(1);
+                this._terminal.buffer.ybase -= 1;
+                this._terminal.buffer.ydisp -= 1;
+            }
+            this._terminal.buffer.lines.splice(j + 1, 0, this._terminal.blankLine(true));
+            this._terminal.buffer.lines.splice(row, 1);
+        }
+        this._terminal.updateRange(this._terminal.buffer.y);
+        this._terminal.updateRange(this._terminal.buffer.scrollBottom);
+    };
+    InputHandler.prototype.deleteChars = function (params) {
+        var param, row, ch;
+        param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+        ch = [this._terminal.eraseAttr(), ' ', 1];
+        while (param--) {
+            this._terminal.buffer.lines.get(row).splice(this._terminal.buffer.x, 1);
+            this._terminal.buffer.lines.get(row).push(ch);
+        }
+    };
+    InputHandler.prototype.scrollUp = function (params) {
+        var param = params[0] || 1;
+        while (param--) {
+            this._terminal.buffer.lines.splice(this._terminal.buffer.ybase + this._terminal.buffer.scrollTop, 1);
+            this._terminal.buffer.lines.splice(this._terminal.buffer.ybase + this._terminal.buffer.scrollBottom, 0, this._terminal.blankLine());
+        }
+        this._terminal.updateRange(this._terminal.buffer.scrollTop);
+        this._terminal.updateRange(this._terminal.buffer.scrollBottom);
+    };
+    InputHandler.prototype.scrollDown = function (params) {
+        var param = params[0] || 1;
+        while (param--) {
+            this._terminal.buffer.lines.splice(this._terminal.buffer.ybase + this._terminal.buffer.scrollBottom, 1);
+            this._terminal.buffer.lines.splice(this._terminal.buffer.ybase + this._terminal.buffer.scrollTop, 0, this._terminal.blankLine());
+        }
+        this._terminal.updateRange(this._terminal.buffer.scrollTop);
+        this._terminal.updateRange(this._terminal.buffer.scrollBottom);
+    };
+    InputHandler.prototype.eraseChars = function (params) {
+        var param, row, j, ch;
+        param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        row = this._terminal.buffer.y + this._terminal.buffer.ybase;
+        j = this._terminal.buffer.x;
+        ch = [this._terminal.eraseAttr(), ' ', 1];
+        while (param-- && j < this._terminal.cols) {
+            this._terminal.buffer.lines.get(row)[j++] = ch;
+        }
+    };
+    InputHandler.prototype.cursorBackwardTab = function (params) {
+        var param = params[0] || 1;
+        while (param--) {
+            this._terminal.buffer.x = this._terminal.prevStop();
+        }
+    };
+    InputHandler.prototype.charPosAbsolute = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.x = param - 1;
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x = this._terminal.cols - 1;
+        }
+    };
+    InputHandler.prototype.HPositionRelative = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.x += param;
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x = this._terminal.cols - 1;
+        }
+    };
+    InputHandler.prototype.repeatPrecedingCharacter = function (params) {
+        var param = params[0] || 1, line = this._terminal.buffer.lines.get(this._terminal.buffer.ybase + this._terminal.buffer.y), ch = line[this._terminal.buffer.x - 1] || [this._terminal.defAttr, ' ', 1];
+        while (param--) {
+            line[this._terminal.buffer.x++] = ch;
+        }
+    };
+    InputHandler.prototype.sendDeviceAttributes = function (params) {
+        if (params[0] > 0) {
+            return;
+        }
+        if (!this._terminal.prefix) {
+            if (this._terminal.is('xterm') || this._terminal.is('rxvt-unicode') || this._terminal.is('screen')) {
+                this._terminal.send(EscapeSequences_1.C0.ESC + '[?1;2c');
+            }
+            else if (this._terminal.is('linux')) {
+                this._terminal.send(EscapeSequences_1.C0.ESC + '[?6c');
+            }
+        }
+        else if (this._terminal.prefix === '>') {
+            if (this._terminal.is('xterm')) {
+                this._terminal.send(EscapeSequences_1.C0.ESC + '[>0;276;0c');
+            }
+            else if (this._terminal.is('rxvt-unicode')) {
+                this._terminal.send(EscapeSequences_1.C0.ESC + '[>85;95;0c');
+            }
+            else if (this._terminal.is('linux')) {
+                this._terminal.send(params[0] + 'c');
+            }
+            else if (this._terminal.is('screen')) {
+                this._terminal.send(EscapeSequences_1.C0.ESC + '[>83;40003;0c');
+            }
+        }
+    };
+    InputHandler.prototype.linePosAbsolute = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y = param - 1;
+        if (this._terminal.buffer.y >= this._terminal.rows) {
+            this._terminal.buffer.y = this._terminal.rows - 1;
+        }
+    };
+    InputHandler.prototype.VPositionRelative = function (params) {
+        var param = params[0];
+        if (param < 1) {
+            param = 1;
+        }
+        this._terminal.buffer.y += param;
+        if (this._terminal.buffer.y >= this._terminal.rows) {
+            this._terminal.buffer.y = this._terminal.rows - 1;
+        }
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x--;
+        }
+    };
+    InputHandler.prototype.HVPosition = function (params) {
+        if (params[0] < 1)
+            params[0] = 1;
+        if (params[1] < 1)
+            params[1] = 1;
+        this._terminal.buffer.y = params[0] - 1;
+        if (this._terminal.buffer.y >= this._terminal.rows) {
+            this._terminal.buffer.y = this._terminal.rows - 1;
+        }
+        this._terminal.buffer.x = params[1] - 1;
+        if (this._terminal.buffer.x >= this._terminal.cols) {
+            this._terminal.buffer.x = this._terminal.cols - 1;
+        }
+    };
+    InputHandler.prototype.tabClear = function (params) {
+        var param = params[0];
+        if (param <= 0) {
+            delete this._terminal.buffer.tabs[this._terminal.buffer.x];
+        }
+        else if (param === 3) {
+            this._terminal.buffer.tabs = {};
+        }
+    };
+    InputHandler.prototype.setMode = function (params) {
+        if (params.length > 1) {
+            for (var i = 0; i < params.length; i++) {
+                this.setMode([params[i]]);
+            }
+            return;
+        }
+        if (!this._terminal.prefix) {
+            switch (params[0]) {
+                case 4:
+                    this._terminal.insertMode = true;
+                    break;
+                case 20:
+                    break;
+            }
+        }
+        else if (this._terminal.prefix === '?') {
+            switch (params[0]) {
+                case 1:
+                    this._terminal.applicationCursor = true;
+                    break;
+                case 2:
+                    this._terminal.setgCharset(0, Charsets_1.DEFAULT_CHARSET);
+                    this._terminal.setgCharset(1, Charsets_1.DEFAULT_CHARSET);
+                    this._terminal.setgCharset(2, Charsets_1.DEFAULT_CHARSET);
+                    this._terminal.setgCharset(3, Charsets_1.DEFAULT_CHARSET);
+                    break;
+                case 3:
+                    this._terminal.savedCols = this._terminal.cols;
+                    this._terminal.resize(132, this._terminal.rows);
+                    break;
+                case 6:
+                    this._terminal.originMode = true;
+                    break;
+                case 7:
+                    this._terminal.wraparoundMode = true;
+                    break;
+                case 12:
+                    break;
+                case 66:
+                    this._terminal.log('Serial port requested application keypad.');
+                    this._terminal.applicationKeypad = true;
+                    this._terminal.viewport.syncScrollArea();
+                    break;
+                case 9:
+                case 1000:
+                case 1002:
+                case 1003:
+                    this._terminal.x10Mouse = params[0] === 9;
+                    this._terminal.vt200Mouse = params[0] === 1000;
+                    this._terminal.normalMouse = params[0] > 1000;
+                    this._terminal.mouseEvents = true;
+                    this._terminal.element.classList.add('enable-mouse-events');
+                    this._terminal.selectionManager.disable();
+                    this._terminal.log('Binding to mouse events.');
+                    break;
+                case 1004:
+                    this._terminal.sendFocus = true;
+                    break;
+                case 1005:
+                    this._terminal.utfMouse = true;
+                    break;
+                case 1006:
+                    this._terminal.sgrMouse = true;
+                    break;
+                case 1015:
+                    this._terminal.urxvtMouse = true;
+                    break;
+                case 25:
+                    this._terminal.cursorHidden = false;
+                    break;
+                case 1049:
+                case 47:
+                case 1047:
+                    this._terminal.buffers.activateAltBuffer();
+                    this._terminal.viewport.syncScrollArea();
+                    this._terminal.showCursor();
+                    break;
+            }
+        }
+    };
+    InputHandler.prototype.resetMode = function (params) {
+        if (params.length > 1) {
+            for (var i = 0; i < params.length; i++) {
+                this.resetMode([params[i]]);
+            }
+            return;
+        }
+        if (!this._terminal.prefix) {
+            switch (params[0]) {
+                case 4:
+                    this._terminal.insertMode = false;
+                    break;
+                case 20:
+                    break;
+            }
+        }
+        else if (this._terminal.prefix === '?') {
+            switch (params[0]) {
+                case 1:
+                    this._terminal.applicationCursor = false;
+                    break;
+                case 3:
+                    if (this._terminal.cols === 132 && this._terminal.savedCols) {
+                        this._terminal.resize(this._terminal.savedCols, this._terminal.rows);
+                    }
+                    delete this._terminal.savedCols;
+                    break;
+                case 6:
+                    this._terminal.originMode = false;
+                    break;
+                case 7:
+                    this._terminal.wraparoundMode = false;
+                    break;
+                case 12:
+                    break;
+                case 66:
+                    this._terminal.log('Switching back to normal keypad.');
+                    this._terminal.applicationKeypad = false;
+                    this._terminal.viewport.syncScrollArea();
+                    break;
+                case 9:
+                case 1000:
+                case 1002:
+                case 1003:
+                    this._terminal.x10Mouse = false;
+                    this._terminal.vt200Mouse = false;
+                    this._terminal.normalMouse = false;
+                    this._terminal.mouseEvents = false;
+                    this._terminal.element.classList.remove('enable-mouse-events');
+                    this._terminal.selectionManager.enable();
+                    break;
+                case 1004:
+                    this._terminal.sendFocus = false;
+                    break;
+                case 1005:
+                    this._terminal.utfMouse = false;
+                    break;
+                case 1006:
+                    this._terminal.sgrMouse = false;
+                    break;
+                case 1015:
+                    this._terminal.urxvtMouse = false;
+                    break;
+                case 25:
+                    this._terminal.cursorHidden = true;
+                    break;
+                case 1049:
+                case 47:
+                case 1047:
+                    this._terminal.buffers.activateNormalBuffer();
+                    this._terminal.selectionManager.setBuffer(this._terminal.buffer.lines);
+                    this._terminal.refresh(0, this._terminal.rows - 1);
+                    this._terminal.viewport.syncScrollArea();
+                    this._terminal.showCursor();
+                    break;
+            }
+        }
+    };
+    InputHandler.prototype.charAttributes = function (params) {
+        if (params.length === 1 && params[0] === 0) {
+            this._terminal.curAttr = this._terminal.defAttr;
+            return;
+        }
+        var l = params.length, i = 0, flags = this._terminal.curAttr >> 18, fg = (this._terminal.curAttr >> 9) & 0x1ff, bg = this._terminal.curAttr & 0x1ff, p;
+        for (; i < l; i++) {
+            p = params[i];
+            if (p >= 30 && p <= 37) {
+                fg = p - 30;
+            }
+            else if (p >= 40 && p <= 47) {
+                bg = p - 40;
+            }
+            else if (p >= 90 && p <= 97) {
+                p += 8;
+                fg = p - 90;
+            }
+            else if (p >= 100 && p <= 107) {
+                p += 8;
+                bg = p - 100;
+            }
+            else if (p === 0) {
+                flags = this._terminal.defAttr >> 18;
+                fg = (this._terminal.defAttr >> 9) & 0x1ff;
+                bg = this._terminal.defAttr & 0x1ff;
+            }
+            else if (p === 1) {
+                flags |= 1;
+            }
+            else if (p === 4) {
+                flags |= 2;
+            }
+            else if (p === 5) {
+                flags |= 4;
+            }
+            else if (p === 7) {
+                flags |= 8;
+            }
+            else if (p === 8) {
+                flags |= 16;
+            }
+            else if (p === 22) {
+                flags &= ~1;
+            }
+            else if (p === 24) {
+                flags &= ~2;
+            }
+            else if (p === 25) {
+                flags &= ~4;
+            }
+            else if (p === 27) {
+                flags &= ~8;
+            }
+            else if (p === 28) {
+                flags &= ~16;
+            }
+            else if (p === 39) {
+                fg = (this._terminal.defAttr >> 9) & 0x1ff;
+            }
+            else if (p === 49) {
+                bg = this._terminal.defAttr & 0x1ff;
+            }
+            else if (p === 38) {
+                if (params[i + 1] === 2) {
+                    i += 2;
+                    fg = this._terminal.matchColor(params[i] & 0xff, params[i + 1] & 0xff, params[i + 2] & 0xff);
+                    if (fg === -1)
+                        fg = 0x1ff;
+                    i += 2;
+                }
+                else if (params[i + 1] === 5) {
+                    i += 2;
+                    p = params[i] & 0xff;
+                    fg = p;
+                }
+            }
+            else if (p === 48) {
+                if (params[i + 1] === 2) {
+                    i += 2;
+                    bg = this._terminal.matchColor(params[i] & 0xff, params[i + 1] & 0xff, params[i + 2] & 0xff);
+                    if (bg === -1)
+                        bg = 0x1ff;
+                    i += 2;
+                }
+                else if (params[i + 1] === 5) {
+                    i += 2;
+                    p = params[i] & 0xff;
+                    bg = p;
+                }
+            }
+            else if (p === 100) {
+                fg = (this._terminal.defAttr >> 9) & 0x1ff;
+                bg = this._terminal.defAttr & 0x1ff;
+            }
+            else {
+                this._terminal.error('Unknown SGR attribute: %d.', p);
+            }
+        }
+        this._terminal.curAttr = (flags << 18) | (fg << 9) | bg;
+    };
+    InputHandler.prototype.deviceStatus = function (params) {
+        if (!this._terminal.prefix) {
+            switch (params[0]) {
+                case 5:
+                    this._terminal.send(EscapeSequences_1.C0.ESC + '[0n');
+                    break;
+                case 6:
+                    this._terminal.send(EscapeSequences_1.C0.ESC + '['
+                        + (this._terminal.buffer.y + 1)
+                        + ';'
+                        + (this._terminal.buffer.x + 1)
+                        + 'R');
+                    break;
+            }
+        }
+        else if (this._terminal.prefix === '?') {
+            switch (params[0]) {
+                case 6:
+                    this._terminal.send(EscapeSequences_1.C0.ESC + '[?'
+                        + (this._terminal.buffer.y + 1)
+                        + ';'
+                        + (this._terminal.buffer.x + 1)
+                        + 'R');
+                    break;
+                case 15:
+                    break;
+                case 25:
+                    break;
+                case 26:
+                    break;
+                case 53:
+                    break;
+            }
+        }
+    };
+    InputHandler.prototype.softReset = function (params) {
+        this._terminal.cursorHidden = false;
+        this._terminal.insertMode = false;
+        this._terminal.originMode = false;
+        this._terminal.wraparoundMode = true;
+        this._terminal.applicationKeypad = false;
+        this._terminal.viewport.syncScrollArea();
+        this._terminal.applicationCursor = false;
+        this._terminal.buffer.scrollTop = 0;
+        this._terminal.buffer.scrollBottom = this._terminal.rows - 1;
+        this._terminal.curAttr = this._terminal.defAttr;
+        this._terminal.buffer.x = this._terminal.buffer.y = 0;
+        this._terminal.charset = null;
+        this._terminal.glevel = 0;
+        this._terminal.charsets = [null];
+    };
+    InputHandler.prototype.setCursorStyle = function (params) {
+        var param = params[0] < 1 ? 1 : params[0];
+        switch (param) {
+            case 1:
+            case 2:
+                this._terminal.setOption('cursorStyle', 'block');
+                break;
+            case 3:
+            case 4:
+                this._terminal.setOption('cursorStyle', 'underline');
+                break;
+            case 5:
+            case 6:
+                this._terminal.setOption('cursorStyle', 'bar');
+                break;
+        }
+        var isBlinking = param % 2 === 1;
+        this._terminal.setOption('cursorBlink', isBlinking);
+    };
+    InputHandler.prototype.setScrollRegion = function (params) {
+        if (this._terminal.prefix)
+            return;
+        this._terminal.buffer.scrollTop = (params[0] || 1) - 1;
+        this._terminal.buffer.scrollBottom = (params[1] && params[1] <= this._terminal.rows ? params[1] : this._terminal.rows) - 1;
+        this._terminal.buffer.x = 0;
+        this._terminal.buffer.y = 0;
+    };
+    InputHandler.prototype.saveCursor = function (params) {
+        this._terminal.buffer.savedX = this._terminal.buffer.x;
+        this._terminal.buffer.savedY = this._terminal.buffer.y;
+    };
+    InputHandler.prototype.restoreCursor = function (params) {
+        this._terminal.buffer.x = this._terminal.buffer.savedX || 0;
+        this._terminal.buffer.y = this._terminal.buffer.savedY || 0;
+    };
+    return InputHandler;
+}());
+exports.InputHandler = InputHandler;
+exports.wcwidth = (function (opts) {
+    var COMBINING_BMP = [
+        [0x0300, 0x036F], [0x0483, 0x0486], [0x0488, 0x0489],
+        [0x0591, 0x05BD], [0x05BF, 0x05BF], [0x05C1, 0x05C2],
+        [0x05C4, 0x05C5], [0x05C7, 0x05C7], [0x0600, 0x0603],
+        [0x0610, 0x0615], [0x064B, 0x065E], [0x0670, 0x0670],
+        [0x06D6, 0x06E4], [0x06E7, 0x06E8], [0x06EA, 0x06ED],
+        [0x070F, 0x070F], [0x0711, 0x0711], [0x0730, 0x074A],
+        [0x07A6, 0x07B0], [0x07EB, 0x07F3], [0x0901, 0x0902],
+        [0x093C, 0x093C], [0x0941, 0x0948], [0x094D, 0x094D],
+        [0x0951, 0x0954], [0x0962, 0x0963], [0x0981, 0x0981],
+        [0x09BC, 0x09BC], [0x09C1, 0x09C4], [0x09CD, 0x09CD],
+        [0x09E2, 0x09E3], [0x0A01, 0x0A02], [0x0A3C, 0x0A3C],
+        [0x0A41, 0x0A42], [0x0A47, 0x0A48], [0x0A4B, 0x0A4D],
+        [0x0A70, 0x0A71], [0x0A81, 0x0A82], [0x0ABC, 0x0ABC],
+        [0x0AC1, 0x0AC5], [0x0AC7, 0x0AC8], [0x0ACD, 0x0ACD],
+        [0x0AE2, 0x0AE3], [0x0B01, 0x0B01], [0x0B3C, 0x0B3C],
+        [0x0B3F, 0x0B3F], [0x0B41, 0x0B43], [0x0B4D, 0x0B4D],
+        [0x0B56, 0x0B56], [0x0B82, 0x0B82], [0x0BC0, 0x0BC0],
+        [0x0BCD, 0x0BCD], [0x0C3E, 0x0C40], [0x0C46, 0x0C48],
+        [0x0C4A, 0x0C4D], [0x0C55, 0x0C56], [0x0CBC, 0x0CBC],
+        [0x0CBF, 0x0CBF], [0x0CC6, 0x0CC6], [0x0CCC, 0x0CCD],
+        [0x0CE2, 0x0CE3], [0x0D41, 0x0D43], [0x0D4D, 0x0D4D],
+        [0x0DCA, 0x0DCA], [0x0DD2, 0x0DD4], [0x0DD6, 0x0DD6],
+        [0x0E31, 0x0E31], [0x0E34, 0x0E3A], [0x0E47, 0x0E4E],
+        [0x0EB1, 0x0EB1], [0x0EB4, 0x0EB9], [0x0EBB, 0x0EBC],
+        [0x0EC8, 0x0ECD], [0x0F18, 0x0F19], [0x0F35, 0x0F35],
+        [0x0F37, 0x0F37], [0x0F39, 0x0F39], [0x0F71, 0x0F7E],
+        [0x0F80, 0x0F84], [0x0F86, 0x0F87], [0x0F90, 0x0F97],
+        [0x0F99, 0x0FBC], [0x0FC6, 0x0FC6], [0x102D, 0x1030],
+        [0x1032, 0x1032], [0x1036, 0x1037], [0x1039, 0x1039],
+        [0x1058, 0x1059], [0x1160, 0x11FF], [0x135F, 0x135F],
+        [0x1712, 0x1714], [0x1732, 0x1734], [0x1752, 0x1753],
+        [0x1772, 0x1773], [0x17B4, 0x17B5], [0x17B7, 0x17BD],
+        [0x17C6, 0x17C6], [0x17C9, 0x17D3], [0x17DD, 0x17DD],
+        [0x180B, 0x180D], [0x18A9, 0x18A9], [0x1920, 0x1922],
+        [0x1927, 0x1928], [0x1932, 0x1932], [0x1939, 0x193B],
+        [0x1A17, 0x1A18], [0x1B00, 0x1B03], [0x1B34, 0x1B34],
+        [0x1B36, 0x1B3A], [0x1B3C, 0x1B3C], [0x1B42, 0x1B42],
+        [0x1B6B, 0x1B73], [0x1DC0, 0x1DCA], [0x1DFE, 0x1DFF],
+        [0x200B, 0x200F], [0x202A, 0x202E], [0x2060, 0x2063],
+        [0x206A, 0x206F], [0x20D0, 0x20EF], [0x302A, 0x302F],
+        [0x3099, 0x309A], [0xA806, 0xA806], [0xA80B, 0xA80B],
+        [0xA825, 0xA826], [0xFB1E, 0xFB1E], [0xFE00, 0xFE0F],
+        [0xFE20, 0xFE23], [0xFEFF, 0xFEFF], [0xFFF9, 0xFFFB],
+    ];
+    var COMBINING_HIGH = [
+        [0x10A01, 0x10A03], [0x10A05, 0x10A06], [0x10A0C, 0x10A0F],
+        [0x10A38, 0x10A3A], [0x10A3F, 0x10A3F], [0x1D167, 0x1D169],
+        [0x1D173, 0x1D182], [0x1D185, 0x1D18B], [0x1D1AA, 0x1D1AD],
+        [0x1D242, 0x1D244], [0xE0001, 0xE0001], [0xE0020, 0xE007F],
+        [0xE0100, 0xE01EF]
+    ];
+    function bisearch(ucs, data) {
+        var min = 0;
+        var max = data.length - 1;
+        var mid;
+        if (ucs < data[0][0] || ucs > data[max][1])
+            return false;
+        while (max >= min) {
+            mid = (min + max) >> 1;
+            if (ucs > data[mid][1])
+                min = mid + 1;
+            else if (ucs < data[mid][0])
+                max = mid - 1;
+            else
+                return true;
+        }
+        return false;
+    }
+    function wcwidthBMP(ucs) {
+        if (ucs === 0)
+            return opts.nul;
+        if (ucs < 32 || (ucs >= 0x7f && ucs < 0xa0))
+            return opts.control;
+        if (bisearch(ucs, COMBINING_BMP))
+            return 0;
+        if (isWideBMP(ucs)) {
+            return 2;
+        }
+        return 1;
+    }
+    function isWideBMP(ucs) {
+        return (ucs >= 0x1100 && (ucs <= 0x115f ||
+            ucs === 0x2329 ||
+            ucs === 0x232a ||
+            (ucs >= 0x2e80 && ucs <= 0xa4cf && ucs !== 0x303f) ||
+            (ucs >= 0xac00 && ucs <= 0xd7a3) ||
+            (ucs >= 0xf900 && ucs <= 0xfaff) ||
+            (ucs >= 0xfe10 && ucs <= 0xfe19) ||
+            (ucs >= 0xfe30 && ucs <= 0xfe6f) ||
+            (ucs >= 0xff00 && ucs <= 0xff60) ||
+            (ucs >= 0xffe0 && ucs <= 0xffe6)));
+    }
+    function wcwidthHigh(ucs) {
+        if (bisearch(ucs, COMBINING_HIGH))
+            return 0;
+        if ((ucs >= 0x20000 && ucs <= 0x2fffd) || (ucs >= 0x30000 && ucs <= 0x3fffd)) {
+            return 2;
+        }
+        return 1;
+    }
+    var control = opts.control | 0;
+    var table = null;
+    function init_table() {
+        var CODEPOINTS = 65536;
+        var BITWIDTH = 2;
+        var ITEMSIZE = 32;
+        var CONTAINERSIZE = CODEPOINTS * BITWIDTH / ITEMSIZE;
+        var CODEPOINTS_PER_ITEM = ITEMSIZE / BITWIDTH;
+        table = (typeof Uint32Array === 'undefined')
+            ? new Array(CONTAINERSIZE)
+            : new Uint32Array(CONTAINERSIZE);
+        for (var i = 0; i < CONTAINERSIZE; ++i) {
+            var num = 0;
+            var pos = CODEPOINTS_PER_ITEM;
+            while (pos--)
+                num = (num << 2) | wcwidthBMP(CODEPOINTS_PER_ITEM * i + pos);
+            table[i] = num;
+        }
+        return table;
+    }
+    return function (num) {
+        num = num | 0;
+        if (num < 32)
+            return control | 0;
+        if (num < 127)
+            return 1;
+        var t = table || init_table();
+        if (num < 65536)
+            return t[num >> 4] >> ((num & 15) << 1) & 3;
+        return wcwidthHigh(num);
+    };
+})({ nul: 0, control: 0 });
+
+
+
+},{"./Charsets":241,"./EscapeSequences":243}],246:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var INVALID_LINK_CLASS = 'xterm-invalid-link';
+var protocolClause = '(https?:\\/\\/)';
+var domainCharacterSet = '[\\da-z\\.-]+';
+var negatedDomainCharacterSet = '[^\\da-z\\.-]+';
+var domainBodyClause = '(' + domainCharacterSet + ')';
+var tldClause = '([a-z\\.]{2,6})';
+var ipClause = '((\\d{1,3}\\.){3}\\d{1,3})';
+var localHostClause = '(localhost)';
+var portClause = '(:\\d{1,5})';
+var hostClause = '((' + domainBodyClause + '\\.' + tldClause + ')|' + ipClause + '|' + localHostClause + ')' + portClause + '?';
+var pathClause = '(\\/[\\/\\w\\.\\-%~]*)*';
+var queryStringHashFragmentCharacterSet = '[0-9\\w\\[\\]\\(\\)\\/\\?\\!#@$%&\'*+,:;~\\=\\.\\-]*';
+var queryStringClause = '(\\?' + queryStringHashFragmentCharacterSet + ')?';
+var hashFragmentClause = '(#' + queryStringHashFragmentCharacterSet + ')?';
+var negatedPathCharacterSet = '[^\\/\\w\\.\\-%]+';
+var bodyClause = hostClause + pathClause + queryStringClause + hashFragmentClause;
+var start = '(?:^|' + negatedDomainCharacterSet + ')(';
+var end = ')($|' + negatedPathCharacterSet + ')';
+var strictUrlRegex = new RegExp(start + protocolClause + bodyClause + end);
+var HYPERTEXT_LINK_MATCHER_ID = 0;
+var Linkifier = (function () {
+    function Linkifier() {
+        this._nextLinkMatcherId = HYPERTEXT_LINK_MATCHER_ID;
+        this._rowTimeoutIds = [];
+        this._linkMatchers = [];
+        this.registerLinkMatcher(strictUrlRegex, null, { matchIndex: 1 });
+    }
+    Linkifier.prototype.attachToDom = function (document, rows) {
+        this._document = document;
+        this._rows = rows;
+    };
+    Linkifier.prototype.linkifyRow = function (rowIndex) {
+        if (!this._document) {
+            return;
+        }
+        var timeoutId = this._rowTimeoutIds[rowIndex];
+        if (timeoutId) {
+            clearTimeout(timeoutId);
+        }
+        this._rowTimeoutIds[rowIndex] = setTimeout(this._linkifyRow.bind(this, rowIndex), Linkifier.TIME_BEFORE_LINKIFY);
+    };
+    Linkifier.prototype.setHypertextLinkHandler = function (handler) {
+        this._linkMatchers[HYPERTEXT_LINK_MATCHER_ID].handler = handler;
+    };
+    Linkifier.prototype.setHypertextValidationCallback = function (callback) {
+        this._linkMatchers[HYPERTEXT_LINK_MATCHER_ID].validationCallback = callback;
+    };
+    Linkifier.prototype.registerLinkMatcher = function (regex, handler, options) {
+        if (options === void 0) { options = {}; }
+        if (this._nextLinkMatcherId !== HYPERTEXT_LINK_MATCHER_ID && !handler) {
+            throw new Error('handler must be defined');
+        }
+        var matcher = {
+            id: this._nextLinkMatcherId++,
+            regex: regex,
+            handler: handler,
+            matchIndex: options.matchIndex,
+            validationCallback: options.validationCallback,
+            priority: options.priority || 0
+        };
+        this._addLinkMatcherToList(matcher);
+        return matcher.id;
+    };
+    Linkifier.prototype._addLinkMatcherToList = function (matcher) {
+        if (this._linkMatchers.length === 0) {
+            this._linkMatchers.push(matcher);
+            return;
+        }
+        for (var i = this._linkMatchers.length - 1; i >= 0; i--) {
+            if (matcher.priority <= this._linkMatchers[i].priority) {
+                this._linkMatchers.splice(i + 1, 0, matcher);
+                return;
+            }
+        }
+        this._linkMatchers.splice(0, 0, matcher);
+    };
+    Linkifier.prototype.deregisterLinkMatcher = function (matcherId) {
+        for (var i = 1; i < this._linkMatchers.length; i++) {
+            if (this._linkMatchers[i].id === matcherId) {
+                this._linkMatchers.splice(i, 1);
+                return true;
+            }
+        }
+        return false;
+    };
+    Linkifier.prototype._linkifyRow = function (rowIndex) {
+        var row = this._rows[rowIndex];
+        if (!row) {
+            return;
+        }
+        var text = row.textContent;
+        for (var i = 0; i < this._linkMatchers.length; i++) {
+            var matcher = this._linkMatchers[i];
+            var linkElements = this._doLinkifyRow(row, matcher);
+            if (linkElements.length > 0) {
+                if (matcher.validationCallback) {
+                    var _loop_1 = function (j) {
+                        var element = linkElements[j];
+                        matcher.validationCallback(element.textContent, element, function (isValid) {
+                            if (!isValid) {
+                                element.classList.add(INVALID_LINK_CLASS);
+                            }
+                        });
+                    };
+                    for (var j = 0; j < linkElements.length; j++) {
+                        _loop_1(j);
+                    }
+                }
+                return;
+            }
+        }
+    };
+    Linkifier.prototype._doLinkifyRow = function (row, matcher) {
+        var result = [];
+        var isHttpLinkMatcher = matcher.id === HYPERTEXT_LINK_MATCHER_ID;
+        var nodes = row.childNodes;
+        var match = row.textContent.match(matcher.regex);
+        if (!match || match.length === 0) {
+            return result;
+        }
+        var uri = match[typeof matcher.matchIndex !== 'number' ? 0 : matcher.matchIndex];
+        var rowStartIndex = match.index + uri.length;
+        for (var i = 0; i < nodes.length; i++) {
+            var node = nodes[i];
+            var searchIndex = node.textContent.indexOf(uri);
+            if (searchIndex >= 0) {
+                var linkElement = this._createAnchorElement(uri, matcher.handler, isHttpLinkMatcher);
+                if (node.textContent.length === uri.length) {
+                    if (node.nodeType === 3) {
+                        this._replaceNode(node, linkElement);
+                    }
+                    else {
+                        var element = node;
+                        if (element.nodeName === 'A') {
+                            return result;
+                        }
+                        element.innerHTML = '';
+                        element.appendChild(linkElement);
+                    }
+                }
+                else if (node.childNodes.length > 1) {
+                    for (var j = 0; j < node.childNodes.length; j++) {
+                        var childNode = node.childNodes[j];
+                        var childSearchIndex = childNode.textContent.indexOf(uri);
+                        if (childSearchIndex !== -1) {
+                            this._replaceNodeSubstringWithNode(childNode, linkElement, uri, childSearchIndex);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    var nodesAdded = this._replaceNodeSubstringWithNode(node, linkElement, uri, searchIndex);
+                    i += nodesAdded;
+                }
+                result.push(linkElement);
+                match = row.textContent.substring(rowStartIndex).match(matcher.regex);
+                if (!match || match.length === 0) {
+                    return result;
+                }
+                uri = match[typeof matcher.matchIndex !== 'number' ? 0 : matcher.matchIndex];
+                rowStartIndex += match.index + uri.length;
+            }
+        }
+        return result;
+    };
+    Linkifier.prototype._createAnchorElement = function (uri, handler, isHypertextLinkHandler) {
+        var element = this._document.createElement('a');
+        element.textContent = uri;
+        element.draggable = false;
+        if (isHypertextLinkHandler) {
+            element.href = uri;
+            element.target = '_blank';
+            element.addEventListener('click', function (event) {
+                if (handler) {
+                    return handler(event, uri);
+                }
+            });
+        }
+        else {
+            element.addEventListener('click', function (event) {
+                if (element.classList.contains(INVALID_LINK_CLASS)) {
+                    return;
+                }
+                return handler(event, uri);
+            });
+        }
+        return element;
+    };
+    Linkifier.prototype._replaceNode = function (oldNode) {
+        var newNodes = [];
+        for (var _i = 1; _i < arguments.length; _i++) {
+            newNodes[_i - 1] = arguments[_i];
+        }
+        var parent = oldNode.parentNode;
+        for (var i = 0; i < newNodes.length; i++) {
+            parent.insertBefore(newNodes[i], oldNode);
+        }
+        parent.removeChild(oldNode);
+    };
+    Linkifier.prototype._replaceNodeSubstringWithNode = function (targetNode, newNode, substring, substringIndex) {
+        if (targetNode.childNodes.length === 1) {
+            targetNode = targetNode.childNodes[0];
+        }
+        if (targetNode.nodeType !== 3) {
+            throw new Error('targetNode must be a text node or only contain a single text node');
+        }
+        var fullText = targetNode.textContent;
+        if (substringIndex === 0) {
+            var rightText_1 = fullText.substring(substring.length);
+            var rightTextNode_1 = this._document.createTextNode(rightText_1);
+            this._replaceNode(targetNode, newNode, rightTextNode_1);
+            return 0;
+        }
+        if (substringIndex === targetNode.textContent.length - substring.length) {
+            var leftText_1 = fullText.substring(0, substringIndex);
+            var leftTextNode_1 = this._document.createTextNode(leftText_1);
+            this._replaceNode(targetNode, leftTextNode_1, newNode);
+            return 0;
+        }
+        var leftText = fullText.substring(0, substringIndex);
+        var leftTextNode = this._document.createTextNode(leftText);
+        var rightText = fullText.substring(substringIndex + substring.length);
+        var rightTextNode = this._document.createTextNode(rightText);
+        this._replaceNode(targetNode, leftTextNode, newNode, rightTextNode);
+        return 1;
+    };
+    return Linkifier;
+}());
+Linkifier.TIME_BEFORE_LINKIFY = 200;
+exports.Linkifier = Linkifier;
+
+
+
+},{}],247:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var EscapeSequences_1 = require("./EscapeSequences");
+var Charsets_1 = require("./Charsets");
+var normalStateHandler = {};
+normalStateHandler[EscapeSequences_1.C0.BEL] = function (parser, handler) { return handler.bell(); };
+normalStateHandler[EscapeSequences_1.C0.LF] = function (parser, handler) { return handler.lineFeed(); };
+normalStateHandler[EscapeSequences_1.C0.VT] = normalStateHandler[EscapeSequences_1.C0.LF];
+normalStateHandler[EscapeSequences_1.C0.FF] = normalStateHandler[EscapeSequences_1.C0.LF];
+normalStateHandler[EscapeSequences_1.C0.CR] = function (parser, handler) { return handler.carriageReturn(); };
+normalStateHandler[EscapeSequences_1.C0.BS] = function (parser, handler) { return handler.backspace(); };
+normalStateHandler[EscapeSequences_1.C0.HT] = function (parser, handler) { return handler.tab(); };
+normalStateHandler[EscapeSequences_1.C0.SO] = function (parser, handler) { return handler.shiftOut(); };
+normalStateHandler[EscapeSequences_1.C0.SI] = function (parser, handler) { return handler.shiftIn(); };
+normalStateHandler[EscapeSequences_1.C0.ESC] = function (parser, handler) { return parser.setState(ParserState.ESCAPED); };
+var escapedStateHandler = {};
+escapedStateHandler['['] = function (parser, terminal) {
+    terminal.params = [];
+    terminal.currentParam = 0;
+    parser.setState(ParserState.CSI_PARAM);
+};
+escapedStateHandler[']'] = function (parser, terminal) {
+    terminal.params = [];
+    terminal.currentParam = 0;
+    parser.setState(ParserState.OSC);
+};
+escapedStateHandler['P'] = function (parser, terminal) {
+    terminal.params = [];
+    terminal.currentParam = 0;
+    parser.setState(ParserState.DCS);
+};
+escapedStateHandler['_'] = function (parser, terminal) {
+    parser.setState(ParserState.IGNORE);
+};
+escapedStateHandler['^'] = function (parser, terminal) {
+    parser.setState(ParserState.IGNORE);
+};
+escapedStateHandler['c'] = function (parser, terminal) {
+    terminal.reset();
+};
+escapedStateHandler['E'] = function (parser, terminal) {
+    terminal.buffer.x = 0;
+    terminal.index();
+    parser.setState(ParserState.NORMAL);
+};
+escapedStateHandler['D'] = function (parser, terminal) {
+    terminal.index();
+    parser.setState(ParserState.NORMAL);
+};
+escapedStateHandler['M'] = function (parser, terminal) {
+    terminal.reverseIndex();
+    parser.setState(ParserState.NORMAL);
+};
+escapedStateHandler['%'] = function (parser, terminal) {
+    terminal.setgLevel(0);
+    terminal.setgCharset(0, Charsets_1.DEFAULT_CHARSET);
+    parser.setState(ParserState.NORMAL);
+    parser.skipNextChar();
+};
+escapedStateHandler[EscapeSequences_1.C0.CAN] = function (parser) { return parser.setState(ParserState.NORMAL); };
+var csiParamStateHandler = {};
+csiParamStateHandler['?'] = function (parser) { return parser.setPrefix('?'); };
+csiParamStateHandler['>'] = function (parser) { return parser.setPrefix('>'); };
+csiParamStateHandler['!'] = function (parser) { return parser.setPrefix('!'); };
+csiParamStateHandler['0'] = function (parser) { return parser.setParam(parser.getParam() * 10); };
+csiParamStateHandler['1'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 1); };
+csiParamStateHandler['2'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 2); };
+csiParamStateHandler['3'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 3); };
+csiParamStateHandler['4'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 4); };
+csiParamStateHandler['5'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 5); };
+csiParamStateHandler['6'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 6); };
+csiParamStateHandler['7'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 7); };
+csiParamStateHandler['8'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 8); };
+csiParamStateHandler['9'] = function (parser) { return parser.setParam(parser.getParam() * 10 + 9); };
+csiParamStateHandler['$'] = function (parser) { return parser.setPostfix('$'); };
+csiParamStateHandler['"'] = function (parser) { return parser.setPostfix('"'); };
+csiParamStateHandler[' '] = function (parser) { return parser.setPostfix(' '); };
+csiParamStateHandler['\''] = function (parser) { return parser.setPostfix('\''); };
+csiParamStateHandler[';'] = function (parser) { return parser.finalizeParam(); };
+csiParamStateHandler[EscapeSequences_1.C0.CAN] = function (parser) { return parser.setState(ParserState.NORMAL); };
+var csiStateHandler = {};
+csiStateHandler['@'] = function (handler, params, prefix) { return handler.insertChars(params); };
+csiStateHandler['A'] = function (handler, params, prefix) { return handler.cursorUp(params); };
+csiStateHandler['B'] = function (handler, params, prefix) { return handler.cursorDown(params); };
+csiStateHandler['C'] = function (handler, params, prefix) { return handler.cursorForward(params); };
+csiStateHandler['D'] = function (handler, params, prefix) { return handler.cursorBackward(params); };
+csiStateHandler['E'] = function (handler, params, prefix) { return handler.cursorNextLine(params); };
+csiStateHandler['F'] = function (handler, params, prefix) { return handler.cursorPrecedingLine(params); };
+csiStateHandler['G'] = function (handler, params, prefix) { return handler.cursorCharAbsolute(params); };
+csiStateHandler['H'] = function (handler, params, prefix) { return handler.cursorPosition(params); };
+csiStateHandler['I'] = function (handler, params, prefix) { return handler.cursorForwardTab(params); };
+csiStateHandler['J'] = function (handler, params, prefix) { return handler.eraseInDisplay(params); };
+csiStateHandler['K'] = function (handler, params, prefix) { return handler.eraseInLine(params); };
+csiStateHandler['L'] = function (handler, params, prefix) { return handler.insertLines(params); };
+csiStateHandler['M'] = function (handler, params, prefix) { return handler.deleteLines(params); };
+csiStateHandler['P'] = function (handler, params, prefix) { return handler.deleteChars(params); };
+csiStateHandler['S'] = function (handler, params, prefix) { return handler.scrollUp(params); };
+csiStateHandler['T'] = function (handler, params, prefix) {
+    if (params.length < 2 && !prefix) {
+        handler.scrollDown(params);
+    }
+};
+csiStateHandler['X'] = function (handler, params, prefix) { return handler.eraseChars(params); };
+csiStateHandler['Z'] = function (handler, params, prefix) { return handler.cursorBackwardTab(params); };
+csiStateHandler['`'] = function (handler, params, prefix) { return handler.charPosAbsolute(params); };
+csiStateHandler['a'] = function (handler, params, prefix) { return handler.HPositionRelative(params); };
+csiStateHandler['b'] = function (handler, params, prefix) { return handler.repeatPrecedingCharacter(params); };
+csiStateHandler['c'] = function (handler, params, prefix) { return handler.sendDeviceAttributes(params); };
+csiStateHandler['d'] = function (handler, params, prefix) { return handler.linePosAbsolute(params); };
+csiStateHandler['e'] = function (handler, params, prefix) { return handler.VPositionRelative(params); };
+csiStateHandler['f'] = function (handler, params, prefix) { return handler.HVPosition(params); };
+csiStateHandler['g'] = function (handler, params, prefix) { return handler.tabClear(params); };
+csiStateHandler['h'] = function (handler, params, prefix) { return handler.setMode(params); };
+csiStateHandler['l'] = function (handler, params, prefix) { return handler.resetMode(params); };
+csiStateHandler['m'] = function (handler, params, prefix) { return handler.charAttributes(params); };
+csiStateHandler['n'] = function (handler, params, prefix) { return handler.deviceStatus(params); };
+csiStateHandler['p'] = function (handler, params, prefix) {
+    switch (prefix) {
+        case '!':
+            handler.softReset(params);
+            break;
+    }
+};
+csiStateHandler['q'] = function (handler, params, prefix, postfix) {
+    if (postfix === ' ') {
+        handler.setCursorStyle(params);
+    }
+};
+csiStateHandler['r'] = function (handler, params) { return handler.setScrollRegion(params); };
+csiStateHandler['s'] = function (handler, params) { return handler.saveCursor(params); };
+csiStateHandler['u'] = function (handler, params) { return handler.restoreCursor(params); };
+csiStateHandler[EscapeSequences_1.C0.CAN] = function (handler, params, prefix, postfix, parser) { return parser.setState(ParserState.NORMAL); };
+var ParserState;
+(function (ParserState) {
+    ParserState[ParserState["NORMAL"] = 0] = "NORMAL";
+    ParserState[ParserState["ESCAPED"] = 1] = "ESCAPED";
+    ParserState[ParserState["CSI_PARAM"] = 2] = "CSI_PARAM";
+    ParserState[ParserState["CSI"] = 3] = "CSI";
+    ParserState[ParserState["OSC"] = 4] = "OSC";
+    ParserState[ParserState["CHARSET"] = 5] = "CHARSET";
+    ParserState[ParserState["DCS"] = 6] = "DCS";
+    ParserState[ParserState["IGNORE"] = 7] = "IGNORE";
+})(ParserState || (ParserState = {}));
+var Parser = (function () {
+    function Parser(_inputHandler, _terminal) {
+        this._inputHandler = _inputHandler;
+        this._terminal = _terminal;
+        this._state = ParserState.NORMAL;
+    }
+    Parser.prototype.parse = function (data) {
+        var l = data.length, j, cs, ch, code, low;
+        if (this._terminal.debug) {
+            this._terminal.log('data: ' + data);
+        }
+        this._position = 0;
+        if (this._terminal.surrogate_high) {
+            data = this._terminal.surrogate_high + data;
+            this._terminal.surrogate_high = '';
+        }
+        for (; this._position < l; this._position++) {
+            ch = data[this._position];
+            code = data.charCodeAt(this._position);
+            if (0xD800 <= code && code <= 0xDBFF) {
+                low = data.charCodeAt(this._position + 1);
+                if (isNaN(low)) {
+                    this._terminal.surrogate_high = ch;
+                    continue;
+                }
+                code = ((code - 0xD800) * 0x400) + (low - 0xDC00) + 0x10000;
+                ch += data.charAt(this._position + 1);
+            }
+            if (0xDC00 <= code && code <= 0xDFFF)
+                continue;
+            switch (this._state) {
+                case ParserState.NORMAL:
+                    if (ch in normalStateHandler) {
+                        normalStateHandler[ch](this, this._inputHandler);
+                    }
+                    else {
+                        this._inputHandler.addChar(ch, code);
+                    }
+                    break;
+                case ParserState.ESCAPED:
+                    if (ch in escapedStateHandler) {
+                        escapedStateHandler[ch](this, this._terminal);
+                        break;
+                    }
+                    switch (ch) {
+                        case '(':
+                        case ')':
+                        case '*':
+                        case '+':
+                        case '-':
+                        case '.':
+                            switch (ch) {
+                                case '(':
+                                    this._terminal.gcharset = 0;
+                                    break;
+                                case ')':
+                                    this._terminal.gcharset = 1;
+                                    break;
+                                case '*':
+                                    this._terminal.gcharset = 2;
+                                    break;
+                                case '+':
+                                    this._terminal.gcharset = 3;
+                                    break;
+                                case '-':
+                                    this._terminal.gcharset = 1;
+                                    break;
+                                case '.':
+                                    this._terminal.gcharset = 2;
+                                    break;
+                            }
+                            this._state = ParserState.CHARSET;
+                            break;
+                        case '/':
+                            this._terminal.gcharset = 3;
+                            this._state = ParserState.CHARSET;
+                            this._position--;
+                            break;
+                        case 'N':
+                            break;
+                        case 'O':
+                            break;
+                        case 'n':
+                            this._terminal.setgLevel(2);
+                            break;
+                        case 'o':
+                            this._terminal.setgLevel(3);
+                            break;
+                        case '|':
+                            this._terminal.setgLevel(3);
+                            break;
+                        case '}':
+                            this._terminal.setgLevel(2);
+                            break;
+                        case '~':
+                            this._terminal.setgLevel(1);
+                            break;
+                        case '7':
+                            this._inputHandler.saveCursor();
+                            this._state = ParserState.NORMAL;
+                            break;
+                        case '8':
+                            this._inputHandler.restoreCursor();
+                            this._state = ParserState.NORMAL;
+                            break;
+                        case '#':
+                            this._state = ParserState.NORMAL;
+                            this._position++;
+                            break;
+                        case 'H':
+                            this._terminal.tabSet();
+                            this._state = ParserState.NORMAL;
+                            break;
+                        case '=':
+                            this._terminal.log('Serial port requested application keypad.');
+                            this._terminal.applicationKeypad = true;
+                            this._terminal.viewport.syncScrollArea();
+                            this._state = ParserState.NORMAL;
+                            break;
+                        case '>':
+                            this._terminal.log('Switching back to normal keypad.');
+                            this._terminal.applicationKeypad = false;
+                            this._terminal.viewport.syncScrollArea();
+                            this._state = ParserState.NORMAL;
+                            break;
+                        default:
+                            this._state = ParserState.NORMAL;
+                            this._terminal.error('Unknown ESC control: %s.', ch);
+                            break;
+                    }
+                    break;
+                case ParserState.CHARSET:
+                    if (ch in Charsets_1.CHARSETS) {
+                        cs = Charsets_1.CHARSETS[ch];
+                        if (ch === '/') {
+                            this.skipNextChar();
+                        }
+                    }
+                    else {
+                        cs = Charsets_1.DEFAULT_CHARSET;
+                    }
+                    this._terminal.setgCharset(this._terminal.gcharset, cs);
+                    this._terminal.gcharset = null;
+                    this._state = ParserState.NORMAL;
+                    break;
+                case ParserState.OSC:
+                    if (ch === EscapeSequences_1.C0.ESC || ch === EscapeSequences_1.C0.BEL) {
+                        if (ch === EscapeSequences_1.C0.ESC)
+                            this._position++;
+                        this._terminal.params.push(this._terminal.currentParam);
+                        switch (this._terminal.params[0]) {
+                            case 0:
+                            case 1:
+                            case 2:
+                                if (this._terminal.params[1]) {
+                                    this._terminal.title = this._terminal.params[1];
+                                    this._terminal.handleTitle(this._terminal.title);
+                                }
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                            case 5:
+                                break;
+                            case 10:
+                            case 11:
+                            case 12:
+                            case 13:
+                            case 14:
+                            case 15:
+                            case 16:
+                            case 17:
+                            case 18:
+                            case 19:
+                                break;
+                            case 46:
+                                break;
+                            case 50:
+                                break;
+                            case 51:
+                                break;
+                            case 52:
+                                break;
+                            case 104:
+                            case 105:
+                            case 110:
+                            case 111:
+                            case 112:
+                            case 113:
+                            case 114:
+                            case 115:
+                            case 116:
+                            case 117:
+                            case 118:
+                                break;
+                        }
+                        this._terminal.params = [];
+                        this._terminal.currentParam = 0;
+                        this._state = ParserState.NORMAL;
+                    }
+                    else {
+                        if (!this._terminal.params.length) {
+                            if (ch >= '0' && ch <= '9') {
+                                this._terminal.currentParam =
+                                    this._terminal.currentParam * 10 + ch.charCodeAt(0) - 48;
+                            }
+                            else if (ch === ';') {
+                                this._terminal.params.push(this._terminal.currentParam);
+                                this._terminal.currentParam = '';
+                            }
+                        }
+                        else {
+                            this._terminal.currentParam += ch;
+                        }
+                    }
+                    break;
+                case ParserState.CSI_PARAM:
+                    if (ch in csiParamStateHandler) {
+                        csiParamStateHandler[ch](this);
+                        break;
+                    }
+                    this.finalizeParam();
+                    this._state = ParserState.CSI;
+                case ParserState.CSI:
+                    if (ch in csiStateHandler) {
+                        if (this._terminal.debug) {
+                            this._terminal.log("CSI " + (this._terminal.prefix ? this._terminal.prefix : '') + " " + (this._terminal.params ? this._terminal.params.join(';') : '') + " " + (this._terminal.postfix ? this._terminal.postfix : '') + " " + ch);
+                        }
+                        csiStateHandler[ch](this._inputHandler, this._terminal.params, this._terminal.prefix, this._terminal.postfix, this);
+                    }
+                    else {
+                        this._terminal.error('Unknown CSI code: %s.', ch);
+                    }
+                    this._state = ParserState.NORMAL;
+                    this._terminal.prefix = '';
+                    this._terminal.postfix = '';
+                    break;
+                case ParserState.DCS:
+                    if (ch === EscapeSequences_1.C0.ESC || ch === EscapeSequences_1.C0.BEL) {
+                        if (ch === EscapeSequences_1.C0.ESC)
+                            this._position++;
+                        var pt = void 0;
+                        var valid = void 0;
+                        switch (this._terminal.prefix) {
+                            case '':
+                                break;
+                            case '$q':
+                                pt = this._terminal.currentParam;
+                                valid = false;
+                                switch (pt) {
+                                    case '"q':
+                                        pt = '0"q';
+                                        break;
+                                    case '"p':
+                                        pt = '61"p';
+                                        break;
+                                    case 'r':
+                                        pt = ''
+                                            + (this._terminal.buffer.scrollTop + 1)
+                                            + ';'
+                                            + (this._terminal.buffer.scrollBottom + 1)
+                                            + 'r';
+                                        break;
+                                    case 'm':
+                                        pt = '0m';
+                                        break;
+                                    default:
+                                        this._terminal.error('Unknown DCS Pt: %s.', pt);
+                                        pt = '';
+                                        break;
+                                }
+                                this._terminal.send(EscapeSequences_1.C0.ESC + 'P' + +valid + '$r' + pt + EscapeSequences_1.C0.ESC + '\\');
+                                break;
+                            case '+p':
+                                break;
+                            case '+q':
+                                pt = this._terminal.currentParam;
+                                valid = false;
+                                this._terminal.send(EscapeSequences_1.C0.ESC + 'P' + +valid + '+r' + pt + EscapeSequences_1.C0.ESC + '\\');
+                                break;
+                            default:
+                                this._terminal.error('Unknown DCS prefix: %s.', this._terminal.prefix);
+                                break;
+                        }
+                        this._terminal.currentParam = 0;
+                        this._terminal.prefix = '';
+                        this._state = ParserState.NORMAL;
+                    }
+                    else if (!this._terminal.currentParam) {
+                        if (!this._terminal.prefix && ch !== '$' && ch !== '+') {
+                            this._terminal.currentParam = ch;
+                        }
+                        else if (this._terminal.prefix.length === 2) {
+                            this._terminal.currentParam = ch;
+                        }
+                        else {
+                            this._terminal.prefix += ch;
+                        }
+                    }
+                    else {
+                        this._terminal.currentParam += ch;
+                    }
+                    break;
+                case ParserState.IGNORE:
+                    if (ch === EscapeSequences_1.C0.ESC || ch === EscapeSequences_1.C0.BEL) {
+                        if (ch === EscapeSequences_1.C0.ESC)
+                            this._position++;
+                        this._state = ParserState.NORMAL;
+                    }
+                    break;
+            }
+        }
+        return this._state;
+    };
+    Parser.prototype.setState = function (state) {
+        this._state = state;
+    };
+    Parser.prototype.setPrefix = function (prefix) {
+        this._terminal.prefix = prefix;
+    };
+    Parser.prototype.setPostfix = function (postfix) {
+        this._terminal.postfix = postfix;
+    };
+    Parser.prototype.setParam = function (param) {
+        this._terminal.currentParam = param;
+    };
+    Parser.prototype.getParam = function () {
+        return this._terminal.currentParam;
+    };
+    Parser.prototype.finalizeParam = function () {
+        this._terminal.params.push(this._terminal.currentParam);
+        this._terminal.currentParam = 0;
+    };
+    Parser.prototype.skipNextChar = function () {
+        this._position++;
+    };
+    return Parser;
+}());
+exports.Parser = Parser;
+
+
+
+},{"./Charsets":241,"./EscapeSequences":243}],248:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var DomElementObjectPool_1 = require("./utils/DomElementObjectPool");
+var MAX_REFRESH_FRAME_SKIP = 5;
+var FLAGS;
+(function (FLAGS) {
+    FLAGS[FLAGS["BOLD"] = 1] = "BOLD";
+    FLAGS[FLAGS["UNDERLINE"] = 2] = "UNDERLINE";
+    FLAGS[FLAGS["BLINK"] = 4] = "BLINK";
+    FLAGS[FLAGS["INVERSE"] = 8] = "INVERSE";
+    FLAGS[FLAGS["INVISIBLE"] = 16] = "INVISIBLE";
+})(FLAGS || (FLAGS = {}));
+;
+var brokenBold = null;
+var Renderer = (function () {
+    function Renderer(_terminal) {
+        this._terminal = _terminal;
+        this._refreshRowsQueue = [];
+        this._refreshFramesSkipped = 0;
+        this._refreshAnimationFrame = null;
+        this._spanElementObjectPool = new DomElementObjectPool_1.DomElementObjectPool('span');
+        if (brokenBold === null) {
+            brokenBold = checkBoldBroken(this._terminal.element);
+        }
+        this._spanElementObjectPool = new DomElementObjectPool_1.DomElementObjectPool('span');
+    }
+    Renderer.prototype.queueRefresh = function (start, end) {
+        this._refreshRowsQueue.push({ start: start, end: end });
+        if (!this._refreshAnimationFrame) {
+            this._refreshAnimationFrame = window.requestAnimationFrame(this._refreshLoop.bind(this));
+        }
+    };
+    Renderer.prototype._refreshLoop = function () {
+        var skipFrame = this._terminal.writeBuffer.length > 0 && this._refreshFramesSkipped++ <= MAX_REFRESH_FRAME_SKIP;
+        if (skipFrame) {
+            this._refreshAnimationFrame = window.requestAnimationFrame(this._refreshLoop.bind(this));
+            return;
+        }
+        this._refreshFramesSkipped = 0;
+        var start;
+        var end;
+        if (this._refreshRowsQueue.length > 4) {
+            start = 0;
+            end = this._terminal.rows - 1;
+        }
+        else {
+            start = this._refreshRowsQueue[0].start;
+            end = this._refreshRowsQueue[0].end;
+            for (var i = 1; i < this._refreshRowsQueue.length; i++) {
+                if (this._refreshRowsQueue[i].start < start) {
+                    start = this._refreshRowsQueue[i].start;
+                }
+                if (this._refreshRowsQueue[i].end > end) {
+                    end = this._refreshRowsQueue[i].end;
+                }
+            }
+        }
+        this._refreshRowsQueue = [];
+        this._refreshAnimationFrame = null;
+        this._refresh(start, end);
+    };
+    Renderer.prototype._refresh = function (start, end) {
+        var parent;
+        if (end - start >= this._terminal.rows / 2) {
+            parent = this._terminal.element.parentNode;
+            if (parent) {
+                this._terminal.element.removeChild(this._terminal.rowContainer);
+            }
+        }
+        var width = this._terminal.cols;
+        var y = start;
+        if (end >= this._terminal.rows) {
+            this._terminal.log('`end` is too large. Most likely a bad CSR.');
+            end = this._terminal.rows - 1;
+        }
+        for (; y <= end; y++) {
+            var row = y + this._terminal.buffer.ydisp;
+            var line = this._terminal.buffer.lines.get(row);
+            var x = void 0;
+            if (this._terminal.buffer.y === y - (this._terminal.buffer.ybase - this._terminal.buffer.ydisp) &&
+                this._terminal.cursorState &&
+                !this._terminal.cursorHidden) {
+                x = this._terminal.buffer.x;
+            }
+            else {
+                x = -1;
+            }
+            var attr = this._terminal.defAttr;
+            var documentFragment = document.createDocumentFragment();
+            var innerHTML = '';
+            var currentElement = void 0;
+            while (this._terminal.children[y].children.length) {
+                var child = this._terminal.children[y].children[0];
+                this._terminal.children[y].removeChild(child);
+                this._spanElementObjectPool.release(child);
+            }
+            for (var i = 0; i < width; i++) {
+                var data = line[i][0];
+                var ch = line[i][1];
+                var ch_width = line[i][2];
+                var isCursor = i === x;
+                if (!ch_width) {
+                    continue;
+                }
+                if (data !== attr || isCursor) {
+                    if (attr !== this._terminal.defAttr && !isCursor) {
+                        if (innerHTML) {
+                            currentElement.innerHTML = innerHTML;
+                            innerHTML = '';
+                        }
+                        documentFragment.appendChild(currentElement);
+                        currentElement = null;
+                    }
+                    if (data !== this._terminal.defAttr || isCursor) {
+                        if (innerHTML && !currentElement) {
+                            currentElement = this._spanElementObjectPool.acquire();
+                        }
+                        if (currentElement) {
+                            if (innerHTML) {
+                                currentElement.innerHTML = innerHTML;
+                                innerHTML = '';
+                            }
+                            documentFragment.appendChild(currentElement);
+                        }
+                        currentElement = this._spanElementObjectPool.acquire();
+                        var bg = data & 0x1ff;
+                        var fg = (data >> 9) & 0x1ff;
+                        var flags = data >> 18;
+                        if (isCursor) {
+                            currentElement.classList.add('reverse-video');
+                            currentElement.classList.add('terminal-cursor');
+                        }
+                        if (flags & FLAGS.BOLD) {
+                            if (!brokenBold) {
+                                currentElement.classList.add('xterm-bold');
+                            }
+                            if (fg < 8) {
+                                fg += 8;
+                            }
+                        }
+                        if (flags & FLAGS.UNDERLINE) {
+                            currentElement.classList.add('xterm-underline');
+                        }
+                        if (flags & FLAGS.BLINK) {
+                            currentElement.classList.add('xterm-blink');
+                        }
+                        if (flags & FLAGS.INVERSE) {
+                            var temp = bg;
+                            bg = fg;
+                            fg = temp;
+                            if ((flags & 1) && fg < 8) {
+                                fg += 8;
+                            }
+                        }
+                        if (flags & FLAGS.INVISIBLE && !isCursor) {
+                            currentElement.classList.add('xterm-hidden');
+                        }
+                        if (flags & FLAGS.INVERSE) {
+                            if (bg === 257) {
+                                bg = 15;
+                            }
+                            if (fg === 256) {
+                                fg = 0;
+                            }
+                        }
+                        if (bg < 256) {
+                            currentElement.classList.add("xterm-bg-color-" + bg);
+                        }
+                        if (fg < 256) {
+                            currentElement.classList.add("xterm-color-" + fg);
+                        }
+                    }
+                }
+                if (ch_width === 2) {
+                    innerHTML += "<span class=\"xterm-wide-char\">" + ch + "</span>";
+                }
+                else if (ch.charCodeAt(0) > 255) {
+                    innerHTML += "<span class=\"xterm-normal-char\">" + ch + "</span>";
+                }
+                else {
+                    switch (ch) {
+                        case '&':
+                            innerHTML += '&amp;';
+                            break;
+                        case '<':
+                            innerHTML += '&lt;';
+                            break;
+                        case '>':
+                            innerHTML += '&gt;';
+                            break;
+                        default:
+                            if (ch <= ' ') {
+                                innerHTML += '&nbsp;';
+                            }
+                            else {
+                                innerHTML += ch;
+                            }
+                            break;
+                    }
+                }
+                attr = isCursor ? -1 : data;
+            }
+            if (innerHTML && !currentElement) {
+                currentElement = this._spanElementObjectPool.acquire();
+            }
+            if (currentElement) {
+                if (innerHTML) {
+                    currentElement.innerHTML = innerHTML;
+                    innerHTML = '';
+                }
+                documentFragment.appendChild(currentElement);
+                currentElement = null;
+            }
+            this._terminal.children[y].appendChild(documentFragment);
+        }
+        if (parent) {
+            this._terminal.element.appendChild(this._terminal.rowContainer);
+        }
+        this._terminal.emit('refresh', { element: this._terminal.element, start: start, end: end });
+    };
+    ;
+    Renderer.prototype.refreshSelection = function (start, end) {
+        while (this._terminal.selectionContainer.children.length) {
+            this._terminal.selectionContainer.removeChild(this._terminal.selectionContainer.children[0]);
+        }
+        if (!start || !end) {
+            return;
+        }
+        var viewportStartRow = start[1] - this._terminal.buffer.ydisp;
+        var viewportEndRow = end[1] - this._terminal.buffer.ydisp;
+        var viewportCappedStartRow = Math.max(viewportStartRow, 0);
+        var viewportCappedEndRow = Math.min(viewportEndRow, this._terminal.rows - 1);
+        if (viewportCappedStartRow >= this._terminal.rows || viewportCappedEndRow < 0) {
+            return;
+        }
+        var documentFragment = document.createDocumentFragment();
+        var startCol = viewportStartRow === viewportCappedStartRow ? start[0] : 0;
+        var endCol = viewportCappedStartRow === viewportCappedEndRow ? end[0] : this._terminal.cols;
+        documentFragment.appendChild(this._createSelectionElement(viewportCappedStartRow, startCol, endCol));
+        var middleRowsCount = viewportCappedEndRow - viewportCappedStartRow - 1;
+        documentFragment.appendChild(this._createSelectionElement(viewportCappedStartRow + 1, 0, this._terminal.cols, middleRowsCount));
+        if (viewportCappedStartRow !== viewportCappedEndRow) {
+            var endCol_1 = viewportEndRow === viewportCappedEndRow ? end[0] : this._terminal.cols;
+            documentFragment.appendChild(this._createSelectionElement(viewportCappedEndRow, 0, endCol_1));
+        }
+        this._terminal.selectionContainer.appendChild(documentFragment);
+    };
+    Renderer.prototype._createSelectionElement = function (row, colStart, colEnd, rowCount) {
+        if (rowCount === void 0) { rowCount = 1; }
+        var element = document.createElement('div');
+        element.style.height = rowCount * this._terminal.charMeasure.height + "px";
+        element.style.top = row * this._terminal.charMeasure.height + "px";
+        element.style.left = colStart * this._terminal.charMeasure.width + "px";
+        element.style.width = this._terminal.charMeasure.width * (colEnd - colStart) + "px";
+        return element;
+    };
+    return Renderer;
+}());
+exports.Renderer = Renderer;
+function checkBoldBroken(terminal) {
+    var document = terminal.ownerDocument;
+    var el = document.createElement('span');
+    el.innerHTML = 'hello world';
+    terminal.appendChild(el);
+    var w1 = el.offsetWidth;
+    var h1 = el.offsetHeight;
+    el.style.fontWeight = 'bold';
+    var w2 = el.offsetWidth;
+    var h2 = el.offsetHeight;
+    terminal.removeChild(el);
+    return w1 !== w2 || h1 !== h2;
+}
+
+
+
+},{"./utils/DomElementObjectPool":257}],249:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var Mouse = require("./utils/Mouse");
+var Browser = require("./utils/Browser");
+var EventEmitter_1 = require("./EventEmitter");
+var SelectionModel_1 = require("./SelectionModel");
+var BufferLine_1 = require("./utils/BufferLine");
+var DRAG_SCROLL_MAX_THRESHOLD = 50;
+var DRAG_SCROLL_MAX_SPEED = 15;
+var DRAG_SCROLL_INTERVAL = 50;
+var WORD_SEPARATORS = ' ()[]{}\'"';
+var LINE_DATA_CHAR_INDEX = 1;
+var LINE_DATA_WIDTH_INDEX = 2;
+var NON_BREAKING_SPACE_CHAR = String.fromCharCode(160);
+var ALL_NON_BREAKING_SPACE_REGEX = new RegExp(NON_BREAKING_SPACE_CHAR, 'g');
+var SelectionMode;
+(function (SelectionMode) {
+    SelectionMode[SelectionMode["NORMAL"] = 0] = "NORMAL";
+    SelectionMode[SelectionMode["WORD"] = 1] = "WORD";
+    SelectionMode[SelectionMode["LINE"] = 2] = "LINE";
+})(SelectionMode || (SelectionMode = {}));
+var SelectionManager = (function (_super) {
+    __extends(SelectionManager, _super);
+    function SelectionManager(_terminal, _buffer, _rowContainer, _charMeasure) {
+        var _this = _super.call(this) || this;
+        _this._terminal = _terminal;
+        _this._buffer = _buffer;
+        _this._rowContainer = _rowContainer;
+        _this._charMeasure = _charMeasure;
+        _this._enabled = true;
+        _this._initListeners();
+        _this.enable();
+        _this._model = new SelectionModel_1.SelectionModel(_terminal);
+        _this._activeSelectionMode = SelectionMode.NORMAL;
+        return _this;
+    }
+    SelectionManager.prototype._initListeners = function () {
+        var _this = this;
+        this._mouseMoveListener = function (event) { return _this._onMouseMove(event); };
+        this._mouseUpListener = function (event) { return _this._onMouseUp(event); };
+        this._rowContainer.addEventListener('mousedown', function (event) { return _this._onMouseDown(event); });
+        this._buffer.on('trim', function (amount) { return _this._onTrim(amount); });
+    };
+    SelectionManager.prototype.disable = function () {
+        this.clearSelection();
+        this._enabled = false;
+    };
+    SelectionManager.prototype.enable = function () {
+        this._enabled = true;
+    };
+    SelectionManager.prototype.setBuffer = function (buffer) {
+        this._buffer = buffer;
+        this.clearSelection();
+    };
+    Object.defineProperty(SelectionManager.prototype, "selectionStart", {
+        get: function () { return this._model.finalSelectionStart; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SelectionManager.prototype, "selectionEnd", {
+        get: function () { return this._model.finalSelectionEnd; },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SelectionManager.prototype, "hasSelection", {
+        get: function () {
+            var start = this._model.finalSelectionStart;
+            var end = this._model.finalSelectionEnd;
+            if (!start || !end) {
+                return false;
+            }
+            return start[0] !== end[0] || start[1] !== end[1];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SelectionManager.prototype, "selectionText", {
+        get: function () {
+            var start = this._model.finalSelectionStart;
+            var end = this._model.finalSelectionEnd;
+            if (!start || !end) {
+                return '';
+            }
+            var startRowEndCol = start[1] === end[1] ? end[0] : null;
+            var result = [];
+            result.push(BufferLine_1.translateBufferLineToString(this._buffer.get(start[1]), true, start[0], startRowEndCol));
+            for (var i = start[1] + 1; i <= end[1] - 1; i++) {
+                var bufferLine = this._buffer.get(i);
+                var lineText = BufferLine_1.translateBufferLineToString(bufferLine, true);
+                if (bufferLine.isWrapped) {
+                    result[result.length - 1] += lineText;
+                }
+                else {
+                    result.push(lineText);
+                }
+            }
+            if (start[1] !== end[1]) {
+                var bufferLine = this._buffer.get(end[1]);
+                var lineText = BufferLine_1.translateBufferLineToString(bufferLine, true, 0, end[0]);
+                if (bufferLine.isWrapped) {
+                    result[result.length - 1] += lineText;
+                }
+                else {
+                    result.push(lineText);
+                }
+            }
+            var formattedResult = result.map(function (line) {
+                return line.replace(ALL_NON_BREAKING_SPACE_REGEX, ' ');
+            }).join(Browser.isMSWindows ? '\r\n' : '\n');
+            return formattedResult;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SelectionManager.prototype.clearSelection = function () {
+        this._model.clearSelection();
+        this._removeMouseDownListeners();
+        this.refresh();
+    };
+    SelectionManager.prototype.refresh = function (isNewSelection) {
+        var _this = this;
+        if (!this._refreshAnimationFrame) {
+            this._refreshAnimationFrame = window.requestAnimationFrame(function () { return _this._refresh(); });
+        }
+        if (Browser.isLinux && isNewSelection) {
+            var selectionText = this.selectionText;
+            if (selectionText.length) {
+                this.emit('newselection', this.selectionText);
+            }
+        }
+    };
+    SelectionManager.prototype._refresh = function () {
+        this._refreshAnimationFrame = null;
+        this.emit('refresh', { start: this._model.finalSelectionStart, end: this._model.finalSelectionEnd });
+    };
+    SelectionManager.prototype.selectAll = function () {
+        this._model.isSelectAllActive = true;
+        this.refresh();
+    };
+    SelectionManager.prototype._onTrim = function (amount) {
+        var needsRefresh = this._model.onTrim(amount);
+        if (needsRefresh) {
+            this.refresh();
+        }
+    };
+    SelectionManager.prototype._getMouseBufferCoords = function (event) {
+        var coords = Mouse.getCoords(event, this._rowContainer, this._charMeasure, this._terminal.cols, this._terminal.rows, true);
+        if (!coords) {
+            return null;
+        }
+        coords[0]--;
+        coords[1]--;
+        coords[1] += this._terminal.buffer.ydisp;
+        return coords;
+    };
+    SelectionManager.prototype._getMouseEventScrollAmount = function (event) {
+        var offset = Mouse.getCoordsRelativeToElement(event, this._rowContainer)[1];
+        var terminalHeight = this._terminal.rows * this._charMeasure.height;
+        if (offset >= 0 && offset <= terminalHeight) {
+            return 0;
+        }
+        if (offset > terminalHeight) {
+            offset -= terminalHeight;
+        }
+        offset = Math.min(Math.max(offset, -DRAG_SCROLL_MAX_THRESHOLD), DRAG_SCROLL_MAX_THRESHOLD);
+        offset /= DRAG_SCROLL_MAX_THRESHOLD;
+        return (offset / Math.abs(offset)) + Math.round(offset * (DRAG_SCROLL_MAX_SPEED - 1));
+    };
+    SelectionManager.prototype._onMouseDown = function (event) {
+        if (event.button === 2 && this.hasSelection) {
+            event.stopPropagation();
+            return;
+        }
+        if (event.button !== 0) {
+            return;
+        }
+        if (!this._enabled) {
+            var shouldForceSelection = Browser.isMac && event.altKey;
+            if (!shouldForceSelection) {
+                return;
+            }
+            event.stopPropagation();
+        }
+        event.preventDefault();
+        this._dragScrollAmount = 0;
+        if (this._enabled && event.shiftKey) {
+            this._onIncrementalClick(event);
+        }
+        else {
+            if (event.detail === 1) {
+                this._onSingleClick(event);
+            }
+            else if (event.detail === 2) {
+                this._onDoubleClick(event);
+            }
+            else if (event.detail === 3) {
+                this._onTripleClick(event);
+            }
+        }
+        this._addMouseDownListeners();
+        this.refresh(true);
+    };
+    SelectionManager.prototype._addMouseDownListeners = function () {
+        var _this = this;
+        this._rowContainer.ownerDocument.addEventListener('mousemove', this._mouseMoveListener);
+        this._rowContainer.ownerDocument.addEventListener('mouseup', this._mouseUpListener);
+        this._dragScrollIntervalTimer = setInterval(function () { return _this._dragScroll(); }, DRAG_SCROLL_INTERVAL);
+    };
+    SelectionManager.prototype._removeMouseDownListeners = function () {
+        this._rowContainer.ownerDocument.removeEventListener('mousemove', this._mouseMoveListener);
+        this._rowContainer.ownerDocument.removeEventListener('mouseup', this._mouseUpListener);
+        clearInterval(this._dragScrollIntervalTimer);
+        this._dragScrollIntervalTimer = null;
+    };
+    SelectionManager.prototype._onIncrementalClick = function (event) {
+        if (this._model.selectionStart) {
+            this._model.selectionEnd = this._getMouseBufferCoords(event);
+        }
+    };
+    SelectionManager.prototype._onSingleClick = function (event) {
+        this._model.selectionStartLength = 0;
+        this._model.isSelectAllActive = false;
+        this._activeSelectionMode = SelectionMode.NORMAL;
+        this._model.selectionStart = this._getMouseBufferCoords(event);
+        if (!this._model.selectionStart) {
+            return;
+        }
+        this._model.selectionEnd = null;
+        var line = this._buffer.get(this._model.selectionStart[1]);
+        if (!line) {
+            return;
+        }
+        var char = line[this._model.selectionStart[0]];
+        if (char[LINE_DATA_WIDTH_INDEX] === 0) {
+            this._model.selectionStart[0]++;
+        }
+    };
+    SelectionManager.prototype._onDoubleClick = function (event) {
+        var coords = this._getMouseBufferCoords(event);
+        if (coords) {
+            this._activeSelectionMode = SelectionMode.WORD;
+            this._selectWordAt(coords);
+        }
+    };
+    SelectionManager.prototype._onTripleClick = function (event) {
+        var coords = this._getMouseBufferCoords(event);
+        if (coords) {
+            this._activeSelectionMode = SelectionMode.LINE;
+            this._selectLineAt(coords[1]);
+        }
+    };
+    SelectionManager.prototype._onMouseMove = function (event) {
+        var previousSelectionEnd = this._model.selectionEnd ? [this._model.selectionEnd[0], this._model.selectionEnd[1]] : null;
+        this._model.selectionEnd = this._getMouseBufferCoords(event);
+        if (!this._model.selectionEnd) {
+            this.refresh(true);
+            return;
+        }
+        if (this._activeSelectionMode === SelectionMode.LINE) {
+            if (this._model.selectionEnd[1] < this._model.selectionStart[1]) {
+                this._model.selectionEnd[0] = 0;
+            }
+            else {
+                this._model.selectionEnd[0] = this._terminal.cols;
+            }
+        }
+        else if (this._activeSelectionMode === SelectionMode.WORD) {
+            this._selectToWordAt(this._model.selectionEnd);
+        }
+        this._dragScrollAmount = this._getMouseEventScrollAmount(event);
+        if (this._dragScrollAmount > 0) {
+            this._model.selectionEnd[0] = this._terminal.cols - 1;
+        }
+        else if (this._dragScrollAmount < 0) {
+            this._model.selectionEnd[0] = 0;
+        }
+        if (this._model.selectionEnd[1] < this._buffer.length) {
+            var char = this._buffer.get(this._model.selectionEnd[1])[this._model.selectionEnd[0]];
+            if (char && char[2] === 0) {
+                this._model.selectionEnd[0]++;
+            }
+        }
+        if (!previousSelectionEnd ||
+            previousSelectionEnd[0] !== this._model.selectionEnd[0] ||
+            previousSelectionEnd[1] !== this._model.selectionEnd[1]) {
+            this.refresh(true);
+        }
+    };
+    SelectionManager.prototype._dragScroll = function () {
+        if (this._dragScrollAmount) {
+            this._terminal.scrollDisp(this._dragScrollAmount, false);
+            if (this._dragScrollAmount > 0) {
+                this._model.selectionEnd = [this._terminal.cols - 1, this._terminal.buffer.ydisp + this._terminal.rows];
+            }
+            else {
+                this._model.selectionEnd = [0, this._terminal.buffer.ydisp];
+            }
+            this.refresh();
+        }
+    };
+    SelectionManager.prototype._onMouseUp = function (event) {
+        this._removeMouseDownListeners();
+    };
+    SelectionManager.prototype._convertViewportColToCharacterIndex = function (bufferLine, coords) {
+        var charIndex = coords[0];
+        for (var i = 0; coords[0] >= i; i++) {
+            var char = bufferLine[i];
+            if (char[LINE_DATA_WIDTH_INDEX] === 0) {
+                charIndex--;
+            }
+        }
+        return charIndex;
+    };
+    SelectionManager.prototype.setSelection = function (col, row, length) {
+        this._model.clearSelection();
+        this._removeMouseDownListeners();
+        this._model.selectionStart = [col, row];
+        this._model.selectionStartLength = length;
+        this.refresh();
+    };
+    SelectionManager.prototype._getWordAt = function (coords) {
+        var bufferLine = this._buffer.get(coords[1]);
+        if (!bufferLine) {
+            return null;
+        }
+        var line = BufferLine_1.translateBufferLineToString(bufferLine, false);
+        var endIndex = this._convertViewportColToCharacterIndex(bufferLine, coords);
+        var startIndex = endIndex;
+        var charOffset = coords[0] - startIndex;
+        var leftWideCharCount = 0;
+        var rightWideCharCount = 0;
+        if (line.charAt(startIndex) === ' ') {
+            while (startIndex > 0 && line.charAt(startIndex - 1) === ' ') {
+                startIndex--;
+            }
+            while (endIndex < line.length && line.charAt(endIndex + 1) === ' ') {
+                endIndex++;
+            }
+        }
+        else {
+            var startCol = coords[0];
+            var endCol = coords[0];
+            if (bufferLine[startCol][LINE_DATA_WIDTH_INDEX] === 0) {
+                leftWideCharCount++;
+                startCol--;
+            }
+            if (bufferLine[endCol][LINE_DATA_WIDTH_INDEX] === 2) {
+                rightWideCharCount++;
+                endCol++;
+            }
+            while (startIndex > 0 && !this._isCharWordSeparator(line.charAt(startIndex - 1))) {
+                if (bufferLine[startCol - 1][LINE_DATA_WIDTH_INDEX] === 0) {
+                    leftWideCharCount++;
+                    startCol--;
+                }
+                startIndex--;
+                startCol--;
+            }
+            while (endIndex + 1 < line.length && !this._isCharWordSeparator(line.charAt(endIndex + 1))) {
+                if (bufferLine[endCol + 1][LINE_DATA_WIDTH_INDEX] === 2) {
+                    rightWideCharCount++;
+                    endCol++;
+                }
+                endIndex++;
+                endCol++;
+            }
+        }
+        var start = startIndex + charOffset - leftWideCharCount;
+        var length = Math.min(endIndex - startIndex + leftWideCharCount + rightWideCharCount + 1, this._terminal.cols);
+        return { start: start, length: length };
+    };
+    SelectionManager.prototype._selectWordAt = function (coords) {
+        var wordPosition = this._getWordAt(coords);
+        if (wordPosition) {
+            this._model.selectionStart = [wordPosition.start, coords[1]];
+            this._model.selectionStartLength = wordPosition.length;
+        }
+    };
+    SelectionManager.prototype._selectToWordAt = function (coords) {
+        var wordPosition = this._getWordAt(coords);
+        if (wordPosition) {
+            this._model.selectionEnd = [this._model.areSelectionValuesReversed() ? wordPosition.start : (wordPosition.start + wordPosition.length), coords[1]];
+        }
+    };
+    SelectionManager.prototype._isCharWordSeparator = function (char) {
+        return WORD_SEPARATORS.indexOf(char) >= 0;
+    };
+    SelectionManager.prototype._selectLineAt = function (line) {
+        this._model.selectionStart = [0, line];
+        this._model.selectionStartLength = this._terminal.cols;
+    };
+    return SelectionManager;
+}(EventEmitter_1.EventEmitter));
+exports.SelectionManager = SelectionManager;
+
+
+
+},{"./EventEmitter":244,"./SelectionModel":250,"./utils/Browser":253,"./utils/BufferLine":254,"./utils/Mouse":259}],250:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var SelectionModel = (function () {
+    function SelectionModel(_terminal) {
+        this._terminal = _terminal;
+        this.clearSelection();
+    }
+    SelectionModel.prototype.clearSelection = function () {
+        this.selectionStart = null;
+        this.selectionEnd = null;
+        this.isSelectAllActive = false;
+        this.selectionStartLength = 0;
+    };
+    Object.defineProperty(SelectionModel.prototype, "finalSelectionStart", {
+        get: function () {
+            if (this.isSelectAllActive) {
+                return [0, 0];
+            }
+            if (!this.selectionEnd || !this.selectionStart) {
+                return this.selectionStart;
+            }
+            return this.areSelectionValuesReversed() ? this.selectionEnd : this.selectionStart;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(SelectionModel.prototype, "finalSelectionEnd", {
+        get: function () {
+            if (this.isSelectAllActive) {
+                return [this._terminal.cols, this._terminal.buffer.ybase + this._terminal.rows - 1];
+            }
+            if (!this.selectionStart) {
+                return null;
+            }
+            if (!this.selectionEnd || this.areSelectionValuesReversed()) {
+                return [this.selectionStart[0] + this.selectionStartLength, this.selectionStart[1]];
+            }
+            if (this.selectionStartLength) {
+                if (this.selectionEnd[1] === this.selectionStart[1]) {
+                    return [Math.max(this.selectionStart[0] + this.selectionStartLength, this.selectionEnd[0]), this.selectionEnd[1]];
+                }
+            }
+            return this.selectionEnd;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    SelectionModel.prototype.areSelectionValuesReversed = function () {
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+        return start[1] > end[1] || (start[1] === end[1] && start[0] > end[0]);
+    };
+    SelectionModel.prototype.onTrim = function (amount) {
+        if (this.selectionStart) {
+            this.selectionStart[1] -= amount;
+        }
+        if (this.selectionEnd) {
+            this.selectionEnd[1] -= amount;
+        }
+        if (this.selectionEnd && this.selectionEnd[1] < 0) {
+            this.clearSelection();
+            return true;
+        }
+        if (this.selectionStart && this.selectionStart[1] < 0) {
+            this.selectionStart[1] = 0;
+        }
+        return false;
+    };
+    return SelectionModel;
+}());
+exports.SelectionModel = SelectionModel;
+
+
+
+},{}],251:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Viewport = (function () {
+    function Viewport(terminal, viewportElement, scrollArea, charMeasure) {
+        var _this = this;
+        this.terminal = terminal;
+        this.viewportElement = viewportElement;
+        this.scrollArea = scrollArea;
+        this.charMeasure = charMeasure;
+        this.currentRowHeight = 0;
+        this.lastRecordedBufferLength = 0;
+        this.lastRecordedViewportHeight = 0;
+        this.terminal.on('scroll', this.syncScrollArea.bind(this));
+        this.terminal.on('resize', this.syncScrollArea.bind(this));
+        this.viewportElement.addEventListener('scroll', this.onScroll.bind(this));
+        setTimeout(function () { return _this.syncScrollArea(); }, 0);
+    }
+    Viewport.prototype.refresh = function () {
+        if (this.charMeasure.height > 0) {
+            var rowHeightChanged = this.charMeasure.height !== this.currentRowHeight;
+            if (rowHeightChanged) {
+                this.currentRowHeight = this.charMeasure.height;
+                this.viewportElement.style.lineHeight = this.charMeasure.height + 'px';
+                this.terminal.rowContainer.style.lineHeight = this.charMeasure.height + 'px';
+            }
+            var viewportHeightChanged = this.lastRecordedViewportHeight !== this.terminal.rows;
+            if (rowHeightChanged || viewportHeightChanged) {
+                this.lastRecordedViewportHeight = this.terminal.rows;
+                this.viewportElement.style.height = this.charMeasure.height * this.terminal.rows + 'px';
+                this.terminal.selectionContainer.style.height = this.viewportElement.style.height;
+            }
+            this.scrollArea.style.height = (this.charMeasure.height * this.lastRecordedBufferLength) + 'px';
+        }
+    };
+    Viewport.prototype.syncScrollArea = function () {
+        if (this.lastRecordedBufferLength !== this.terminal.buffer.lines.length) {
+            this.lastRecordedBufferLength = this.terminal.buffer.lines.length;
+            this.refresh();
+        }
+        else if (this.lastRecordedViewportHeight !== this.terminal.rows) {
+            this.refresh();
+        }
+        else {
+            if (this.charMeasure.height !== this.currentRowHeight) {
+                this.refresh();
+            }
+        }
+        var scrollTop = this.terminal.buffer.ydisp * this.currentRowHeight;
+        if (this.viewportElement.scrollTop !== scrollTop) {
+            this.viewportElement.scrollTop = scrollTop;
+        }
+    };
+    Viewport.prototype.onScroll = function (ev) {
+        var newRow = Math.round(this.viewportElement.scrollTop / this.currentRowHeight);
+        var diff = newRow - this.terminal.buffer.ydisp;
+        this.terminal.scrollDisp(diff, true);
+    };
+    Viewport.prototype.onWheel = function (ev) {
+        if (ev.deltaY === 0) {
+            return;
+        }
+        var multiplier = 1;
+        if (ev.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+            multiplier = this.currentRowHeight;
+        }
+        else if (ev.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+            multiplier = this.currentRowHeight * this.terminal.rows;
+        }
+        this.viewportElement.scrollTop += ev.deltaY * multiplier;
+        ev.preventDefault();
+    };
+    ;
+    Viewport.prototype.onTouchStart = function (ev) {
+        this.lastTouchY = ev.touches[0].pageY;
+    };
+    ;
+    Viewport.prototype.onTouchMove = function (ev) {
+        var deltaY = this.lastTouchY - ev.touches[0].pageY;
+        this.lastTouchY = ev.touches[0].pageY;
+        if (deltaY === 0) {
+            return;
+        }
+        this.viewportElement.scrollTop += deltaY;
+        ev.preventDefault();
+    };
+    ;
+    return Viewport;
+}());
+exports.Viewport = Viewport;
+
+
+
+},{}],252:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function prepareTextForTerminal(text, isMSWindows) {
+    if (isMSWindows) {
+        return text.replace(/\r?\n/g, '\r');
+    }
+    return text;
+}
+exports.prepareTextForTerminal = prepareTextForTerminal;
+function copyHandler(ev, term, selectionManager) {
+    if (term.browser.isMSIE) {
+        window.clipboardData.setData('Text', selectionManager.selectionText);
+    }
+    else {
+        ev.clipboardData.setData('text/plain', selectionManager.selectionText);
+    }
+    ev.preventDefault();
+}
+exports.copyHandler = copyHandler;
+function pasteHandler(ev, term) {
+    ev.stopPropagation();
+    var text;
+    var dispatchPaste = function (text) {
+        text = prepareTextForTerminal(text, term.browser.isMSWindows);
+        term.handler(text);
+        term.textarea.value = '';
+        term.emit('paste', text);
+        return term.cancel(ev);
+    };
+    if (term.browser.isMSIE) {
+        if (window.clipboardData) {
+            text = window.clipboardData.getData('Text');
+            dispatchPaste(text);
+        }
+    }
+    else {
+        if (ev.clipboardData) {
+            text = ev.clipboardData.getData('text/plain');
+            dispatchPaste(text);
+        }
+    }
+}
+exports.pasteHandler = pasteHandler;
+function moveTextAreaUnderMouseCursor(ev, textarea) {
+    textarea.style.position = 'fixed';
+    textarea.style.width = '20px';
+    textarea.style.height = '20px';
+    textarea.style.left = (ev.clientX - 10) + 'px';
+    textarea.style.top = (ev.clientY - 10) + 'px';
+    textarea.style.zIndex = '1000';
+    textarea.focus();
+    setTimeout(function () {
+        textarea.style.position = null;
+        textarea.style.width = null;
+        textarea.style.height = null;
+        textarea.style.left = null;
+        textarea.style.top = null;
+        textarea.style.zIndex = null;
+    }, 4);
+}
+exports.moveTextAreaUnderMouseCursor = moveTextAreaUnderMouseCursor;
+function rightClickHandler(ev, textarea, selectionManager) {
+    moveTextAreaUnderMouseCursor(ev, textarea);
+    textarea.value = selectionManager.selectionText;
+    textarea.select();
+}
+exports.rightClickHandler = rightClickHandler;
+
+
+
 },{}],253:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var Generic_1 = require("./Generic");
+var isNode = (typeof navigator === 'undefined') ? true : false;
+var userAgent = (isNode) ? 'node' : navigator.userAgent;
+var platform = (isNode) ? 'node' : navigator.platform;
+exports.isFirefox = !!~userAgent.indexOf('Firefox');
+exports.isMSIE = !!~userAgent.indexOf('MSIE') || !!~userAgent.indexOf('Trident');
+exports.isMac = Generic_1.contains(['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'], platform);
+exports.isIpad = platform === 'iPad';
+exports.isIphone = platform === 'iPhone';
+exports.isMSWindows = Generic_1.contains(['Windows', 'Win16', 'Win32', 'WinCE'], platform);
+exports.isLinux = platform.indexOf('Linux') >= 0;
+
+
+
+},{"./Generic":258}],254:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var LINE_DATA_CHAR_INDEX = 1;
+var LINE_DATA_WIDTH_INDEX = 2;
+function translateBufferLineToString(line, trimRight, startCol, endCol) {
+    if (startCol === void 0) { startCol = 0; }
+    if (endCol === void 0) { endCol = null; }
+    var lineString = '';
+    var widthAdjustedStartCol = startCol;
+    var widthAdjustedEndCol = endCol;
+    for (var i = 0; i < line.length; i++) {
+        var char = line[i];
+        lineString += char[LINE_DATA_CHAR_INDEX];
+        if (char[LINE_DATA_WIDTH_INDEX] === 0) {
+            if (startCol >= i) {
+                widthAdjustedStartCol--;
+            }
+            if (endCol >= i) {
+                widthAdjustedEndCol--;
+            }
+        }
+    }
+    var finalEndCol = widthAdjustedEndCol || line.length;
+    if (trimRight) {
+        var rightWhitespaceIndex = lineString.search(/\s+$/);
+        if (rightWhitespaceIndex !== -1) {
+            finalEndCol = Math.min(finalEndCol, rightWhitespaceIndex);
+        }
+        if (finalEndCol <= widthAdjustedStartCol) {
+            return '';
+        }
+    }
+    return lineString.substring(widthAdjustedStartCol, finalEndCol);
+}
+exports.translateBufferLineToString = translateBufferLineToString;
+
+
+
+},{}],255:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var EventEmitter_js_1 = require("../EventEmitter.js");
+var CharMeasure = (function (_super) {
+    __extends(CharMeasure, _super);
+    function CharMeasure(document, parentElement) {
+        var _this = _super.call(this) || this;
+        _this._document = document;
+        _this._parentElement = parentElement;
+        return _this;
+    }
+    Object.defineProperty(CharMeasure.prototype, "width", {
+        get: function () {
+            return this._width;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CharMeasure.prototype, "height", {
+        get: function () {
+            return this._height;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CharMeasure.prototype.measure = function () {
+        var _this = this;
+        if (!this._measureElement) {
+            this._measureElement = this._document.createElement('span');
+            this._measureElement.style.position = 'absolute';
+            this._measureElement.style.top = '0';
+            this._measureElement.style.left = '-9999em';
+            this._measureElement.textContent = 'W';
+            this._measureElement.setAttribute('aria-hidden', 'true');
+            this._parentElement.appendChild(this._measureElement);
+            setTimeout(function () { return _this._doMeasure(); }, 0);
+        }
+        else {
+            this._doMeasure();
+        }
+    };
+    CharMeasure.prototype._doMeasure = function () {
+        var geometry = this._measureElement.getBoundingClientRect();
+        if (geometry.width === 0 || geometry.height === 0) {
+            return;
+        }
+        if (this._width !== geometry.width || this._height !== geometry.height) {
+            this._width = geometry.width;
+            this._height = geometry.height;
+            this.emit('charsizechanged');
+        }
+    };
+    return CharMeasure;
+}(EventEmitter_js_1.EventEmitter));
+exports.CharMeasure = CharMeasure;
+
+
+
+},{"../EventEmitter.js":244}],256:[function(require,module,exports){
+"use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+var EventEmitter_1 = require("../EventEmitter");
+var CircularList = (function (_super) {
+    __extends(CircularList, _super);
+    function CircularList(maxLength) {
+        var _this = _super.call(this) || this;
+        _this._array = new Array(maxLength);
+        _this._startIndex = 0;
+        _this._length = 0;
+        return _this;
+    }
+    Object.defineProperty(CircularList.prototype, "maxLength", {
+        get: function () {
+            return this._array.length;
+        },
+        set: function (newMaxLength) {
+            var newArray = new Array(newMaxLength);
+            for (var i = 0; i < Math.min(newMaxLength, this.length); i++) {
+                newArray[i] = this._array[this._getCyclicIndex(i)];
+            }
+            this._array = newArray;
+            this._startIndex = 0;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CircularList.prototype, "length", {
+        get: function () {
+            return this._length;
+        },
+        set: function (newLength) {
+            if (newLength > this._length) {
+                for (var i = this._length; i < newLength; i++) {
+                    this._array[i] = undefined;
+                }
+            }
+            this._length = newLength;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(CircularList.prototype, "forEach", {
+        get: function () {
+            var _this = this;
+            return function (callbackfn) {
+                var i = 0;
+                var length = _this.length;
+                for (var i_1 = 0; i_1 < length; i_1++) {
+                    callbackfn(_this.get(i_1), i_1);
+                }
+            };
+        },
+        enumerable: true,
+        configurable: true
+    });
+    CircularList.prototype.get = function (index) {
+        return this._array[this._getCyclicIndex(index)];
+    };
+    CircularList.prototype.set = function (index, value) {
+        this._array[this._getCyclicIndex(index)] = value;
+    };
+    CircularList.prototype.push = function (value) {
+        this._array[this._getCyclicIndex(this._length)] = value;
+        if (this._length === this.maxLength) {
+            this._startIndex++;
+            if (this._startIndex === this.maxLength) {
+                this._startIndex = 0;
+            }
+            this.emit('trim', 1);
+        }
+        else {
+            this._length++;
+        }
+    };
+    CircularList.prototype.pop = function () {
+        return this._array[this._getCyclicIndex(this._length-- - 1)];
+    };
+    CircularList.prototype.splice = function (start, deleteCount) {
+        var items = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            items[_i - 2] = arguments[_i];
+        }
+        if (deleteCount) {
+            for (var i = start; i < this._length - deleteCount; i++) {
+                this._array[this._getCyclicIndex(i)] = this._array[this._getCyclicIndex(i + deleteCount)];
+            }
+            this._length -= deleteCount;
+        }
+        if (items && items.length) {
+            for (var i = this._length - 1; i >= start; i--) {
+                this._array[this._getCyclicIndex(i + items.length)] = this._array[this._getCyclicIndex(i)];
+            }
+            for (var i = 0; i < items.length; i++) {
+                this._array[this._getCyclicIndex(start + i)] = items[i];
+            }
+            if (this._length + items.length > this.maxLength) {
+                var countToTrim = (this._length + items.length) - this.maxLength;
+                this._startIndex += countToTrim;
+                this._length = this.maxLength;
+                this.emit('trim', countToTrim);
+            }
+            else {
+                this._length += items.length;
+            }
+        }
+    };
+    CircularList.prototype.trimStart = function (count) {
+        if (count > this._length) {
+            count = this._length;
+        }
+        this._startIndex += count;
+        this._length -= count;
+        this.emit('trim', count);
+    };
+    CircularList.prototype.shiftElements = function (start, count, offset) {
+        if (count <= 0) {
+            return;
+        }
+        if (start < 0 || start >= this._length) {
+            throw new Error('start argument out of range');
+        }
+        if (start + offset < 0) {
+            throw new Error('Cannot shift elements in list beyond index 0');
+        }
+        if (offset > 0) {
+            for (var i = count - 1; i >= 0; i--) {
+                this.set(start + i + offset, this.get(start + i));
+            }
+            var expandListBy = (start + count + offset) - this._length;
+            if (expandListBy > 0) {
+                this._length += expandListBy;
+                while (this._length > this.maxLength) {
+                    this._length--;
+                    this._startIndex++;
+                    this.emit('trim', 1);
+                }
+            }
+        }
+        else {
+            for (var i = 0; i < count; i++) {
+                this.set(start + i + offset, this.get(start + i));
+            }
+        }
+    };
+    CircularList.prototype._getCyclicIndex = function (index) {
+        return (this._startIndex + index) % this.maxLength;
+    };
+    return CircularList;
+}(EventEmitter_1.EventEmitter));
+exports.CircularList = CircularList;
+
+
+
+},{"../EventEmitter":244}],257:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var DomElementObjectPool = (function () {
+    function DomElementObjectPool(type) {
+        this.type = type;
+        this._type = type;
+        this._pool = [];
+        this._inUse = {};
+    }
+    DomElementObjectPool.prototype.acquire = function () {
+        var element;
+        if (this._pool.length === 0) {
+            element = this._createNew();
+        }
+        else {
+            element = this._pool.pop();
+        }
+        this._inUse[element.getAttribute(DomElementObjectPool.OBJECT_ID_ATTRIBUTE)] = element;
+        return element;
+    };
+    DomElementObjectPool.prototype.release = function (element) {
+        if (!this._inUse[element.getAttribute(DomElementObjectPool.OBJECT_ID_ATTRIBUTE)]) {
+            throw new Error('Could not release an element not yet acquired');
+        }
+        delete this._inUse[element.getAttribute(DomElementObjectPool.OBJECT_ID_ATTRIBUTE)];
+        this._cleanElement(element);
+        this._pool.push(element);
+    };
+    DomElementObjectPool.prototype._createNew = function () {
+        var element = document.createElement(this._type);
+        var id = DomElementObjectPool._objectCount++;
+        element.setAttribute(DomElementObjectPool.OBJECT_ID_ATTRIBUTE, id.toString(10));
+        return element;
+    };
+    DomElementObjectPool.prototype._cleanElement = function (element) {
+        element.className = '';
+        element.innerHTML = '';
+    };
+    return DomElementObjectPool;
+}());
+DomElementObjectPool.OBJECT_ID_ATTRIBUTE = 'data-obj-id';
+DomElementObjectPool._objectCount = 0;
+exports.DomElementObjectPool = DomElementObjectPool;
+
+
+
+},{}],258:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function contains(arr, el) {
+    return arr.indexOf(el) >= 0;
+}
+exports.contains = contains;
+;
+
+
+
+},{}],259:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function getCoordsRelativeToElement(event, element) {
+    if (event.pageX == null) {
+        return null;
+    }
+    var x = event.pageX;
+    var y = event.pageY;
+    while (element && element !== self.document.documentElement) {
+        x -= element.offsetLeft;
+        y -= element.offsetTop;
+        element = 'offsetParent' in element ? element.offsetParent : element.parentElement;
+    }
+    return [x, y];
+}
+exports.getCoordsRelativeToElement = getCoordsRelativeToElement;
+function getCoords(event, rowContainer, charMeasure, colCount, rowCount, isSelection) {
+    if (!charMeasure.width || !charMeasure.height) {
+        return null;
+    }
+    var coords = getCoordsRelativeToElement(event, rowContainer);
+    if (!coords) {
+        return null;
+    }
+    coords[0] = Math.ceil((coords[0] + (isSelection ? charMeasure.width / 2 : 0)) / charMeasure.width);
+    coords[1] = Math.ceil(coords[1] / charMeasure.height);
+    coords[0] = Math.min(Math.max(coords[0], 1), colCount + 1);
+    coords[1] = Math.min(Math.max(coords[1], 1), rowCount + 1);
+    return coords;
+}
+exports.getCoords = getCoords;
+function getRawByteCoords(event, rowContainer, charMeasure, colCount, rowCount) {
+    var coords = getCoords(event, rowContainer, charMeasure, colCount, rowCount);
+    var x = coords[0];
+    var y = coords[1];
+    x += 32;
+    y += 32;
+    return { x: x, y: y };
+}
+exports.getRawByteCoords = getRawByteCoords;
+
+
+
+},{}],260:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var BufferSet_1 = require("./BufferSet");
+var CompositionHelper_1 = require("./CompositionHelper");
+var EventEmitter_1 = require("./EventEmitter");
+var Viewport_1 = require("./Viewport");
+var Clipboard_1 = require("./handlers/Clipboard");
+var EscapeSequences_1 = require("./EscapeSequences");
+var InputHandler_1 = require("./InputHandler");
+var Parser_1 = require("./Parser");
+var Renderer_1 = require("./Renderer");
+var Linkifier_1 = require("./Linkifier");
+var SelectionManager_1 = require("./SelectionManager");
+var CharMeasure_1 = require("./utils/CharMeasure");
+var Browser = require("./utils/Browser");
+var Mouse_1 = require("./utils/Mouse");
+var BufferLine_1 = require("./utils/BufferLine");
+var document = (typeof window != 'undefined') ? window.document : null;
+var WRITE_BUFFER_PAUSE_THRESHOLD = 5;
+var WRITE_BATCH_SIZE = 300;
+var CURSOR_BLINK_INTERVAL = 600;
+function Terminal(options) {
+    var self = this;
+    if (!(this instanceof Terminal)) {
+        return new Terminal(arguments[0], arguments[1], arguments[2]);
+    }
+    self.browser = Browser;
+    self.cancel = Terminal.cancel;
+    EventEmitter_1.EventEmitter.call(this);
+    if (typeof options === 'number') {
+        options = {
+            cols: arguments[0],
+            rows: arguments[1],
+            handler: arguments[2]
+        };
+    }
+    options = options || {};
+    Object.keys(Terminal.defaults).forEach(function (key) {
+        if (options[key] == null) {
+            options[key] = Terminal.options[key];
+            if (Terminal[key] !== Terminal.defaults[key]) {
+                options[key] = Terminal[key];
+            }
+        }
+        self[key] = options[key];
+    });
+    if (options.colors.length === 8) {
+        options.colors = options.colors.concat(Terminal._colors.slice(8));
+    }
+    else if (options.colors.length === 16) {
+        options.colors = options.colors.concat(Terminal._colors.slice(16));
+    }
+    else if (options.colors.length === 10) {
+        options.colors = options.colors.slice(0, -2).concat(Terminal._colors.slice(8, -2), options.colors.slice(-2));
+    }
+    else if (options.colors.length === 18) {
+        options.colors = options.colors.concat(Terminal._colors.slice(16, -2), options.colors.slice(-2));
+    }
+    this.colors = options.colors;
+    this.options = options;
+    this.parent = options.body || options.parent || (document ? document.getElementsByTagName('body')[0] : null);
+    this.cols = options.cols || options.geometry[0];
+    this.rows = options.rows || options.geometry[1];
+    this.geometry = [this.cols, this.rows];
+    if (options.handler) {
+        this.on('data', options.handler);
+    }
+    this.cursorState = 0;
+    this.cursorHidden = false;
+    this.convertEol;
+    this.queue = '';
+    this.customKeyEventHandler = null;
+    this.cursorBlinkInterval = null;
+    this.applicationKeypad = false;
+    this.applicationCursor = false;
+    this.originMode = false;
+    this.insertMode = false;
+    this.wraparoundMode = true;
+    this.charset = null;
+    this.gcharset = null;
+    this.glevel = 0;
+    this.charsets = [null];
+    this.decLocator;
+    this.x10Mouse;
+    this.vt200Mouse;
+    this.vt300Mouse;
+    this.normalMouse;
+    this.mouseEvents;
+    this.sendFocus;
+    this.utfMouse;
+    this.sgrMouse;
+    this.urxvtMouse;
+    this.element;
+    this.children;
+    this.refreshStart;
+    this.refreshEnd;
+    this.savedX;
+    this.savedY;
+    this.savedCols;
+    this.readable = true;
+    this.writable = true;
+    this.defAttr = (0 << 18) | (257 << 9) | (256 << 0);
+    this.curAttr = this.defAttr;
+    this.params = [];
+    this.currentParam = 0;
+    this.prefix = '';
+    this.postfix = '';
+    this.inputHandler = new InputHandler_1.InputHandler(this);
+    this.parser = new Parser_1.Parser(this.inputHandler, this);
+    this.renderer = this.renderer || null;
+    this.selectionManager = this.selectionManager || null;
+    this.linkifier = this.linkifier || new Linkifier_1.Linkifier();
+    this.writeBuffer = [];
+    this.writeInProgress = false;
+    this.xoffSentToCatchUp = false;
+    this.writeStopped = false;
+    this.surrogate_high = '';
+    this.buffers = new BufferSet_1.BufferSet(this);
+    this.buffer = this.buffers.active;
+    this.buffers.on('activate', function (buffer) {
+        this._terminal.buffer = buffer;
+    });
+    if (this.selectionManager) {
+        this.selectionManager.setBuffer(this.buffer.lines);
+    }
+    this.setupStops();
+    this.userScrolling = false;
+}
+inherits(Terminal, EventEmitter_1.EventEmitter);
+Terminal.prototype.eraseAttr = function () {
+    return (this.defAttr & ~0x1ff) | (this.curAttr & 0x1ff);
+};
+Terminal.tangoColors = [
+    '#2e3436',
+    '#cc0000',
+    '#4e9a06',
+    '#c4a000',
+    '#3465a4',
+    '#75507b',
+    '#06989a',
+    '#d3d7cf',
+    '#555753',
+    '#ef2929',
+    '#8ae234',
+    '#fce94f',
+    '#729fcf',
+    '#ad7fa8',
+    '#34e2e2',
+    '#eeeeec'
+];
+Terminal.colors = (function () {
+    var colors = Terminal.tangoColors.slice(), r = [0x00, 0x5f, 0x87, 0xaf, 0xd7, 0xff], i;
+    i = 0;
+    for (; i < 216; i++) {
+        out(r[(i / 36) % 6 | 0], r[(i / 6) % 6 | 0], r[i % 6]);
+    }
+    i = 0;
+    for (; i < 24; i++) {
+        r = 8 + i * 10;
+        out(r, r, r);
+    }
+    function out(r, g, b) {
+        colors.push('#' + hex(r) + hex(g) + hex(b));
+    }
+    function hex(c) {
+        c = c.toString(16);
+        return c.length < 2 ? '0' + c : c;
+    }
+    return colors;
+})();
+Terminal._colors = Terminal.colors.slice();
+Terminal.vcolors = (function () {
+    var out = [], colors = Terminal.colors, i = 0, color;
+    for (; i < 256; i++) {
+        color = parseInt(colors[i].substring(1), 16);
+        out.push([
+            (color >> 16) & 0xff,
+            (color >> 8) & 0xff,
+            color & 0xff
+        ]);
+    }
+    return out;
+})();
+Terminal.defaults = {
+    colors: Terminal.colors,
+    theme: 'default',
+    convertEol: false,
+    termName: 'xterm',
+    geometry: [80, 24],
+    cursorBlink: false,
+    cursorStyle: 'block',
+    visualBell: false,
+    popOnBell: false,
+    scrollback: 1000,
+    screenKeys: false,
+    debug: false,
+    cancelEvents: false,
+    disableStdin: false,
+    useFlowControl: false,
+    tabStopWidth: 8
+};
+Terminal.options = {};
+Terminal.focus = null;
+each(keys(Terminal.defaults), function (key) {
+    Terminal[key] = Terminal.defaults[key];
+    Terminal.options[key] = Terminal.defaults[key];
+});
+Terminal.prototype.focus = function () {
+    return this.textarea.focus();
+};
+Terminal.prototype.getOption = function (key) {
+    if (!(key in Terminal.defaults)) {
+        throw new Error('No option with key "' + key + '"');
+    }
+    if (typeof this.options[key] !== 'undefined') {
+        return this.options[key];
+    }
+    return this[key];
+};
+Terminal.prototype.setOption = function (key, value) {
+    if (!(key in Terminal.defaults)) {
+        throw new Error('No option with key "' + key + '"');
+    }
+    switch (key) {
+        case 'scrollback':
+            if (value < this.rows) {
+                var msg = 'Setting the scrollback value less than the number of rows ';
+                msg += "(" + this.rows + ") is not allowed.";
+                console.warn(msg);
+                return false;
+            }
+            if (this.options[key] !== value) {
+                if (this.buffer.lines.length > value) {
+                    var amountToTrim = this.buffer.lines.length - value;
+                    var needsRefresh = (this.buffer.ydisp - amountToTrim < 0);
+                    this.buffer.lines.trimStart(amountToTrim);
+                    this.buffer.ybase = Math.max(this.buffer.ybase - amountToTrim, 0);
+                    this.buffer.ydisp = Math.max(this.buffer.ydisp - amountToTrim, 0);
+                    if (needsRefresh) {
+                        this.refresh(0, this.rows - 1);
+                    }
+                }
+                this.buffer.lines.maxLength = value;
+                this.viewport.syncScrollArea();
+            }
+            break;
+    }
+    this[key] = value;
+    this.options[key] = value;
+    switch (key) {
+        case 'cursorBlink':
+            this.setCursorBlinking(value);
+            break;
+        case 'cursorStyle':
+            this.element.classList.toggle("xterm-cursor-style-block", value === 'block');
+            this.element.classList.toggle("xterm-cursor-style-underline", value === 'underline');
+            this.element.classList.toggle("xterm-cursor-style-bar", value === 'bar');
+            break;
+        case 'tabStopWidth':
+            this.setupStops();
+            break;
+    }
+};
+Terminal.prototype.restartCursorBlinking = function () {
+    this.setCursorBlinking(this.options.cursorBlink);
+};
+Terminal.prototype.setCursorBlinking = function (enabled) {
+    this.element.classList.toggle('xterm-cursor-blink', enabled);
+    this.clearCursorBlinkingInterval();
+    if (enabled) {
+        var self = this;
+        this.cursorBlinkInterval = setInterval(function () {
+            self.element.classList.toggle('xterm-cursor-blink-on');
+        }, CURSOR_BLINK_INTERVAL);
+    }
+};
+Terminal.prototype.clearCursorBlinkingInterval = function () {
+    this.element.classList.remove('xterm-cursor-blink-on');
+    if (this.cursorBlinkInterval) {
+        clearInterval(this.cursorBlinkInterval);
+        this.cursorBlinkInterval = null;
+    }
+};
+Terminal.bindFocus = function (term) {
+    on(term.textarea, 'focus', function (ev) {
+        if (term.sendFocus) {
+            term.send(EscapeSequences_1.C0.ESC + '[I');
+        }
+        term.element.classList.add('focus');
+        term.showCursor();
+        term.restartCursorBlinking.apply(term);
+        Terminal.focus = term;
+        term.emit('focus', { terminal: term });
+    });
+};
+Terminal.prototype.blur = function () {
+    return this.textarea.blur();
+};
+Terminal.bindBlur = function (term) {
+    on(term.textarea, 'blur', function (ev) {
+        term.refresh(term.buffer.y, term.buffer.y);
+        if (term.sendFocus) {
+            term.send(EscapeSequences_1.C0.ESC + '[O');
+        }
+        term.element.classList.remove('focus');
+        term.clearCursorBlinkingInterval.apply(term);
+        Terminal.focus = null;
+        term.emit('blur', { terminal: term });
+    });
+};
+Terminal.prototype.initGlobal = function () {
+    var _this = this;
+    var term = this;
+    Terminal.bindKeys(this);
+    Terminal.bindFocus(this);
+    Terminal.bindBlur(this);
+    on(this.element, 'copy', function (event) {
+        if (!term.hasSelection()) {
+            return;
+        }
+        Clipboard_1.copyHandler(event, term, _this.selectionManager);
+    });
+    var pasteHandlerWrapper = function (event) { return Clipboard_1.pasteHandler(event, term); };
+    on(this.textarea, 'paste', pasteHandlerWrapper);
+    on(this.element, 'paste', pasteHandlerWrapper);
+    if (term.browser.isFirefox) {
+        on(this.element, 'mousedown', function (event) {
+            if (event.button == 2) {
+                Clipboard_1.rightClickHandler(event, _this.textarea, _this.selectionManager);
+            }
+        });
+    }
+    else {
+        on(this.element, 'contextmenu', function (event) {
+            Clipboard_1.rightClickHandler(event, _this.textarea, _this.selectionManager);
+        });
+    }
+    if (term.browser.isLinux) {
+        on(this.element, 'auxclick', function (event) {
+            if (event.button === 1) {
+                Clipboard_1.moveTextAreaUnderMouseCursor(event, _this.textarea, _this.selectionManager);
+            }
+        });
+    }
+};
+Terminal.bindKeys = function (term) {
+    on(term.element, 'keydown', function (ev) {
+        if (document.activeElement != this) {
+            return;
+        }
+        term.keyDown(ev);
+    }, true);
+    on(term.element, 'keypress', function (ev) {
+        if (document.activeElement != this) {
+            return;
+        }
+        term.keyPress(ev);
+    }, true);
+    on(term.element, 'keyup', function (ev) {
+        if (!wasMondifierKeyOnlyEvent(ev)) {
+            term.focus(term);
+        }
+    }, true);
+    on(term.textarea, 'keydown', function (ev) {
+        term.keyDown(ev);
+    }, true);
+    on(term.textarea, 'keypress', function (ev) {
+        term.keyPress(ev);
+        this.value = '';
+    }, true);
+    on(term.textarea, 'compositionstart', term.compositionHelper.compositionstart.bind(term.compositionHelper));
+    on(term.textarea, 'compositionupdate', term.compositionHelper.compositionupdate.bind(term.compositionHelper));
+    on(term.textarea, 'compositionend', term.compositionHelper.compositionend.bind(term.compositionHelper));
+    term.on('refresh', term.compositionHelper.updateCompositionElements.bind(term.compositionHelper));
+    term.on('refresh', function (data) {
+        term.queueLinkification(data.start, data.end);
+    });
+};
+Terminal.prototype.insertRow = function (row) {
+    if (typeof row != 'object') {
+        row = document.createElement('div');
+    }
+    this.rowContainer.appendChild(row);
+    this.children.push(row);
+    return row;
+};
+Terminal.prototype.open = function (parent, focus) {
+    var _this = this;
+    var self = this, i = 0, div;
+    this.parent = parent || this.parent;
+    if (!this.parent) {
+        throw new Error('Terminal requires a parent element.');
+    }
+    this.context = this.parent.ownerDocument.defaultView;
+    this.document = this.parent.ownerDocument;
+    this.body = this.document.getElementsByTagName('body')[0];
+    this.element = this.document.createElement('div');
+    this.element.classList.add('terminal');
+    this.element.classList.add('xterm');
+    this.element.classList.add('xterm-theme-' + this.theme);
+    this.element.classList.add("xterm-cursor-style-" + this.options.cursorStyle);
+    this.setCursorBlinking(this.options.cursorBlink);
+    this.element.setAttribute('tabindex', 0);
+    this.viewportElement = document.createElement('div');
+    this.viewportElement.classList.add('xterm-viewport');
+    this.element.appendChild(this.viewportElement);
+    this.viewportScrollArea = document.createElement('div');
+    this.viewportScrollArea.classList.add('xterm-scroll-area');
+    this.viewportElement.appendChild(this.viewportScrollArea);
+    this.selectionContainer = document.createElement('div');
+    this.selectionContainer.classList.add('xterm-selection');
+    this.element.appendChild(this.selectionContainer);
+    this.rowContainer = document.createElement('div');
+    this.rowContainer.classList.add('xterm-rows');
+    this.element.appendChild(this.rowContainer);
+    this.children = [];
+    this.linkifier.attachToDom(document, this.children);
+    this.helperContainer = document.createElement('div');
+    this.helperContainer.classList.add('xterm-helpers');
+    this.element.appendChild(this.helperContainer);
+    this.textarea = document.createElement('textarea');
+    this.textarea.classList.add('xterm-helper-textarea');
+    this.textarea.setAttribute('autocorrect', 'off');
+    this.textarea.setAttribute('autocapitalize', 'off');
+    this.textarea.setAttribute('spellcheck', 'false');
+    this.textarea.tabIndex = 0;
+    this.textarea.addEventListener('focus', function () {
+        self.emit('focus', { terminal: self });
+    });
+    this.textarea.addEventListener('blur', function () {
+        self.emit('blur', { terminal: self });
+    });
+    this.helperContainer.appendChild(this.textarea);
+    this.compositionView = document.createElement('div');
+    this.compositionView.classList.add('composition-view');
+    this.compositionHelper = new CompositionHelper_1.CompositionHelper(this.textarea, this.compositionView, this);
+    this.helperContainer.appendChild(this.compositionView);
+    this.charSizeStyleElement = document.createElement('style');
+    this.helperContainer.appendChild(this.charSizeStyleElement);
+    for (; i < this.rows; i++) {
+        this.insertRow();
+    }
+    this.parent.appendChild(this.element);
+    this.charMeasure = new CharMeasure_1.CharMeasure(document, this.helperContainer);
+    this.charMeasure.on('charsizechanged', function () {
+        self.updateCharSizeStyles();
+    });
+    this.charMeasure.measure();
+    this.viewport = new Viewport_1.Viewport(this, this.viewportElement, this.viewportScrollArea, this.charMeasure);
+    this.renderer = new Renderer_1.Renderer(this);
+    this.selectionManager = new SelectionManager_1.SelectionManager(this, this.buffer.lines, this.rowContainer, this.charMeasure);
+    this.selectionManager.on('refresh', function (data) {
+        _this.renderer.refreshSelection(data.start, data.end);
+    });
+    this.selectionManager.on('newselection', function (text) {
+        _this.textarea.value = text;
+        _this.textarea.focus();
+        _this.textarea.select();
+    });
+    this.on('scroll', function () { return _this.selectionManager.refresh(); });
+    this.viewportElement.addEventListener('scroll', function () { return _this.selectionManager.refresh(); });
+    this.refresh(0, this.rows - 1);
+    this.initGlobal();
+    if (typeof focus == 'undefined') {
+        var message = 'You did not pass the `focus` argument in `Terminal.prototype.open()`.\n';
+        message += 'The `focus` argument now defaults to `true` but starting with xterm.js 3.0 ';
+        message += 'it will default to `false`.';
+        console.warn(message);
+        focus = true;
+    }
+    if (focus) {
+        this.focus();
+    }
+    this.bindMouse();
+    this.emit('open');
+};
+Terminal.loadAddon = function (addon, callback) {
+    if (typeof exports === 'object' && typeof module === 'object') {
+        return require('./addons/' + addon + '/' + addon);
+    }
+    else if (typeof define == 'function') {
+        return require(['./addons/' + addon + '/' + addon], callback);
+    }
+    else {
+        console.error('Cannot load a module without a CommonJS or RequireJS environment.');
+        return false;
+    }
+};
+Terminal.prototype.updateCharSizeStyles = function () {
+    this.charSizeStyleElement.textContent =
+        ".xterm-wide-char{width:" + this.charMeasure.width * 2 + "px;}" +
+            (".xterm-normal-char{width:" + this.charMeasure.width + "px;}") +
+            (".xterm-rows > div{height:" + this.charMeasure.height + "px;}");
+};
+Terminal.prototype.bindMouse = function () {
+    var el = this.element, self = this, pressed = 32;
+    function sendButton(ev) {
+        var button, pos;
+        button = getButton(ev);
+        pos = Mouse_1.getRawByteCoords(ev, self.rowContainer, self.charMeasure, self.cols, self.rows);
+        if (!pos)
+            return;
+        sendEvent(button, pos);
+        switch (ev.overrideType || ev.type) {
+            case 'mousedown':
+                pressed = button;
+                break;
+            case 'mouseup':
+                pressed = 32;
+                break;
+            case 'wheel':
+                break;
+        }
+    }
+    function sendMove(ev) {
+        var button = pressed, pos;
+        pos = Mouse_1.getRawByteCoords(ev, self.rowContainer, self.charMeasure, self.cols, self.rows);
+        if (!pos)
+            return;
+        button += 32;
+        sendEvent(button, pos);
+    }
+    function encode(data, ch) {
+        if (!self.utfMouse) {
+            if (ch === 255)
+                return data.push(0);
+            if (ch > 127)
+                ch = 127;
+            data.push(ch);
+        }
+        else {
+            if (ch === 2047)
+                return data.push(0);
+            if (ch < 127) {
+                data.push(ch);
+            }
+            else {
+                if (ch > 2047)
+                    ch = 2047;
+                data.push(0xC0 | (ch >> 6));
+                data.push(0x80 | (ch & 0x3F));
+            }
+        }
+    }
+    function sendEvent(button, pos) {
+        if (self.vt300Mouse) {
+            button &= 3;
+            pos.x -= 32;
+            pos.y -= 32;
+            var data = EscapeSequences_1.C0.ESC + '[24';
+            if (button === 0)
+                data += '1';
+            else if (button === 1)
+                data += '3';
+            else if (button === 2)
+                data += '5';
+            else if (button === 3)
+                return;
+            else
+                data += '0';
+            data += '~[' + pos.x + ',' + pos.y + ']\r';
+            self.send(data);
+            return;
+        }
+        if (self.decLocator) {
+            button &= 3;
+            pos.x -= 32;
+            pos.y -= 32;
+            if (button === 0)
+                button = 2;
+            else if (button === 1)
+                button = 4;
+            else if (button === 2)
+                button = 6;
+            else if (button === 3)
+                button = 3;
+            self.send(EscapeSequences_1.C0.ESC + '['
+                + button
+                + ';'
+                + (button === 3 ? 4 : 0)
+                + ';'
+                + pos.y
+                + ';'
+                + pos.x
+                + ';'
+                + (pos.page || 0)
+                + '&w');
+            return;
+        }
+        if (self.urxvtMouse) {
+            pos.x -= 32;
+            pos.y -= 32;
+            pos.x++;
+            pos.y++;
+            self.send(EscapeSequences_1.C0.ESC + '[' + button + ';' + pos.x + ';' + pos.y + 'M');
+            return;
+        }
+        if (self.sgrMouse) {
+            pos.x -= 32;
+            pos.y -= 32;
+            self.send(EscapeSequences_1.C0.ESC + '[<'
+                + (((button & 3) === 3 ? button & ~3 : button) - 32)
+                + ';'
+                + pos.x
+                + ';'
+                + pos.y
+                + ((button & 3) === 3 ? 'm' : 'M'));
+            return;
+        }
+        var data = [];
+        encode(data, button);
+        encode(data, pos.x);
+        encode(data, pos.y);
+        self.send(EscapeSequences_1.C0.ESC + '[M' + String.fromCharCode.apply(String, data));
+    }
+    function getButton(ev) {
+        var button, shift, meta, ctrl, mod;
+        switch (ev.overrideType || ev.type) {
+            case 'mousedown':
+                button = ev.button != null
+                    ? +ev.button
+                    : ev.which != null
+                        ? ev.which - 1
+                        : null;
+                if (self.browser.isMSIE) {
+                    button = button === 1 ? 0 : button === 4 ? 1 : button;
+                }
+                break;
+            case 'mouseup':
+                button = 3;
+                break;
+            case 'DOMMouseScroll':
+                button = ev.detail < 0
+                    ? 64
+                    : 65;
+                break;
+            case 'wheel':
+                button = ev.wheelDeltaY > 0
+                    ? 64
+                    : 65;
+                break;
+        }
+        shift = ev.shiftKey ? 4 : 0;
+        meta = ev.metaKey ? 8 : 0;
+        ctrl = ev.ctrlKey ? 16 : 0;
+        mod = shift | meta | ctrl;
+        if (self.vt200Mouse) {
+            mod &= ctrl;
+        }
+        else if (!self.normalMouse) {
+            mod = 0;
+        }
+        button = (32 + (mod << 2)) + button;
+        return button;
+    }
+    on(el, 'mousedown', function (ev) {
+        ev.preventDefault();
+        self.focus();
+        if (!self.mouseEvents)
+            return;
+        sendButton(ev);
+        if (self.vt200Mouse) {
+            ev.overrideType = 'mouseup';
+            sendButton(ev);
+            return self.cancel(ev);
+        }
+        if (self.normalMouse)
+            on(self.document, 'mousemove', sendMove);
+        if (!self.x10Mouse) {
+            on(self.document, 'mouseup', function up(ev) {
+                sendButton(ev);
+                if (self.normalMouse)
+                    off(self.document, 'mousemove', sendMove);
+                off(self.document, 'mouseup', up);
+                return self.cancel(ev);
+            });
+        }
+        return self.cancel(ev);
+    });
+    on(el, 'wheel', function (ev) {
+        if (!self.mouseEvents)
+            return;
+        if (self.x10Mouse
+            || self.vt300Mouse
+            || self.decLocator)
+            return;
+        sendButton(ev);
+        return self.cancel(ev);
+    });
+    on(el, 'wheel', function (ev) {
+        if (self.mouseEvents)
+            return;
+        self.viewport.onWheel(ev);
+        return self.cancel(ev);
+    });
+    on(el, 'touchstart', function (ev) {
+        if (self.mouseEvents)
+            return;
+        self.viewport.onTouchStart(ev);
+        return self.cancel(ev);
+    });
+    on(el, 'touchmove', function (ev) {
+        if (self.mouseEvents)
+            return;
+        self.viewport.onTouchMove(ev);
+        return self.cancel(ev);
+    });
+};
+Terminal.prototype.destroy = function () {
+    this.readable = false;
+    this.writable = false;
+    this._events = {};
+    this.handler = function () { };
+    this.write = function () { };
+    if (this.element && this.element.parentNode) {
+        this.element.parentNode.removeChild(this.element);
+    }
+};
+Terminal.prototype.refresh = function (start, end) {
+    if (this.renderer) {
+        this.renderer.queueRefresh(start, end);
+    }
+};
+Terminal.prototype.queueLinkification = function (start, end) {
+    if (this.linkifier) {
+        for (var i = start; i <= end; i++) {
+            this.linkifier.linkifyRow(i);
+        }
+    }
+};
+Terminal.prototype.showCursor = function () {
+    if (!this.cursorState) {
+        this.cursorState = 1;
+        this.refresh(this.buffer.y, this.buffer.y);
+    }
+};
+Terminal.prototype.scroll = function (isWrapped) {
+    var row;
+    if (this.buffer.lines.length === this.buffer.lines.maxLength) {
+        this.buffer.lines.trimStart(1);
+        this.buffer.ybase--;
+        if (this.buffer.ydisp !== 0) {
+            this.buffer.ydisp--;
+        }
+    }
+    this.buffer.ybase++;
+    if (!this.userScrolling) {
+        this.buffer.ydisp = this.buffer.ybase;
+    }
+    row = this.buffer.ybase + this.rows - 1;
+    row -= this.rows - 1 - this.buffer.scrollBottom;
+    if (row === this.buffer.lines.length) {
+        this.buffer.lines.push(this.blankLine(undefined, isWrapped));
+    }
+    else {
+        this.buffer.lines.splice(row, 0, this.blankLine(undefined, isWrapped));
+    }
+    if (this.buffer.scrollTop !== 0) {
+        if (this.buffer.ybase !== 0) {
+            this.buffer.ybase--;
+            if (!this.userScrolling) {
+                this.buffer.ydisp = this.buffer.ybase;
+            }
+        }
+        this.buffer.lines.splice(this.buffer.ybase + this.buffer.scrollTop, 1);
+    }
+    this.updateRange(this.buffer.scrollTop);
+    this.updateRange(this.buffer.scrollBottom);
+    this.emit('scroll', this.buffer.ydisp);
+};
+Terminal.prototype.scrollDisp = function (disp, suppressScrollEvent) {
+    if (disp < 0) {
+        if (this.buffer.ydisp === 0) {
+            return;
+        }
+        this.userScrolling = true;
+    }
+    else if (disp + this.buffer.ydisp >= this.buffer.ybase) {
+        this.userScrolling = false;
+    }
+    var oldYdisp = this.buffer.ydisp;
+    this.buffer.ydisp = Math.max(Math.min(this.buffer.ydisp + disp, this.buffer.ybase), 0);
+    if (oldYdisp === this.buffer.ydisp) {
+        return;
+    }
+    if (!suppressScrollEvent) {
+        this.emit('scroll', this.buffer.ydisp);
+    }
+    this.refresh(0, this.rows - 1);
+};
+Terminal.prototype.scrollPages = function (pageCount) {
+    this.scrollDisp(pageCount * (this.rows - 1));
+};
+Terminal.prototype.scrollToTop = function () {
+    this.scrollDisp(-this.buffer.ydisp);
+};
+Terminal.prototype.scrollToBottom = function () {
+    this.scrollDisp(this.buffer.ybase - this.buffer.ydisp);
+};
+Terminal.prototype.write = function (data) {
+    this.writeBuffer.push(data);
+    if (this.options.useFlowControl && !this.xoffSentToCatchUp && this.writeBuffer.length >= WRITE_BUFFER_PAUSE_THRESHOLD) {
+        this.send(EscapeSequences_1.C0.DC3);
+        this.xoffSentToCatchUp = true;
+    }
+    if (!this.writeInProgress && this.writeBuffer.length > 0) {
+        this.writeInProgress = true;
+        var self = this;
+        setTimeout(function () {
+            self.innerWrite();
+        });
+    }
+};
+Terminal.prototype.innerWrite = function () {
+    var writeBatch = this.writeBuffer.splice(0, WRITE_BATCH_SIZE);
+    while (writeBatch.length > 0) {
+        var data = writeBatch.shift();
+        var l = data.length, i = 0, j, cs, ch, code, low, ch_width, row;
+        if (this.xoffSentToCatchUp && writeBatch.length === 0 && this.writeBuffer.length === 0) {
+            this.send(EscapeSequences_1.C0.DC1);
+            this.xoffSentToCatchUp = false;
+        }
+        this.refreshStart = this.buffer.y;
+        this.refreshEnd = this.buffer.y;
+        var state = this.parser.parse(data);
+        this.parser.setState(state);
+        this.updateRange(this.buffer.y);
+        this.refresh(this.refreshStart, this.refreshEnd);
+    }
+    if (this.writeBuffer.length > 0) {
+        var self = this;
+        setTimeout(function () {
+            self.innerWrite();
+        }, 0);
+    }
+    else {
+        this.writeInProgress = false;
+    }
+};
+Terminal.prototype.writeln = function (data) {
+    this.write(data + '\r\n');
+};
+Terminal.prototype.attachCustomKeydownHandler = function (customKeydownHandler) {
+    var message = 'attachCustomKeydownHandler() is DEPRECATED and will be removed soon. Please use attachCustomKeyEventHandler() instead.';
+    console.warn(message);
+    this.attachCustomKeyEventHandler(customKeydownHandler);
+};
+Terminal.prototype.attachCustomKeyEventHandler = function (customKeyEventHandler) {
+    this.customKeyEventHandler = customKeyEventHandler;
+};
+Terminal.prototype.setHypertextLinkHandler = function (handler) {
+    if (!this.linkifier) {
+        throw new Error('Cannot attach a hypertext link handler before Terminal.open is called');
+    }
+    this.linkifier.setHypertextLinkHandler(handler);
+    this.refresh(0, this.rows - 1);
+};
+Terminal.prototype.setHypertextValidationCallback = function (callback) {
+    if (!this.linkifier) {
+        throw new Error('Cannot attach a hypertext validation callback before Terminal.open is called');
+    }
+    this.linkifier.setHypertextValidationCallback(callback);
+    this.refresh(0, this.rows - 1);
+};
+Terminal.prototype.registerLinkMatcher = function (regex, handler, options) {
+    if (this.linkifier) {
+        var matcherId = this.linkifier.registerLinkMatcher(regex, handler, options);
+        this.refresh(0, this.rows - 1);
+        return matcherId;
+    }
+};
+Terminal.prototype.deregisterLinkMatcher = function (matcherId) {
+    if (this.linkifier) {
+        if (this.linkifier.deregisterLinkMatcher(matcherId)) {
+            this.refresh(0, this.rows - 1);
+        }
+    }
+};
+Terminal.prototype.hasSelection = function () {
+    return this.selectionManager ? this.selectionManager.hasSelection : false;
+};
+Terminal.prototype.getSelection = function () {
+    return this.selectionManager ? this.selectionManager.selectionText : '';
+};
+Terminal.prototype.clearSelection = function () {
+    if (this.selectionManager) {
+        this.selectionManager.clearSelection();
+    }
+};
+Terminal.prototype.selectAll = function () {
+    if (this.selectionManager) {
+        this.selectionManager.selectAll();
+    }
+};
+Terminal.prototype.keyDown = function (ev) {
+    if (this.customKeyEventHandler && this.customKeyEventHandler(ev) === false) {
+        return false;
+    }
+    this.restartCursorBlinking();
+    if (!this.compositionHelper.keydown.bind(this.compositionHelper)(ev)) {
+        if (this.buffer.ybase !== this.buffer.ydisp) {
+            this.scrollToBottom();
+        }
+        return false;
+    }
+    var self = this;
+    var result = this.evaluateKeyEscapeSequence(ev);
+    if (result.key === EscapeSequences_1.C0.DC3) {
+        this.writeStopped = true;
+    }
+    else if (result.key === EscapeSequences_1.C0.DC1) {
+        this.writeStopped = false;
+    }
+    if (result.scrollDisp) {
+        this.scrollDisp(result.scrollDisp);
+        return this.cancel(ev, true);
+    }
+    if (isThirdLevelShift(this, ev)) {
+        return true;
+    }
+    if (result.cancel) {
+        this.cancel(ev, true);
+    }
+    if (!result.key) {
+        return true;
+    }
+    this.emit('keydown', ev);
+    this.emit('key', result.key, ev);
+    this.showCursor();
+    this.handler(result.key);
+    return this.cancel(ev, true);
+};
+Terminal.prototype.evaluateKeyEscapeSequence = function (ev) {
+    var result = {
+        cancel: false,
+        key: undefined,
+        scrollDisp: undefined
+    };
+    var modifiers = ev.shiftKey << 0 | ev.altKey << 1 | ev.ctrlKey << 2 | ev.metaKey << 3;
+    switch (ev.keyCode) {
+        case 8:
+            if (ev.shiftKey) {
+                result.key = EscapeSequences_1.C0.BS;
+                break;
+            }
+            result.key = EscapeSequences_1.C0.DEL;
+            break;
+        case 9:
+            if (ev.shiftKey) {
+                result.key = EscapeSequences_1.C0.ESC + '[Z';
+                break;
+            }
+            result.key = EscapeSequences_1.C0.HT;
+            result.cancel = true;
+            break;
+        case 13:
+            result.key = EscapeSequences_1.C0.CR;
+            result.cancel = true;
+            break;
+        case 27:
+            result.key = EscapeSequences_1.C0.ESC;
+            result.cancel = true;
+            break;
+        case 37:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'D';
+                if (result.key == EscapeSequences_1.C0.ESC + '[1;3D') {
+                    result.key = (this.browser.isMac) ? EscapeSequences_1.C0.ESC + 'b' : EscapeSequences_1.C0.ESC + '[1;5D';
+                }
+            }
+            else if (this.applicationCursor) {
+                result.key = EscapeSequences_1.C0.ESC + 'OD';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[D';
+            }
+            break;
+        case 39:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'C';
+                if (result.key == EscapeSequences_1.C0.ESC + '[1;3C') {
+                    result.key = (this.browser.isMac) ? EscapeSequences_1.C0.ESC + 'f' : EscapeSequences_1.C0.ESC + '[1;5C';
+                }
+            }
+            else if (this.applicationCursor) {
+                result.key = EscapeSequences_1.C0.ESC + 'OC';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[C';
+            }
+            break;
+        case 38:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'A';
+                if (result.key == EscapeSequences_1.C0.ESC + '[1;3A') {
+                    result.key = EscapeSequences_1.C0.ESC + '[1;5A';
+                }
+            }
+            else if (this.applicationCursor) {
+                result.key = EscapeSequences_1.C0.ESC + 'OA';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[A';
+            }
+            break;
+        case 40:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'B';
+                if (result.key == EscapeSequences_1.C0.ESC + '[1;3B') {
+                    result.key = EscapeSequences_1.C0.ESC + '[1;5B';
+                }
+            }
+            else if (this.applicationCursor) {
+                result.key = EscapeSequences_1.C0.ESC + 'OB';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[B';
+            }
+            break;
+        case 45:
+            if (!ev.shiftKey && !ev.ctrlKey) {
+                result.key = EscapeSequences_1.C0.ESC + '[2~';
+            }
+            break;
+        case 46:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[3;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[3~';
+            }
+            break;
+        case 36:
+            if (modifiers)
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'H';
+            else if (this.applicationCursor)
+                result.key = EscapeSequences_1.C0.ESC + 'OH';
+            else
+                result.key = EscapeSequences_1.C0.ESC + '[H';
+            break;
+        case 35:
+            if (modifiers)
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'F';
+            else if (this.applicationCursor)
+                result.key = EscapeSequences_1.C0.ESC + 'OF';
+            else
+                result.key = EscapeSequences_1.C0.ESC + '[F';
+            break;
+        case 33:
+            if (ev.shiftKey) {
+                result.scrollDisp = -(this.rows - 1);
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[5~';
+            }
+            break;
+        case 34:
+            if (ev.shiftKey) {
+                result.scrollDisp = this.rows - 1;
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[6~';
+            }
+            break;
+        case 112:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'P';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + 'OP';
+            }
+            break;
+        case 113:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'Q';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + 'OQ';
+            }
+            break;
+        case 114:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'R';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + 'OR';
+            }
+            break;
+        case 115:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[1;' + (modifiers + 1) + 'S';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + 'OS';
+            }
+            break;
+        case 116:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[15;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[15~';
+            }
+            break;
+        case 117:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[17;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[17~';
+            }
+            break;
+        case 118:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[18;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[18~';
+            }
+            break;
+        case 119:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[19;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[19~';
+            }
+            break;
+        case 120:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[20;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[20~';
+            }
+            break;
+        case 121:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[21;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[21~';
+            }
+            break;
+        case 122:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[23;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[23~';
+            }
+            break;
+        case 123:
+            if (modifiers) {
+                result.key = EscapeSequences_1.C0.ESC + '[24;' + (modifiers + 1) + '~';
+            }
+            else {
+                result.key = EscapeSequences_1.C0.ESC + '[24~';
+            }
+            break;
+        default:
+            if (ev.ctrlKey && !ev.shiftKey && !ev.altKey && !ev.metaKey) {
+                if (ev.keyCode >= 65 && ev.keyCode <= 90) {
+                    result.key = String.fromCharCode(ev.keyCode - 64);
+                }
+                else if (ev.keyCode === 32) {
+                    result.key = String.fromCharCode(0);
+                }
+                else if (ev.keyCode >= 51 && ev.keyCode <= 55) {
+                    result.key = String.fromCharCode(ev.keyCode - 51 + 27);
+                }
+                else if (ev.keyCode === 56) {
+                    result.key = String.fromCharCode(127);
+                }
+                else if (ev.keyCode === 219) {
+                    result.key = String.fromCharCode(27);
+                }
+                else if (ev.keyCode === 220) {
+                    result.key = String.fromCharCode(28);
+                }
+                else if (ev.keyCode === 221) {
+                    result.key = String.fromCharCode(29);
+                }
+            }
+            else if (!this.browser.isMac && ev.altKey && !ev.ctrlKey && !ev.metaKey) {
+                if (ev.keyCode >= 65 && ev.keyCode <= 90) {
+                    result.key = EscapeSequences_1.C0.ESC + String.fromCharCode(ev.keyCode + 32);
+                }
+                else if (ev.keyCode === 192) {
+                    result.key = EscapeSequences_1.C0.ESC + '`';
+                }
+                else if (ev.keyCode >= 48 && ev.keyCode <= 57) {
+                    result.key = EscapeSequences_1.C0.ESC + (ev.keyCode - 48);
+                }
+            }
+            else if (this.browser.isMac && !ev.altKey && !ev.ctrlKey && ev.metaKey) {
+                if (ev.keyCode === 65) {
+                    this.selectAll();
+                }
+            }
+            break;
+    }
+    return result;
+};
+Terminal.prototype.setgLevel = function (g) {
+    this.glevel = g;
+    this.charset = this.charsets[g];
+};
+Terminal.prototype.setgCharset = function (g, charset) {
+    this.charsets[g] = charset;
+    if (this.glevel === g) {
+        this.charset = charset;
+    }
+};
+Terminal.prototype.keyPress = function (ev) {
+    var key;
+    if (this.customKeyEventHandler && this.customKeyEventHandler(ev) === false) {
+        return false;
+    }
+    this.cancel(ev);
+    if (ev.charCode) {
+        key = ev.charCode;
+    }
+    else if (ev.which == null) {
+        key = ev.keyCode;
+    }
+    else if (ev.which !== 0 && ev.charCode !== 0) {
+        key = ev.which;
+    }
+    else {
+        return false;
+    }
+    if (!key || ((ev.altKey || ev.ctrlKey || ev.metaKey) && !isThirdLevelShift(this, ev))) {
+        return false;
+    }
+    key = String.fromCharCode(key);
+    this.emit('keypress', key, ev);
+    this.emit('key', key, ev);
+    this.showCursor();
+    this.handler(key);
+    return true;
+};
+Terminal.prototype.send = function (data) {
+    var self = this;
+    if (!this.queue) {
+        setTimeout(function () {
+            self.handler(self.queue);
+            self.queue = '';
+        }, 1);
+    }
+    this.queue += data;
+};
+Terminal.prototype.bell = function () {
+    if (!this.visualBell)
+        return;
+    var self = this;
+    this.element.style.borderColor = 'white';
+    setTimeout(function () {
+        self.element.style.borderColor = '';
+    }, 10);
+    if (this.popOnBell)
+        this.focus();
+};
+Terminal.prototype.log = function () {
+    if (!this.debug)
+        return;
+    if (!this.context.console || !this.context.console.log)
+        return;
+    var args = Array.prototype.slice.call(arguments);
+    this.context.console.log.apply(this.context.console, args);
+};
+Terminal.prototype.error = function () {
+    if (!this.debug)
+        return;
+    if (!this.context.console || !this.context.console.error)
+        return;
+    var args = Array.prototype.slice.call(arguments);
+    this.context.console.error.apply(this.context.console, args);
+};
+Terminal.prototype.resize = function (x, y) {
+    if (isNaN(x) || isNaN(y)) {
+        return;
+    }
+    if (y > this.getOption('scrollback')) {
+        this.setOption('scrollback', y);
+    }
+    var line, el, i, j, ch, addToY;
+    if (x === this.cols && y === this.rows) {
+        if (!this.charMeasure.width || !this.charMeasure.height) {
+            this.charMeasure.measure();
+        }
+        return;
+    }
+    if (x < 1)
+        x = 1;
+    if (y < 1)
+        y = 1;
+    this.buffers.resize(x, y);
+    while (this.children.length < y) {
+        this.insertRow();
+    }
+    while (this.children.length > y) {
+        el = this.children.shift();
+        if (!el)
+            continue;
+        el.parentNode.removeChild(el);
+    }
+    this.cols = x;
+    this.rows = y;
+    this.setupStops(this.cols);
+    this.charMeasure.measure();
+    this.refresh(0, this.rows - 1);
+    this.geometry = [this.cols, this.rows];
+    this.emit('resize', { terminal: this, cols: x, rows: y });
+};
+Terminal.prototype.updateRange = function (y) {
+    if (y < this.refreshStart)
+        this.refreshStart = y;
+    if (y > this.refreshEnd)
+        this.refreshEnd = y;
+};
+Terminal.prototype.maxRange = function () {
+    this.refreshStart = 0;
+    this.refreshEnd = this.rows - 1;
+};
+Terminal.prototype.setupStops = function (i) {
+    if (i != null) {
+        if (!this.buffer.tabs[i]) {
+            i = this.prevStop(i);
+        }
+    }
+    else {
+        this.buffer.tabs = {};
+        i = 0;
+    }
+    for (; i < this.cols; i += this.getOption('tabStopWidth')) {
+        this.buffer.tabs[i] = true;
+    }
+};
+Terminal.prototype.prevStop = function (x) {
+    if (x == null)
+        x = this.buffer.x;
+    while (!this.buffer.tabs[--x] && x > 0)
+        ;
+    return x >= this.cols
+        ? this.cols - 1
+        : x < 0 ? 0 : x;
+};
+Terminal.prototype.nextStop = function (x) {
+    if (x == null)
+        x = this.buffer.x;
+    while (!this.buffer.tabs[++x] && x < this.cols)
+        ;
+    return x >= this.cols
+        ? this.cols - 1
+        : x < 0 ? 0 : x;
+};
+Terminal.prototype.eraseRight = function (x, y) {
+    var line = this.buffer.lines.get(this.buffer.ybase + y);
+    if (!line) {
+        return;
+    }
+    var ch = [this.eraseAttr(), ' ', 1];
+    for (; x < this.cols; x++) {
+        line[x] = ch;
+    }
+    this.updateRange(y);
+};
+Terminal.prototype.eraseLeft = function (x, y) {
+    var line = this.buffer.lines.get(this.buffer.ybase + y);
+    if (!line) {
+        return;
+    }
+    var ch = [this.eraseAttr(), ' ', 1];
+    x++;
+    while (x--) {
+        line[x] = ch;
+    }
+    this.updateRange(y);
+};
+Terminal.prototype.clear = function () {
+    if (this.buffer.ybase === 0 && this.buffer.y === 0) {
+        return;
+    }
+    this.buffer.lines.set(0, this.buffer.lines.get(this.buffer.ybase + this.buffer.y));
+    this.buffer.lines.length = 1;
+    this.buffer.ydisp = 0;
+    this.buffer.ybase = 0;
+    this.buffer.y = 0;
+    for (var i = 1; i < this.rows; i++) {
+        this.buffer.lines.push(this.blankLine());
+    }
+    this.refresh(0, this.rows - 1);
+    this.emit('scroll', this.buffer.ydisp);
+};
+Terminal.prototype.eraseLine = function (y) {
+    this.eraseRight(0, y);
+};
+Terminal.prototype.blankLine = function (cur, isWrapped, cols) {
+    var attr = cur
+        ? this.eraseAttr()
+        : this.defAttr;
+    var ch = [attr, ' ', 1], line = [], i = 0;
+    if (isWrapped) {
+        line.isWrapped = isWrapped;
+    }
+    cols = cols || this.cols;
+    for (; i < cols; i++) {
+        line[i] = ch;
+    }
+    return line;
+};
+Terminal.prototype.ch = function (cur) {
+    return cur
+        ? [this.eraseAttr(), ' ', 1]
+        : [this.defAttr, ' ', 1];
+};
+Terminal.prototype.is = function (term) {
+    var name = this.termName;
+    return (name + '').indexOf(term) === 0;
+};
+Terminal.prototype.handler = function (data) {
+    if (this.options.disableStdin) {
+        return;
+    }
+    if (this.selectionManager && this.selectionManager.hasSelection) {
+        this.selectionManager.clearSelection();
+    }
+    if (this.buffer.ybase !== this.buffer.ydisp) {
+        this.scrollToBottom();
+    }
+    this.emit('data', data);
+};
+Terminal.prototype.handleTitle = function (title) {
+    this.emit('title', title);
+};
+Terminal.prototype.index = function () {
+    this.buffer.y++;
+    if (this.buffer.y > this.buffer.scrollBottom) {
+        this.buffer.y--;
+        this.scroll();
+    }
+    if (this.buffer.x >= this.cols) {
+        this.buffer.x--;
+    }
+};
+Terminal.prototype.reverseIndex = function () {
+    var j;
+    if (this.buffer.y === this.buffer.scrollTop) {
+        this.buffer.lines.shiftElements(this.buffer.y + this.buffer.ybase, this.rows - 1, 1);
+        this.buffer.lines.set(this.buffer.y + this.buffer.ybase, this.blankLine(true));
+        this.updateRange(this.buffer.scrollTop);
+        this.updateRange(this.buffer.scrollBottom);
+    }
+    else {
+        this.buffer.y--;
+    }
+};
+Terminal.prototype.reset = function () {
+    this.options.rows = this.rows;
+    this.options.cols = this.cols;
+    var customKeyEventHandler = this.customKeyEventHandler;
+    var cursorBlinkInterval = this.cursorBlinkInterval;
+    var inputHandler = this.inputHandler;
+    Terminal.call(this, this.options);
+    this.customKeyEventHandler = customKeyEventHandler;
+    this.cursorBlinkInterval = cursorBlinkInterval;
+    this.inputHandler = inputHandler;
+    this.refresh(0, this.rows - 1);
+    this.viewport.syncScrollArea();
+};
+Terminal.prototype.tabSet = function () {
+    this.buffer.tabs[this.buffer.x] = true;
+};
+function on(el, type, handler, capture) {
+    if (!Array.isArray(el)) {
+        el = [el];
+    }
+    el.forEach(function (element) {
+        element.addEventListener(type, handler, capture || false);
+    });
+}
+function off(el, type, handler, capture) {
+    el.removeEventListener(type, handler, capture || false);
+}
+function cancel(ev, force) {
+    if (!this.cancelEvents && !force) {
+        return;
+    }
+    ev.preventDefault();
+    ev.stopPropagation();
+    return false;
+}
+function inherits(child, parent) {
+    function f() {
+        this.constructor = child;
+    }
+    f.prototype = parent.prototype;
+    child.prototype = new f;
+}
+function indexOf(obj, el) {
+    var i = obj.length;
+    while (i--) {
+        if (obj[i] === el)
+            return i;
+    }
+    return -1;
+}
+function isThirdLevelShift(term, ev) {
+    var thirdLevelKey = (term.browser.isMac && ev.altKey && !ev.ctrlKey && !ev.metaKey) ||
+        (term.browser.isMSWindows && ev.altKey && ev.ctrlKey && !ev.metaKey);
+    if (ev.type == 'keypress') {
+        return thirdLevelKey;
+    }
+    return thirdLevelKey && (!ev.keyCode || ev.keyCode > 47);
+}
+Terminal.prototype.matchColor = matchColor;
+function matchColor(r1, g1, b1) {
+    var hash = (r1 << 16) | (g1 << 8) | b1;
+    if (matchColor._cache[hash] != null) {
+        return matchColor._cache[hash];
+    }
+    var ldiff = Infinity, li = -1, i = 0, c, r2, g2, b2, diff;
+    for (; i < Terminal.vcolors.length; i++) {
+        c = Terminal.vcolors[i];
+        r2 = c[0];
+        g2 = c[1];
+        b2 = c[2];
+        diff = matchColor.distance(r1, g1, b1, r2, g2, b2);
+        if (diff === 0) {
+            li = i;
+            break;
+        }
+        if (diff < ldiff) {
+            ldiff = diff;
+            li = i;
+        }
+    }
+    return matchColor._cache[hash] = li;
+}
+matchColor._cache = {};
+matchColor.distance = function (r1, g1, b1, r2, g2, b2) {
+    return Math.pow(30 * (r1 - r2), 2)
+        + Math.pow(59 * (g1 - g2), 2)
+        + Math.pow(11 * (b1 - b2), 2);
+};
+function each(obj, iter, con) {
+    if (obj.forEach)
+        return obj.forEach(iter, con);
+    for (var i = 0; i < obj.length; i++) {
+        iter.call(con, obj[i], i, obj);
+    }
+}
+function wasMondifierKeyOnlyEvent(ev) {
+    return ev.keyCode === 16 ||
+        ev.keyCode === 17 ||
+        ev.keyCode === 18;
+}
+function keys(obj) {
+    if (Object.keys)
+        return Object.keys(obj);
+    var key, keys = [];
+    for (key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+            keys.push(key);
+        }
+    }
+    return keys;
+}
+Terminal.translateBufferLineToString = BufferLine_1.translateBufferLineToString;
+Terminal.EventEmitter = EventEmitter_1.EventEmitter;
+Terminal.inherits = inherits;
+Terminal.on = on;
+Terminal.off = off;
+Terminal.cancel = cancel;
+module.exports = Terminal;
+
+
+
+},{"./BufferSet":240,"./CompositionHelper":242,"./EscapeSequences":243,"./EventEmitter":244,"./InputHandler":245,"./Linkifier":246,"./Parser":247,"./Renderer":248,"./SelectionManager":249,"./Viewport":251,"./handlers/Clipboard":252,"./utils/Browser":253,"./utils/BufferLine":254,"./utils/CharMeasure":255,"./utils/Mouse":259}],261:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
