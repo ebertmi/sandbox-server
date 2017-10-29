@@ -27257,7 +27257,7 @@ exports.allocUnsafeSlow = function allocUnsafeSlow(size) {
 /*!
  * The buffer module from node.js, for the browser.
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 /* eslint-disable no-proto */
@@ -33603,7 +33603,7 @@ if (typeof Object.create === 'function') {
 /*!
  * Determine if an object is a Buffer
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 
@@ -59346,6 +59346,11 @@ function split (matcher, mapper, options) {
 
   // this stream is in objectMode only in the readable part
   stream._readableState.objectMode = true
+
+  // objectMode default hwm is 16 and not 16384
+  if (stream._readableState.highWaterMark && !options.highWaterMark) {
+    stream._readableState.highWaterMark = 16
+  }
 
   stream._last = ''
   stream._decoder = new StringDecoder('utf8')
